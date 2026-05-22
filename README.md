@@ -90,3 +90,4 @@ A few things I still need to figure out:
 - **Real data pathway** — the whole thing runs on synthetic data; connecting to an actual FHIR endpoint is the obvious next step but out of scope for now
 
 This is a hobby project built to explore what on-premise clinical AI could look like. Not for clinical use. 🧪
+# icu-copilot-llm-graphrag
