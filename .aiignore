@@ -1,0 +1,8 @@
+graphify/cache/
+graphify/visualizations/
+graphify/exports/
+
+models/
+*.pkl
+__pycache__/
+.cache/

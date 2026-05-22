@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.cache/
+.venv/
+venv/
+env/
+
+# Large data files (too big for GitHub — download separately)
+data/primekg/kg.csv
+data/primekg/nodes.csv
+data/primekg/primekg_faiss.index
+data/primekg/primekg_faiss_map.pkl
+data/primekg/primekg_graph.pkl
+*.pkl
+*.index
+
+# Models (download separately)
+models/
+
+# Agent & planning internals
+.agent/graphify/cache/
+graphify/cache/
+graphify/visualizations/
+graphify/exports/
+
+!graphify/semantic/
+!graphify/dependency/
+!graphify/ontology/
+!graphify/retrieval/
+
+# Environment
+.env
+.DS_Store

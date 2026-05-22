@@ -1,0 +1,371 @@
+{
+  "patient_id": "P013",
+  "scenario": "acute_mi_cardiogenic_shock",
+  "demographics": {
+    "name": "Mark Johnson",
+    "age": 62,
+    "sex": "M",
+    "bed": "7A",
+    "admission_date": "2026-05-03T16:04:09.458067",
+    "weight_kg": 65.3
+  },
+  "conditions": [
+    {
+      "name": "ST-elevation myocardial infarction",
+      "icd_code": "I21.9",
+      "status": "active"
+    },
+    {
+      "name": "Cardiogenic shock",
+      "icd_code": "R57.0",
+      "status": "active"
+    },
+    {
+      "name": "Atrial fibrillation",
+      "icd_code": "I48.91",
+      "status": "active"
+    }
+  ],
+  "medications": [
+    {
+      "name": "Dobutamine",
+      "dose": "5 mcg/kg/min",
+      "route": "IV",
+      "indication": "Cardiogenic shock"
+    },
+    {
+      "name": "Heparin",
+      "dose": "1000 units/h",
+      "route": "IV",
+      "indication": "STEMI/Afib"
+    },
+    {
+      "name": "Aspirin",
+      "dose": "81 mg",
+      "route": "PO",
+      "indication": "Antiplatelet"
+    },
+    {
+      "name": "Amiodarone",
+      "dose": "150 mg bolus then 1 mg/min",
+      "route": "IV",
+      "indication": "Afib with RVR"
+    }
+  ],
+  "lab_results": [
+    {
+      "test": "Troponin I",
+      "value": 49.08,
+      "unit": "ng/mL",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T12:04:09.458071"
+    },
+    {
+      "test": "BNP",
+      "value": 1858.35,
+      "unit": "pg/mL",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T14:04:09.458073"
+    },
+    {
+      "test": "Lactate",
+      "value": 5.4,
+      "unit": "mmol/L",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T10:04:09.458076"
+    },
+    {
+      "test": "Creatinine",
+      "value": 2.52,
+      "unit": "mg/dL",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T13:04:09.458078"
+    },
+    {
+      "test": "CK-MB",
+      "value": 308.1,
+      "unit": "IU/L",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T11:04:09.458080"
+    },
+    {
+      "test": "Potassium",
+      "value": 5.66,
+      "unit": "mEq/L",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T15:04:09.458082"
+    },
+    {
+      "test": "pH",
+      "value": 6.73,
+      "unit": "",
+      "flag": "LOW",
+      "timestamp": "2026-05-07T13:04:09.458085"
+    }
+  ],
+  "vitals_latest": {
+    "MAP": 51.24,
+    "HR": 125.86,
+    "SpO2": 87.34,
+    "RR": 28.32,
+    "Temp": 35.54,
+    "SBP": 73.67,
+    "DBP": 43.22
+  },
+  "vitals_timeseries": [
+    {
+      "timestamp": "2026-05-06T16:04:09.458089",
+      "MAP": 51.3,
+      "HR": 134.0,
+      "SpO2": 86.2,
+      "RR": 28.6,
+      "Temp": 37.8,
+      "SBP": 70.9,
+      "DBP": 40.3
+    },
+    {
+      "timestamp": "2026-05-06T17:04:09.458089",
+      "MAP": 54.1,
+      "HR": 121.9,
+      "SpO2": 90.9,
+      "RR": 39.0,
+      "Temp": 40.6,
+      "SBP": 72.3,
+      "DBP": 40.7
+    },
+    {
+      "timestamp": "2026-05-06T18:04:09.458089",
+      "MAP": 50.2,
+      "HR": 121.8,
+      "SpO2": 91.3,
+      "RR": 39.9,
+      "Temp": 40.5,
+      "SBP": 73.0,
+      "DBP": 42.5
+    },
+    {
+      "timestamp": "2026-05-06T19:04:09.458089",
+      "MAP": 53.0,
+      "HR": 129.7,
+      "SpO2": 88.1,
+      "RR": 39.7,
+      "Temp": 40.3,
+      "SBP": 73.5,
+      "DBP": 40.4
+    },
+    {
+      "timestamp": "2026-05-06T20:04:09.458089",
+      "MAP": 50.0,
+      "HR": 132.5,
+      "SpO2": 87.8,
+      "RR": 42.0,
+      "Temp": 40.4,
+      "SBP": 73.2,
+      "DBP": 40.1
+    },
+    {
+      "timestamp": "2026-05-06T21:04:09.458089",
+      "MAP": 52.2,
+      "HR": 128.7,
+      "SpO2": 84.6,
+      "RR": 40.3,
+      "Temp": 39.0,
+      "SBP": 71.6,
+      "DBP": 42.4
+    },
+    {
+      "timestamp": "2026-05-06T22:04:09.458089",
+      "MAP": 53.8,
+      "HR": 130.9,
+      "SpO2": 87.0,
+      "RR": 39.4,
+      "Temp": 40.5,
+      "SBP": 72.1,
+      "DBP": 39.7
+    },
+    {
+      "timestamp": "2026-05-06T23:04:09.458089",
+      "MAP": 50.2,
+      "HR": 124.1,
+      "SpO2": 86.1,
+      "RR": 41.4,
+      "Temp": 38.7,
+      "SBP": 72.8,
+      "DBP": 41.7
+    },
+    {
+      "timestamp": "2026-05-07T00:04:09.458089",
+      "MAP": 52.5,
+      "HR": 125.5,
+      "SpO2": 92.4,
+      "RR": 41.3,
+      "Temp": 40.0,
+      "SBP": 76.3,
+      "DBP": 42.4
+    },
+    {
+      "timestamp": "2026-05-07T01:04:09.458089",
+      "MAP": 54.4,
+      "HR": 131.5,
+      "SpO2": 90.0,
+      "RR": 39.8,
+      "Temp": 40.1,
+      "SBP": 73.9,
+      "DBP": 39.9
+    },
+    {
+      "timestamp": "2026-05-07T02:04:09.458089",
+      "MAP": 53.4,
+      "HR": 133.6,
+      "SpO2": 85.3,
+      "RR": 39.1,
+      "Temp": 42.0,
+      "SBP": 71.4,
+      "DBP": 39.7
+    },
+    {
+      "timestamp": "2026-05-07T03:04:09.458089",
+      "MAP": 51.1,
+      "HR": 131.7,
+      "SpO2": 83.6,
+      "RR": 40.6,
+      "Temp": 39.7,
+      "SBP": 71.8,
+      "DBP": 40.6
+    },
+    {
+      "timestamp": "2026-05-07T04:04:09.458089",
+      "MAP": 54.4,
+      "HR": 121.9,
+      "SpO2": 89.7,
+      "RR": 39.2,
+      "Temp": 41.9,
+      "SBP": 75.9,
+      "DBP": 40.3
+    },
+    {
+      "timestamp": "2026-05-07T05:04:09.458089",
+      "MAP": 53.0,
+      "HR": 123.0,
+      "SpO2": 88.1,
+      "RR": 39.7,
+      "Temp": 39.0,
+      "SBP": 73.1,
+      "DBP": 39.3
+    },
+    {
+      "timestamp": "2026-05-07T06:04:09.458089",
+      "MAP": 54.0,
+      "HR": 122.5,
+      "SpO2": 86.3,
+      "RR": 40.1,
+      "Temp": 40.5,
+      "SBP": 72.2,
+      "DBP": 42.0
+    },
+    {
+      "timestamp": "2026-05-07T07:04:09.458089",
+      "MAP": 50.5,
+      "HR": 129.7,
+      "SpO2": 86.9,
+      "RR": 40.2,
+      "Temp": 40.5,
+      "SBP": 75.1,
+      "DBP": 40.9
+    },
+    {
+      "timestamp": "2026-05-07T08:04:09.458089",
+      "MAP": 53.9,
+      "HR": 132.5,
+      "SpO2": 87.8,
+      "RR": 40.5,
+      "Temp": 40.6,
+      "SBP": 75.1,
+      "DBP": 39.9
+    },
+    {
+      "timestamp": "2026-05-07T09:04:09.458089",
+      "MAP": 49.5,
+      "HR": 123.7,
+      "SpO2": 90.9,
+      "RR": 41.8,
+      "Temp": 40.3,
+      "SBP": 72.8,
+      "DBP": 41.4
+    },
+    {
+      "timestamp": "2026-05-07T10:04:09.458089",
+      "MAP": 51.0,
+      "HR": 122.0,
+      "SpO2": 91.0,
+      "RR": 38.5,
+      "Temp": 40.6,
+      "SBP": 73.5,
+      "DBP": 41.4
+    },
+    {
+      "timestamp": "2026-05-07T11:04:09.458089",
+      "MAP": 53.0,
+      "HR": 122.2,
+      "SpO2": 86.3,
+      "RR": 41.0,
+      "Temp": 38.8,
+      "SBP": 72.3,
+      "DBP": 39.1
+    },
+    {
+      "timestamp": "2026-05-07T12:04:09.458089",
+      "MAP": 51.3,
+      "HR": 125.0,
+      "SpO2": 86.0,
+      "RR": 41.8,
+      "Temp": 40.9,
+      "SBP": 73.3,
+      "DBP": 42.1
+    },
+    {
+      "timestamp": "2026-05-07T13:04:09.458089",
+      "MAP": 50.2,
+      "HR": 127.2,
+      "SpO2": 89.4,
+      "RR": 41.1,
+      "Temp": 42.1,
+      "SBP": 71.1,
+      "DBP": 42.9
+    },
+    {
+      "timestamp": "2026-05-07T14:04:09.458089",
+      "MAP": 53.6,
+      "HR": 124.9,
+      "SpO2": 88.4,
+      "RR": 39.3,
+      "Temp": 39.4,
+      "SBP": 71.3,
+      "DBP": 39.9
+    },
+    {
+      "timestamp": "2026-05-07T15:04:09.458089",
+      "MAP": 50.0,
+      "HR": 133.2,
+      "SpO2": 90.3,
+      "RR": 38.9,
+      "Temp": 40.8,
+      "SBP": 75.3,
+      "DBP": 40.5
+    }
+  ],
+  "procedures": [
+    {
+      "name": "Central venous catheter",
+      "timestamp": "2026-05-03T16:04:09.458067"
+    },
+    {
+      "name": "Urinary catheter",
+      "timestamp": "2026-05-03T16:04:09.458067"
+    }
+  ],
+  "expected_severity": "RED",
+  "raw_notes": [
+    "ICU Progress Note \u2014 Mark Johnson, 62y M, Bed 7A\n\nS: Patient admitted with ST-elevation myocardial infarction, Cardiogenic shock. Hemodynamically unstable. Family updated regarding prognosis.\n\nO: Vitals \u2014 MAP 52 mmHg, HR 128 bpm, SpO2 89%, RR 28, Temp 36.2\u00b0C.\nLabs \u2014 Troponin I: 48.2, BNP: 1820, Lactate: 5.1, Creatinine: 2.4.\n\nA: ST-elevation myocardial infarction, Cardiogenic shock. Severity: critical, multi-organ involvement.\n\nP: Continue Dobutamine, Heparin, Aspirin. Escalate vasopressor support if MAP <65 mmHg. Reassess q4h. Multidisciplinary team review at 08:00."
+  ]
+}

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICU Cockpit — Critical Care Intelligence System</title>
+    <meta name="description" content="AI-powered ICU central monitoring station with real-time patient vitals, waveform visualization, and clinical decision support.">
+    <!-- Fonts and Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <!-- Plotly for Charts -->
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Design System CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <!-- ── Top Navigation ─────────────────────────────────────────────── -->
+    <nav class="top-nav" id="top-nav">
+        <div class="search-bar">
+            <span class="material-symbols-outlined" style="color: var(--n-color-text-weakest); font-size: 16px;">search</span>
+            <input type="text" placeholder="Search patients…" id="search-input">
+        </div>
+        <div class="nav-pills">
+            <div class="status-pill">
+                <div class="indicator green"></div>
+                System Stable
+            </div>
+            <div class="status-pill">
+                <div class="indicator cyan"></div>
+                AI Active
+            </div>
+        </div>
+    </nav>
+
+    <!-- ── Main Workspace ─────────────────────────────────────────────── -->
+    <main class="main-content" id="main-content">
+
+        <!-- View 1: Ward Overview -->
+        <div id="view-overview">
+            <header>
+                <h1 class="display-vitals">Ward Overview</h1>
+                <p class="body-main" style="margin-top: 2px;">Real-time patient monitoring · AI triage</p>
+            </header>
+            <div class="ward-grid" id="patients-grid">
+                <div style="color: var(--n-color-text-weak); padding: var(--n-space-l);">Loading patients…</div>
+            </div>
+        </div>
+
+        <!-- View 2: Patient Detail -->
+        <div id="view-detail" style="display: none;">
+            <button class="back-btn" onclick="showOverview()">
+                <span class="material-symbols-outlined" style="font-size: 16px;">arrow_back</span> Ward Overview
+            </button>
+
+            <header>
+                <div class="detail-header-flex">
+                    <h1 id="detail-name" class="display-vitals">Patient Name</h1>
+                    <div class="status-badge" id="detail-badge">Status</div>
+                </div>
+                <p id="detail-scenario" class="body-main">Loading…</p>
+            </header>
+
+            <!-- Tabs: only two — Clinical Overview (merged) and Knowledge Graph -->
+            <div class="detail-tabs">
+                <button class="tab active" onclick="switchTab('overview')">Clinical Overview</button>
+                <button class="tab" onclick="switchTab('knowledge')">Knowledge Graph</button>
+            </div>
+
+            <!-- Tab: Clinical Overview (merged vitals + clinical summary) -->
+            <div class="tab-content" id="tab-overview">
+
+                <!-- Section: Trend Chart -->
+                <div class="detail-section">
+                    <div class="section-header">
+                        <span class="material-symbols-outlined section-icon">monitoring</span>
+                        <h2 class="section-title">Vitals Trend</h2>
+                    </div>
+                    <div class="chart-container" id="detail-chart"></div>
+                </div>
+
+                <!-- Section: Current Readings -->
+                <div class="detail-section">
+                    <div class="section-header">
+                        <span class="material-symbols-outlined section-icon">vital_signs</span>
+                        <h2 class="section-title">Current Readings</h2>
+                    </div>
+                    <div class="detail-vitals-grid" id="detail-vitals-grid"></div>
+                </div>
+
+                <!-- Section: Active Diagnoses -->
+                <div class="detail-section">
+                    <div class="section-header">
+                        <span class="material-symbols-outlined section-icon">diagnosis</span>
+                        <h2 class="section-title">Active Diagnoses</h2>
+                    </div>
+                    <div class="clinical-card">
+                        <ul id="list-conditions" class="clinical-list"></ul>
+                    </div>
+                </div>
+
+                <!-- Section: Medications -->
+                <div class="detail-section">
+                    <div class="section-header">
+                        <span class="material-symbols-outlined section-icon">medication</span>
+                        <h2 class="section-title">Medications</h2>
+                    </div>
+                    <div class="clinical-card">
+                        <ul id="list-meds" class="clinical-list"></ul>
+                    </div>
+                </div>
+
+                <!-- Section: Lab Results -->
+                <div class="detail-section">
+                    <div class="section-header">
+                        <span class="material-symbols-outlined section-icon">biotech</span>
+                        <h2 class="section-title">Lab Results</h2>
+                    </div>
+                    <div class="clinical-card">
+                        <table class="lab-table" id="lab-table">
+                            <thead>
+                                <tr>
+                                    <th>Test</th>
+                                    <th>Value</th>
+                                    <th>Unit</th>
+                                    <th>Flag</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lab-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Knowledge Graph -->
+            <div class="tab-content" id="tab-knowledge" style="display: none;">
+                <div class="detail-section">
+                    <div class="section-header">
+                        <span class="material-symbols-outlined section-icon">hub</span>
+                        <h2 class="section-title">Patient Knowledge Graph</h2>
+                        <span class="body-main" style="margin-left: auto;" id="graph-meta"></span>
+                    </div>
+                    <div class="graph-container">
+                        <iframe id="graph-iframe" srcdoc="" frameborder="0" width="100%" height="100%" style="display:block;"></iframe>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ── Floating Chat Toggle ───────────────────────────────────────── -->
+    <button class="floating-toggle" id="floating-toggle" onclick="toggleSidebar()" title="Open AI Copilot" style="display: none;">
+        <span class="material-symbols-outlined" style="font-size: 18px;">forum</span>
+    </button>
+
+    <!-- ── AI Clinical Copilot Sidebar ────────────────────────────────── -->
+    <aside class="ai-sidebar" id="ai-sidebar">
+        <div class="resize-handle" id="resize-handle"></div>
+        <div class="sidebar-header">
+            <div class="sidebar-header-title">
+                <h2>Clinical Copilot</h2>
+                <div class="sidebar-header-right">
+                    <!-- Minimized badge pill (hidden when feed is expanded) -->
+                    <div class="alert-badge-pill" id="alert-badge-pill" style="display: none;" title="Click to expand alerts" onclick="expandAlertFeed()">
+                        <span class="material-symbols-outlined" style="font-size: 14px;">notifications_active</span>
+                        <span class="alert-badge-count" id="alert-badge-count">0</span>
+                    </div>
+                    <span class="material-symbols-outlined" style="cursor: pointer; color: var(--n-color-text-weak); font-size: 18px;" onclick="toggleSidebar()" title="Collapse">keyboard_double_arrow_right</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Expandable Alert Feed (visible on ward overview, starts expanded) -->
+        <div class="notif-feed" id="notif-feed">
+            <div class="notif-feed-header">
+                <span class="material-symbols-outlined" style="font-size:14px;color:var(--n-color-status-warning);">notifications_active</span>
+                <span class="notif-title">Active Alerts</span>
+                <span class="notif-count" id="notif-count">0</span>
+                <span class="material-symbols-outlined notif-minimize" onclick="minimizeAlertFeed()" title="Minimize alerts">keyboard_arrow_up</span>
+            </div>
+            <div class="notif-list" id="notif-list">
+                <!-- populated by app.js -->
+            </div>
+        </div>
+
+        <div class="chat-history" id="chat-history">
+            <div class="chat-message ai">
+                <span class="chat-label ai-label">Copilot</span>
+                Select a patient from the Ward Overview to begin real-time analysis.
+            </div>
+        </div>
+
+        <div class="chat-input-area">
+            <div class="chat-input-wrapper">
+                <input type="text" id="chat-input" placeholder="Ask Copilot…" disabled onkeypress="handleChatEnter(event)">
+                <span class="material-symbols-outlined send-icon" id="chat-send" onclick="sendChat()">send</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ── Application Logic ──────────────────────────────────────────── -->
+    <script src="/static/app.js"></script>
+</body>
+</html>

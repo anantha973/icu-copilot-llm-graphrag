@@ -1,0 +1,346 @@
+{
+  "patient_id": "P007",
+  "scenario": "post_cardiac_surgery",
+  "demographics": {
+    "name": "Donald Bennett",
+    "age": 62,
+    "sex": "M",
+    "bed": "4A",
+    "admission_date": "2026-05-04T16:04:09.455093",
+    "weight_kg": 83.7
+  },
+  "conditions": [
+    {
+      "name": "Post-CABG recovery",
+      "icd_code": "Z95.1",
+      "status": "active"
+    },
+    {
+      "name": "Hypertension",
+      "icd_code": "I10",
+      "status": "chronic"
+    }
+  ],
+  "medications": [
+    {
+      "name": "Aspirin",
+      "dose": "81 mg daily",
+      "route": "PO",
+      "indication": "Antiplatelet"
+    },
+    {
+      "name": "Metoprolol",
+      "dose": "25 mg BID",
+      "route": "PO",
+      "indication": "Rate control"
+    },
+    {
+      "name": "Pantoprazole",
+      "dose": "40 mg daily",
+      "route": "PO",
+      "indication": "GI prophylaxis"
+    }
+  ],
+  "lab_results": [
+    {
+      "test": "Hemoglobin",
+      "value": 11.74,
+      "unit": "g/dL",
+      "flag": "LOW",
+      "timestamp": "2026-05-07T15:04:09.455097"
+    },
+    {
+      "test": "Creatinine",
+      "value": 1.02,
+      "unit": "mg/dL",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T10:04:09.455100"
+    },
+    {
+      "test": "WBC",
+      "value": 9.58,
+      "unit": "10^3/uL",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T15:04:09.455102"
+    },
+    {
+      "test": "Troponin I",
+      "value": 0.79,
+      "unit": "ng/mL",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T12:04:09.455105"
+    },
+    {
+      "test": "Potassium",
+      "value": 4.03,
+      "unit": "mEq/L",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T15:04:09.455107"
+    }
+  ],
+  "vitals_latest": {
+    "MAP": 83.33,
+    "HR": 69.6,
+    "SpO2": 99.68,
+    "RR": 15.17,
+    "Temp": 36.4,
+    "SBP": 126.66,
+    "DBP": 74.73
+  },
+  "vitals_timeseries": [
+    {
+      "timestamp": "2026-05-06T16:04:09.455112",
+      "MAP": 85.2,
+      "HR": 70.0,
+      "SpO2": 98.9,
+      "RR": 14.7,
+      "Temp": 37.6,
+      "SBP": 122.5,
+      "DBP": 69.7
+    },
+    {
+      "timestamp": "2026-05-06T17:04:09.455112",
+      "MAP": 78.4,
+      "HR": 69.8,
+      "SpO2": 100.2,
+      "RR": 39.2,
+      "Temp": 40.3,
+      "SBP": 124.3,
+      "DBP": 71.5
+    },
+    {
+      "timestamp": "2026-05-06T18:04:09.455112",
+      "MAP": 84.5,
+      "HR": 69.7,
+      "SpO2": 96.0,
+      "RR": 39.0,
+      "Temp": 40.8,
+      "SBP": 123.4,
+      "DBP": 71.3
+    },
+    {
+      "timestamp": "2026-05-06T19:04:09.455112",
+      "MAP": 84.7,
+      "HR": 71.0,
+      "SpO2": 95.9,
+      "RR": 40.3,
+      "Temp": 41.6,
+      "SBP": 119.6,
+      "DBP": 71.0
+    },
+    {
+      "timestamp": "2026-05-06T20:04:09.455112",
+      "MAP": 84.6,
+      "HR": 72.2,
+      "SpO2": 92.8,
+      "RR": 39.8,
+      "Temp": 38.7,
+      "SBP": 121.4,
+      "DBP": 72.7
+    },
+    {
+      "timestamp": "2026-05-06T21:04:09.455112",
+      "MAP": 78.6,
+      "HR": 73.6,
+      "SpO2": 100.8,
+      "RR": 39.9,
+      "Temp": 40.9,
+      "SBP": 128.3,
+      "DBP": 72.4
+    },
+    {
+      "timestamp": "2026-05-06T22:04:09.455112",
+      "MAP": 79.3,
+      "HR": 71.5,
+      "SpO2": 93.5,
+      "RR": 39.7,
+      "Temp": 39.5,
+      "SBP": 124.7,
+      "DBP": 73.2
+    },
+    {
+      "timestamp": "2026-05-06T23:04:09.455112",
+      "MAP": 78.8,
+      "HR": 72.0,
+      "SpO2": 95.3,
+      "RR": 40.6,
+      "Temp": 41.8,
+      "SBP": 123.2,
+      "DBP": 73.1
+    },
+    {
+      "timestamp": "2026-05-07T00:04:09.455112",
+      "MAP": 81.1,
+      "HR": 72.4,
+      "SpO2": 99.2,
+      "RR": 42.7,
+      "Temp": 40.0,
+      "SBP": 125.3,
+      "DBP": 75.7
+    },
+    {
+      "timestamp": "2026-05-07T01:04:09.455112",
+      "MAP": 85.0,
+      "HR": 74.9,
+      "SpO2": 99.2,
+      "RR": 39.8,
+      "Temp": 41.8,
+      "SBP": 125.9,
+      "DBP": 73.5
+    },
+    {
+      "timestamp": "2026-05-07T02:04:09.455112",
+      "MAP": 79.0,
+      "HR": 70.0,
+      "SpO2": 96.2,
+      "RR": 41.7,
+      "Temp": 40.1,
+      "SBP": 126.5,
+      "DBP": 68.6
+    },
+    {
+      "timestamp": "2026-05-07T03:04:09.455112",
+      "MAP": 82.0,
+      "HR": 73.1,
+      "SpO2": 93.6,
+      "RR": 42.1,
+      "Temp": 40.9,
+      "SBP": 123.7,
+      "DBP": 75.7
+    },
+    {
+      "timestamp": "2026-05-07T04:04:09.455112",
+      "MAP": 83.1,
+      "HR": 69.9,
+      "SpO2": 99.5,
+      "RR": 41.9,
+      "Temp": 40.0,
+      "SBP": 124.2,
+      "DBP": 69.7
+    },
+    {
+      "timestamp": "2026-05-07T05:04:09.455112",
+      "MAP": 80.1,
+      "HR": 75.6,
+      "SpO2": 100.4,
+      "RR": 40.2,
+      "Temp": 41.6,
+      "SBP": 120.4,
+      "DBP": 74.3
+    },
+    {
+      "timestamp": "2026-05-07T06:04:09.455112",
+      "MAP": 76.6,
+      "HR": 73.7,
+      "SpO2": 95.9,
+      "RR": 41.9,
+      "Temp": 41.5,
+      "SBP": 122.5,
+      "DBP": 72.1
+    },
+    {
+      "timestamp": "2026-05-07T07:04:09.455112",
+      "MAP": 82.0,
+      "HR": 69.4,
+      "SpO2": 96.0,
+      "RR": 42.6,
+      "Temp": 40.2,
+      "SBP": 118.2,
+      "DBP": 74.1
+    },
+    {
+      "timestamp": "2026-05-07T08:04:09.455112",
+      "MAP": 80.4,
+      "HR": 72.1,
+      "SpO2": 94.3,
+      "RR": 41.7,
+      "Temp": 41.9,
+      "SBP": 120.1,
+      "DBP": 70.1
+    },
+    {
+      "timestamp": "2026-05-07T09:04:09.455112",
+      "MAP": 79.7,
+      "HR": 72.9,
+      "SpO2": 101.0,
+      "RR": 41.7,
+      "Temp": 39.0,
+      "SBP": 119.8,
+      "DBP": 71.9
+    },
+    {
+      "timestamp": "2026-05-07T10:04:09.455112",
+      "MAP": 80.3,
+      "HR": 71.9,
+      "SpO2": 101.0,
+      "RR": 39.5,
+      "Temp": 39.2,
+      "SBP": 125.1,
+      "DBP": 75.5
+    },
+    {
+      "timestamp": "2026-05-07T11:04:09.455112",
+      "MAP": 79.5,
+      "HR": 71.2,
+      "SpO2": 98.9,
+      "RR": 40.5,
+      "Temp": 39.8,
+      "SBP": 121.9,
+      "DBP": 71.2
+    },
+    {
+      "timestamp": "2026-05-07T12:04:09.455112",
+      "MAP": 77.2,
+      "HR": 74.1,
+      "SpO2": 100.0,
+      "RR": 40.8,
+      "Temp": 39.1,
+      "SBP": 127.4,
+      "DBP": 74.7
+    },
+    {
+      "timestamp": "2026-05-07T13:04:09.455112",
+      "MAP": 78.7,
+      "HR": 71.6,
+      "SpO2": 98.8,
+      "RR": 42.3,
+      "Temp": 39.1,
+      "SBP": 116.4,
+      "DBP": 70.3
+    },
+    {
+      "timestamp": "2026-05-07T14:04:09.455112",
+      "MAP": 76.6,
+      "HR": 73.8,
+      "SpO2": 98.1,
+      "RR": 40.8,
+      "Temp": 41.7,
+      "SBP": 122.7,
+      "DBP": 74.1
+    },
+    {
+      "timestamp": "2026-05-07T15:04:09.455112",
+      "MAP": 82.9,
+      "HR": 73.3,
+      "SpO2": 97.1,
+      "RR": 41.9,
+      "Temp": 41.7,
+      "SBP": 116.5,
+      "DBP": 74.2
+    }
+  ],
+  "procedures": [
+    {
+      "name": "Central venous catheter",
+      "timestamp": "2026-05-04T16:04:09.455093"
+    },
+    {
+      "name": "Urinary catheter",
+      "timestamp": "2026-05-04T16:04:09.455093"
+    }
+  ],
+  "expected_severity": "GREEN",
+  "raw_notes": [
+    "ICU Progress Note \u2014 Donald Bennett, 62y M, Bed 4A\n\nS: Patient admitted with Post-CABG recovery, Hypertension. Hemodynamically stable. Family updated regarding prognosis.\n\nO: Vitals \u2014 MAP 82 mmHg, HR 72 bpm, SpO2 97%, RR 15, Temp 36.9\u00b0C.\nLabs \u2014 Hemoglobin: 11.4, Creatinine: 1.0, WBC: 9.2, Troponin I: 0.8.\n\nA: Post-CABG recovery, Hypertension. Severity: moderate, monitored closely.\n\nP: Continue Aspirin, Metoprolol, Pantoprazole. Wean supplemental oxygen as tolerated. Reassess q4h. Multidisciplinary team review at 08:00."
+  ]
+}

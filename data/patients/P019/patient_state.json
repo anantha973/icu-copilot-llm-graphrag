@@ -1,0 +1,378 @@
+{
+  "patient_id": "P019",
+  "scenario": "septic_shock",
+  "demographics": {
+    "name": "Gary Anderson",
+    "age": 55,
+    "sex": "M",
+    "bed": "10A",
+    "admission_date": "2026-05-02T16:04:09.460639",
+    "weight_kg": 93.6
+  },
+  "conditions": [
+    {
+      "name": "Septic shock",
+      "icd_code": "R65.21",
+      "status": "active"
+    },
+    {
+      "name": "Acute kidney injury",
+      "icd_code": "N17.9",
+      "status": "active"
+    },
+    {
+      "name": "Type 2 diabetes mellitus",
+      "icd_code": "E11.9",
+      "status": "chronic"
+    }
+  ],
+  "medications": [
+    {
+      "name": "Norepinephrine",
+      "dose": "0.15 mcg/kg/min",
+      "route": "IV",
+      "indication": "Septic shock"
+    },
+    {
+      "name": "Meropenem",
+      "dose": "1g q8h",
+      "route": "IV",
+      "indication": "Sepsis"
+    },
+    {
+      "name": "Hydrocortisone",
+      "dose": "200 mg/day",
+      "route": "IV",
+      "indication": "Refractory shock"
+    },
+    {
+      "name": "Pantoprazole",
+      "dose": "40 mg daily",
+      "route": "IV",
+      "indication": "Stress ulcer prophylaxis"
+    }
+  ],
+  "lab_results": [
+    {
+      "test": "Lactate",
+      "value": 3.89,
+      "unit": "mmol/L",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T10:04:09.460642"
+    },
+    {
+      "test": "Creatinine",
+      "value": 3.18,
+      "unit": "mg/dL",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T15:04:09.460645"
+    },
+    {
+      "test": "WBC",
+      "value": 19.06,
+      "unit": "10^3/uL",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T10:04:09.460647"
+    },
+    {
+      "test": "Procalcitonin",
+      "value": 27.22,
+      "unit": "ng/mL",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T11:04:09.460649"
+    },
+    {
+      "test": "Hemoglobin",
+      "value": 9.03,
+      "unit": "g/dL",
+      "flag": "LOW",
+      "timestamp": "2026-05-07T10:04:09.460651"
+    },
+    {
+      "test": "Platelets",
+      "value": 94.46,
+      "unit": "10^3/uL",
+      "flag": "LOW",
+      "timestamp": "2026-05-07T13:04:09.460653"
+    },
+    {
+      "test": "CRP",
+      "value": 260.8,
+      "unit": "mg/L",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T10:04:09.460656"
+    },
+    {
+      "test": "Glucose",
+      "value": 186.03,
+      "unit": "mg/dL",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T14:04:09.460658"
+    }
+  ],
+  "vitals_latest": {
+    "MAP": 55.5,
+    "HR": 121.87,
+    "SpO2": 90.22,
+    "RR": 26.99,
+    "Temp": 38.14,
+    "SBP": 79.31,
+    "DBP": 46.16
+  },
+  "vitals_timeseries": [
+    {
+      "timestamp": "2026-05-06T16:04:09.460662",
+      "MAP": 54.5,
+      "HR": 122.6,
+      "SpO2": 92.2,
+      "RR": 26.7,
+      "Temp": 37.1,
+      "SBP": 84.7,
+      "DBP": 44.9
+    },
+    {
+      "timestamp": "2026-05-06T17:04:09.460662",
+      "MAP": 57.6,
+      "HR": 122.9,
+      "SpO2": 94.3,
+      "RR": 40.0,
+      "Temp": 40.4,
+      "SBP": 84.4,
+      "DBP": 42.8
+    },
+    {
+      "timestamp": "2026-05-06T18:04:09.460662",
+      "MAP": 56.7,
+      "HR": 122.2,
+      "SpO2": 90.7,
+      "RR": 39.2,
+      "Temp": 38.9,
+      "SBP": 86.3,
+      "DBP": 45.6
+    },
+    {
+      "timestamp": "2026-05-06T19:04:09.460662",
+      "MAP": 57.1,
+      "HR": 116.2,
+      "SpO2": 93.9,
+      "RR": 40.8,
+      "Temp": 41.5,
+      "SBP": 82.0,
+      "DBP": 46.5
+    },
+    {
+      "timestamp": "2026-05-06T20:04:09.460662",
+      "MAP": 58.5,
+      "HR": 123.7,
+      "SpO2": 92.8,
+      "RR": 42.0,
+      "Temp": 38.8,
+      "SBP": 79.7,
+      "DBP": 44.9
+    },
+    {
+      "timestamp": "2026-05-06T21:04:09.460662",
+      "MAP": 53.8,
+      "HR": 124.1,
+      "SpO2": 93.6,
+      "RR": 42.5,
+      "Temp": 40.9,
+      "SBP": 84.1,
+      "DBP": 46.6
+    },
+    {
+      "timestamp": "2026-05-06T22:04:09.460662",
+      "MAP": 54.8,
+      "HR": 114.0,
+      "SpO2": 92.4,
+      "RR": 39.9,
+      "Temp": 39.7,
+      "SBP": 79.1,
+      "DBP": 44.2
+    },
+    {
+      "timestamp": "2026-05-06T23:04:09.460662",
+      "MAP": 58.2,
+      "HR": 120.9,
+      "SpO2": 87.5,
+      "RR": 40.2,
+      "Temp": 40.8,
+      "SBP": 83.5,
+      "DBP": 44.3
+    },
+    {
+      "timestamp": "2026-05-07T00:04:09.460662",
+      "MAP": 53.3,
+      "HR": 115.6,
+      "SpO2": 96.2,
+      "RR": 43.0,
+      "Temp": 41.2,
+      "SBP": 80.0,
+      "DBP": 44.1
+    },
+    {
+      "timestamp": "2026-05-07T01:04:09.460662",
+      "MAP": 54.9,
+      "HR": 119.8,
+      "SpO2": 89.9,
+      "RR": 43.0,
+      "Temp": 38.5,
+      "SBP": 82.4,
+      "DBP": 43.2
+    },
+    {
+      "timestamp": "2026-05-07T02:04:09.460662",
+      "MAP": 54.0,
+      "HR": 123.2,
+      "SpO2": 96.0,
+      "RR": 43.2,
+      "Temp": 41.0,
+      "SBP": 80.3,
+      "DBP": 43.6
+    },
+    {
+      "timestamp": "2026-05-07T03:04:09.460662",
+      "MAP": 58.0,
+      "HR": 123.7,
+      "SpO2": 94.6,
+      "RR": 40.2,
+      "Temp": 38.1,
+      "SBP": 83.9,
+      "DBP": 47.2
+    },
+    {
+      "timestamp": "2026-05-07T04:04:09.460662",
+      "MAP": 53.5,
+      "HR": 122.1,
+      "SpO2": 91.4,
+      "RR": 43.0,
+      "Temp": 38.4,
+      "SBP": 79.5,
+      "DBP": 45.4
+    },
+    {
+      "timestamp": "2026-05-07T05:04:09.460662",
+      "MAP": 58.2,
+      "HR": 120.6,
+      "SpO2": 92.0,
+      "RR": 40.7,
+      "Temp": 41.5,
+      "SBP": 85.0,
+      "DBP": 46.0
+    },
+    {
+      "timestamp": "2026-05-07T06:04:09.460662",
+      "MAP": 55.5,
+      "HR": 125.5,
+      "SpO2": 88.7,
+      "RR": 42.0,
+      "Temp": 40.4,
+      "SBP": 82.1,
+      "DBP": 47.5
+    },
+    {
+      "timestamp": "2026-05-07T07:04:09.460662",
+      "MAP": 58.7,
+      "HR": 123.2,
+      "SpO2": 95.6,
+      "RR": 39.6,
+      "Temp": 41.6,
+      "SBP": 77.2,
+      "DBP": 47.5
+    },
+    {
+      "timestamp": "2026-05-07T08:04:09.460662",
+      "MAP": 55.4,
+      "HR": 126.2,
+      "SpO2": 87.7,
+      "RR": 39.0,
+      "Temp": 40.0,
+      "SBP": 81.6,
+      "DBP": 45.3
+    },
+    {
+      "timestamp": "2026-05-07T09:04:09.460662",
+      "MAP": 57.4,
+      "HR": 123.2,
+      "SpO2": 93.4,
+      "RR": 40.7,
+      "Temp": 42.7,
+      "SBP": 80.5,
+      "DBP": 46.5
+    },
+    {
+      "timestamp": "2026-05-07T10:04:09.460662",
+      "MAP": 56.1,
+      "HR": 119.7,
+      "SpO2": 90.7,
+      "RR": 39.5,
+      "Temp": 39.6,
+      "SBP": 81.0,
+      "DBP": 44.6
+    },
+    {
+      "timestamp": "2026-05-07T11:04:09.460662",
+      "MAP": 57.7,
+      "HR": 115.9,
+      "SpO2": 95.9,
+      "RR": 40.9,
+      "Temp": 39.2,
+      "SBP": 76.3,
+      "DBP": 45.2
+    },
+    {
+      "timestamp": "2026-05-07T12:04:09.460662",
+      "MAP": 56.3,
+      "HR": 116.8,
+      "SpO2": 88.6,
+      "RR": 39.0,
+      "Temp": 39.3,
+      "SBP": 78.7,
+      "DBP": 46.8
+    },
+    {
+      "timestamp": "2026-05-07T13:04:09.460662",
+      "MAP": 55.9,
+      "HR": 121.6,
+      "SpO2": 90.3,
+      "RR": 42.3,
+      "Temp": 39.0,
+      "SBP": 80.0,
+      "DBP": 43.2
+    },
+    {
+      "timestamp": "2026-05-07T14:04:09.460662",
+      "MAP": 52.7,
+      "HR": 115.7,
+      "SpO2": 94.8,
+      "RR": 42.3,
+      "Temp": 40.5,
+      "SBP": 83.3,
+      "DBP": 45.8
+    },
+    {
+      "timestamp": "2026-05-07T15:04:09.460662",
+      "MAP": 54.5,
+      "HR": 115.2,
+      "SpO2": 89.7,
+      "RR": 42.5,
+      "Temp": 39.5,
+      "SBP": 80.6,
+      "DBP": 45.7
+    }
+  ],
+  "procedures": [
+    {
+      "name": "Central venous catheter",
+      "timestamp": "2026-05-02T16:04:09.460639"
+    },
+    {
+      "name": "Urinary catheter",
+      "timestamp": "2026-05-02T16:04:09.460639"
+    }
+  ],
+  "expected_severity": "RED",
+  "raw_notes": [
+    "ICU Progress Note \u2014 Gary Anderson, 55y M, Bed 10A\n\nS: Patient admitted with Septic shock, Acute kidney injury. Hemodynamically unstable. Family updated regarding prognosis.\n\nO: Vitals \u2014 MAP 56 mmHg, HR 118 bpm, SpO2 91%, RR 26, Temp 38.9\u00b0C.\nLabs \u2014 Lactate: 4.2, Creatinine: 3.1, WBC: 18.5, Procalcitonin: 28.4.\n\nA: Septic shock, Acute kidney injury. Severity: critical, multi-organ involvement.\n\nP: Continue Norepinephrine, Meropenem, Hydrocortisone. Escalate vasopressor support if MAP <65 mmHg. Reassess q4h. Multidisciplinary team review at 08:00."
+  ]
+}

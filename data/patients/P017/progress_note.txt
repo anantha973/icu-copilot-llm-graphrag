@@ -1,0 +1,10 @@
+ICU Progress Note — Sean Rhodes, 75y M, Bed 9A
+
+S: Patient admitted with Post-CABG recovery, Hypertension. Hemodynamically stable. Family updated regarding prognosis.
+
+O: Vitals — MAP 82 mmHg, HR 72 bpm, SpO2 97%, RR 15, Temp 36.9°C.
+Labs — Hemoglobin: 11.4, Creatinine: 1.0, WBC: 9.2, Troponin I: 0.8.
+
+A: Post-CABG recovery, Hypertension. Severity: moderate, monitored closely.
+
+P: Continue Aspirin, Metoprolol, Pantoprazole. Wean supplemental oxygen as tolerated. Reassess q4h. Multidisciplinary team review at 08:00.

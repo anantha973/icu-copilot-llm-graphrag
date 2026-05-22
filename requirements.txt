@@ -1,0 +1,38 @@
+# icu-copilot requirements
+# Install with: pip install -r requirements.txt
+
+# Graph
+networkx==3.3
+rapidfuzz==3.9.0
+pyvis==0.3.2
+
+# LLM inference
+llama-cpp-python==0.2.90
+
+# Document processing
+pymupdf==1.24.0
+fpdf2==2.7.9
+langchain==0.2.0
+langchain-community==0.2.0
+sentence-transformers==3.0.0
+
+# Vector search
+faiss-cpu==1.8.0
+
+# Data
+pandas==2.2.0
+numpy==1.26.0
+pydantic==2.7.0
+faker==25.0.0
+requests==2.32.0
+
+# Dashboard (FastAPI)
+fastapi>=0.111.0
+uvicorn[standard]>=0.30.0
+python-multipart>=0.0.9
+plotly==5.22.0
+
+# Utilities
+psutil==5.9.8
+python-dotenv==1.0.1
+tqdm==4.66.0

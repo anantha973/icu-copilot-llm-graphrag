@@ -1,0 +1,371 @@
+{
+  "patient_id": "P009",
+  "scenario": "stable_diabetic",
+  "demographics": {
+    "name": "Christopher Pitts PhD",
+    "age": 55,
+    "sex": "M",
+    "bed": "5A",
+    "admission_date": "2026-05-04T16:04:09.455946",
+    "weight_kg": 64.0
+  },
+  "conditions": [
+    {
+      "name": "Type 2 diabetes mellitus",
+      "icd_code": "E11.9",
+      "status": "chronic"
+    },
+    {
+      "name": "Hypertension",
+      "icd_code": "I10",
+      "status": "chronic"
+    },
+    {
+      "name": "Hyperlipidemia",
+      "icd_code": "E78.5",
+      "status": "chronic"
+    }
+  ],
+  "medications": [
+    {
+      "name": "Insulin glargine",
+      "dose": "20 units",
+      "route": "SC",
+      "indication": "Diabetes"
+    },
+    {
+      "name": "Metformin",
+      "dose": "500 mg BID",
+      "route": "PO",
+      "indication": "Diabetes"
+    },
+    {
+      "name": "Lisinopril",
+      "dose": "10 mg daily",
+      "route": "PO",
+      "indication": "Hypertension"
+    },
+    {
+      "name": "Atorvastatin",
+      "dose": "40 mg daily",
+      "route": "PO",
+      "indication": "Hyperlipidemia"
+    }
+  ],
+  "lab_results": [
+    {
+      "test": "Glucose",
+      "value": 137.0,
+      "unit": "mg/dL",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T14:04:09.455954"
+    },
+    {
+      "test": "HbA1c",
+      "value": 7.5,
+      "unit": "%",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T11:04:09.455958"
+    },
+    {
+      "test": "Creatinine",
+      "value": 1.12,
+      "unit": "mg/dL",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T10:04:09.455961"
+    },
+    {
+      "test": "WBC",
+      "value": 8.12,
+      "unit": "10^3/uL",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T12:04:09.455964"
+    },
+    {
+      "test": "Hemoglobin",
+      "value": 14.01,
+      "unit": "g/dL",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T12:04:09.455966"
+    },
+    {
+      "test": "Potassium",
+      "value": 3.81,
+      "unit": "mEq/L",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T13:04:09.455968"
+    },
+    {
+      "test": "Lactate",
+      "value": 1.08,
+      "unit": "mmol/L",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T12:04:09.455971"
+    }
+  ],
+  "vitals_latest": {
+    "MAP": 89.68,
+    "HR": 74.15,
+    "SpO2": 99.03,
+    "RR": 16.39,
+    "Temp": 37.67,
+    "SBP": 133.01,
+    "DBP": 77.71
+  },
+  "vitals_timeseries": [
+    {
+      "timestamp": "2026-05-06T16:04:09.455977",
+      "MAP": 85.8,
+      "HR": 73.9,
+      "SpO2": 98.0,
+      "RR": 15.5,
+      "Temp": 35.8,
+      "SBP": 131.6,
+      "DBP": 79.7
+    },
+    {
+      "timestamp": "2026-05-06T17:04:09.455977",
+      "MAP": 89.4,
+      "HR": 77.9,
+      "SpO2": 99.4,
+      "RR": 41.3,
+      "Temp": 38.2,
+      "SBP": 124.0,
+      "DBP": 78.3
+    },
+    {
+      "timestamp": "2026-05-06T18:04:09.455977",
+      "MAP": 90.5,
+      "HR": 71.6,
+      "SpO2": 100.7,
+      "RR": 42.1,
+      "Temp": 41.3,
+      "SBP": 128.7,
+      "DBP": 73.5
+    },
+    {
+      "timestamp": "2026-05-06T19:04:09.455977",
+      "MAP": 91.2,
+      "HR": 72.7,
+      "SpO2": 93.8,
+      "RR": 38.9,
+      "Temp": 38.9,
+      "SBP": 124.2,
+      "DBP": 78.0
+    },
+    {
+      "timestamp": "2026-05-06T20:04:09.455977",
+      "MAP": 90.9,
+      "HR": 70.5,
+      "SpO2": 101.7,
+      "RR": 41.4,
+      "Temp": 43.3,
+      "SBP": 133.2,
+      "DBP": 73.7
+    },
+    {
+      "timestamp": "2026-05-06T21:04:09.455977",
+      "MAP": 84.5,
+      "HR": 77.5,
+      "SpO2": 102.4,
+      "RR": 39.1,
+      "Temp": 42.0,
+      "SBP": 131.2,
+      "DBP": 77.3
+    },
+    {
+      "timestamp": "2026-05-06T22:04:09.455977",
+      "MAP": 85.7,
+      "HR": 71.7,
+      "SpO2": 102.4,
+      "RR": 40.4,
+      "Temp": 43.6,
+      "SBP": 128.5,
+      "DBP": 79.8
+    },
+    {
+      "timestamp": "2026-05-06T23:04:09.455977",
+      "MAP": 88.1,
+      "HR": 72.0,
+      "SpO2": 95.9,
+      "RR": 40.0,
+      "Temp": 39.5,
+      "SBP": 129.4,
+      "DBP": 75.6
+    },
+    {
+      "timestamp": "2026-05-07T00:04:09.455977",
+      "MAP": 85.8,
+      "HR": 73.1,
+      "SpO2": 94.0,
+      "RR": 42.7,
+      "Temp": 43.0,
+      "SBP": 126.5,
+      "DBP": 72.7
+    },
+    {
+      "timestamp": "2026-05-07T01:04:09.455977",
+      "MAP": 90.7,
+      "HR": 76.0,
+      "SpO2": 94.6,
+      "RR": 41.3,
+      "Temp": 43.3,
+      "SBP": 123.8,
+      "DBP": 77.5
+    },
+    {
+      "timestamp": "2026-05-07T02:04:09.455977",
+      "MAP": 91.2,
+      "HR": 74.9,
+      "SpO2": 99.0,
+      "RR": 43.9,
+      "Temp": 42.6,
+      "SBP": 122.8,
+      "DBP": 73.4
+    },
+    {
+      "timestamp": "2026-05-07T03:04:09.455977",
+      "MAP": 89.2,
+      "HR": 72.6,
+      "SpO2": 96.1,
+      "RR": 42.0,
+      "Temp": 39.2,
+      "SBP": 126.7,
+      "DBP": 77.2
+    },
+    {
+      "timestamp": "2026-05-07T04:04:09.455977",
+      "MAP": 84.9,
+      "HR": 71.7,
+      "SpO2": 94.1,
+      "RR": 41.2,
+      "Temp": 40.5,
+      "SBP": 122.2,
+      "DBP": 73.7
+    },
+    {
+      "timestamp": "2026-05-07T05:04:09.455977",
+      "MAP": 85.9,
+      "HR": 72.2,
+      "SpO2": 95.9,
+      "RR": 40.1,
+      "Temp": 41.3,
+      "SBP": 125.5,
+      "DBP": 80.1
+    },
+    {
+      "timestamp": "2026-05-07T06:04:09.455977",
+      "MAP": 87.5,
+      "HR": 76.2,
+      "SpO2": 98.7,
+      "RR": 42.1,
+      "Temp": 40.1,
+      "SBP": 132.7,
+      "DBP": 76.6
+    },
+    {
+      "timestamp": "2026-05-07T07:04:09.455977",
+      "MAP": 90.0,
+      "HR": 74.7,
+      "SpO2": 101.3,
+      "RR": 44.6,
+      "Temp": 41.2,
+      "SBP": 126.8,
+      "DBP": 76.5
+    },
+    {
+      "timestamp": "2026-05-07T08:04:09.455977",
+      "MAP": 88.6,
+      "HR": 71.6,
+      "SpO2": 102.5,
+      "RR": 42.5,
+      "Temp": 39.3,
+      "SBP": 127.7,
+      "DBP": 79.7
+    },
+    {
+      "timestamp": "2026-05-07T09:04:09.455977",
+      "MAP": 88.0,
+      "HR": 73.2,
+      "SpO2": 98.8,
+      "RR": 44.8,
+      "Temp": 40.2,
+      "SBP": 125.9,
+      "DBP": 76.4
+    },
+    {
+      "timestamp": "2026-05-07T10:04:09.455977",
+      "MAP": 86.8,
+      "HR": 74.3,
+      "SpO2": 96.0,
+      "RR": 43.8,
+      "Temp": 38.2,
+      "SBP": 126.5,
+      "DBP": 79.4
+    },
+    {
+      "timestamp": "2026-05-07T11:04:09.455977",
+      "MAP": 91.2,
+      "HR": 75.3,
+      "SpO2": 95.7,
+      "RR": 44.4,
+      "Temp": 41.9,
+      "SBP": 134.5,
+      "DBP": 80.4
+    },
+    {
+      "timestamp": "2026-05-07T12:04:09.455977",
+      "MAP": 86.5,
+      "HR": 70.5,
+      "SpO2": 101.0,
+      "RR": 44.3,
+      "Temp": 41.3,
+      "SBP": 124.0,
+      "DBP": 77.7
+    },
+    {
+      "timestamp": "2026-05-07T13:04:09.455977",
+      "MAP": 90.5,
+      "HR": 69.1,
+      "SpO2": 101.4,
+      "RR": 42.4,
+      "Temp": 41.7,
+      "SBP": 125.2,
+      "DBP": 77.3
+    },
+    {
+      "timestamp": "2026-05-07T14:04:09.455977",
+      "MAP": 84.5,
+      "HR": 71.3,
+      "SpO2": 95.3,
+      "RR": 43.9,
+      "Temp": 38.9,
+      "SBP": 131.7,
+      "DBP": 75.8
+    },
+    {
+      "timestamp": "2026-05-07T15:04:09.455977",
+      "MAP": 84.4,
+      "HR": 75.7,
+      "SpO2": 100.3,
+      "RR": 42.3,
+      "Temp": 38.7,
+      "SBP": 132.1,
+      "DBP": 80.5
+    }
+  ],
+  "procedures": [
+    {
+      "name": "Central venous catheter",
+      "timestamp": "2026-05-04T16:04:09.455946"
+    },
+    {
+      "name": "Urinary catheter",
+      "timestamp": "2026-05-04T16:04:09.455946"
+    }
+  ],
+  "expected_severity": "GREEN",
+  "raw_notes": [
+    "ICU Progress Note \u2014 Christopher Pitts PhD, 55y M, Bed 5A\n\nS: Patient admitted with Type 2 diabetes mellitus, Hypertension. Hemodynamically stable. Family updated regarding prognosis.\n\nO: Vitals \u2014 MAP 87 mmHg, HR 74 bpm, SpO2 98%, RR 16, Temp 36.8\u00b0C.\nLabs \u2014 Glucose: 142, HbA1c: 8.1, Creatinine: 1.1, WBC: 8.4.\n\nA: Type 2 diabetes mellitus, Hypertension. Severity: moderate, monitored closely.\n\nP: Continue Insulin glargine, Metformin, Lisinopril. Wean supplemental oxygen as tolerated. Reassess q4h. Multidisciplinary team review at 08:00."
+  ]
+}

@@ -1,0 +1,10 @@
+ICU Progress Note — Gary Anderson, 55y M, Bed 10A
+
+S: Patient admitted with Septic shock, Acute kidney injury. Hemodynamically unstable. Family updated regarding prognosis.
+
+O: Vitals — MAP 56 mmHg, HR 118 bpm, SpO2 91%, RR 26, Temp 38.9°C.
+Labs — Lactate: 4.2, Creatinine: 3.1, WBC: 18.5, Procalcitonin: 28.4.
+
+A: Septic shock, Acute kidney injury. Severity: critical, multi-organ involvement.
+
+P: Continue Norepinephrine, Meropenem, Hydrocortisone. Escalate vasopressor support if MAP <65 mmHg. Reassess q4h. Multidisciplinary team review at 08:00.

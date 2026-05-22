@@ -1,0 +1,346 @@
+{
+  "patient_id": "P018",
+  "scenario": "chf_monitoring",
+  "demographics": {
+    "name": "Wanda Harris",
+    "age": 70,
+    "sex": "F",
+    "bed": "9B",
+    "admission_date": "2026-05-05T16:04:09.460184",
+    "weight_kg": 60.9
+  },
+  "conditions": [
+    {
+      "name": "Congestive heart failure",
+      "icd_code": "I50.9",
+      "status": "chronic"
+    },
+    {
+      "name": "Chronic kidney disease stage 3",
+      "icd_code": "N18.3",
+      "status": "chronic"
+    }
+  ],
+  "medications": [
+    {
+      "name": "Furosemide",
+      "dose": "40 mg BID",
+      "route": "IV",
+      "indication": "Volume overload"
+    },
+    {
+      "name": "Lisinopril",
+      "dose": "10 mg daily",
+      "route": "PO",
+      "indication": "Heart failure"
+    },
+    {
+      "name": "Carvedilol",
+      "dose": "6.25 mg BID",
+      "route": "PO",
+      "indication": "Heart failure"
+    }
+  ],
+  "lab_results": [
+    {
+      "test": "BNP",
+      "value": 392.76,
+      "unit": "pg/mL",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T15:04:09.460187"
+    },
+    {
+      "test": "Creatinine",
+      "value": 1.66,
+      "unit": "mg/dL",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T15:04:09.460190"
+    },
+    {
+      "test": "Potassium",
+      "value": 4.3,
+      "unit": "mEq/L",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T10:04:09.460192"
+    },
+    {
+      "test": "Sodium",
+      "value": 128.22,
+      "unit": "mEq/L",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T14:04:09.460194"
+    },
+    {
+      "test": "Hemoglobin",
+      "value": 11.73,
+      "unit": "g/dL",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T14:04:09.460196"
+    }
+  ],
+  "vitals_latest": {
+    "MAP": 75.37,
+    "HR": 81.22,
+    "SpO2": 98.18,
+    "RR": 17.39,
+    "Temp": 37.51,
+    "SBP": 120.43,
+    "DBP": 65.51
+  },
+  "vitals_timeseries": [
+    {
+      "timestamp": "2026-05-06T16:04:09.460200",
+      "MAP": 74.9,
+      "HR": 80.1,
+      "SpO2": 92.3,
+      "RR": 17.2,
+      "Temp": 37.6,
+      "SBP": 123.0,
+      "DBP": 70.7
+    },
+    {
+      "timestamp": "2026-05-06T17:04:09.460200",
+      "MAP": 77.1,
+      "HR": 82.3,
+      "SpO2": 100.0,
+      "RR": 38.6,
+      "Temp": 40.9,
+      "SBP": 118.5,
+      "DBP": 68.2
+    },
+    {
+      "timestamp": "2026-05-06T18:04:09.460200",
+      "MAP": 75.7,
+      "HR": 78.3,
+      "SpO2": 96.0,
+      "RR": 38.4,
+      "Temp": 40.0,
+      "SBP": 115.7,
+      "DBP": 66.8
+    },
+    {
+      "timestamp": "2026-05-06T19:04:09.460200",
+      "MAP": 75.1,
+      "HR": 79.4,
+      "SpO2": 93.5,
+      "RR": 41.9,
+      "Temp": 38.6,
+      "SBP": 120.5,
+      "DBP": 68.0
+    },
+    {
+      "timestamp": "2026-05-06T20:04:09.460200",
+      "MAP": 76.1,
+      "HR": 78.4,
+      "SpO2": 93.9,
+      "RR": 39.8,
+      "Temp": 39.2,
+      "SBP": 113.9,
+      "DBP": 69.5
+    },
+    {
+      "timestamp": "2026-05-06T21:04:09.460200",
+      "MAP": 78.4,
+      "HR": 84.2,
+      "SpO2": 92.4,
+      "RR": 40.7,
+      "Temp": 38.9,
+      "SBP": 118.2,
+      "DBP": 70.0
+    },
+    {
+      "timestamp": "2026-05-06T22:04:09.460200",
+      "MAP": 73.4,
+      "HR": 78.9,
+      "SpO2": 100.8,
+      "RR": 41.4,
+      "Temp": 39.4,
+      "SBP": 117.7,
+      "DBP": 69.6
+    },
+    {
+      "timestamp": "2026-05-06T23:04:09.460200",
+      "MAP": 76.4,
+      "HR": 81.1,
+      "SpO2": 95.6,
+      "RR": 41.3,
+      "Temp": 39.5,
+      "SBP": 118.0,
+      "DBP": 65.1
+    },
+    {
+      "timestamp": "2026-05-07T00:04:09.460200",
+      "MAP": 73.8,
+      "HR": 84.0,
+      "SpO2": 97.2,
+      "RR": 40.5,
+      "Temp": 38.8,
+      "SBP": 119.3,
+      "DBP": 65.3
+    },
+    {
+      "timestamp": "2026-05-07T01:04:09.460200",
+      "MAP": 77.3,
+      "HR": 78.8,
+      "SpO2": 95.6,
+      "RR": 38.1,
+      "Temp": 42.4,
+      "SBP": 114.3,
+      "DBP": 67.2
+    },
+    {
+      "timestamp": "2026-05-07T02:04:09.460200",
+      "MAP": 77.5,
+      "HR": 78.9,
+      "SpO2": 95.5,
+      "RR": 40.9,
+      "Temp": 39.0,
+      "SBP": 118.2,
+      "DBP": 67.5
+    },
+    {
+      "timestamp": "2026-05-07T03:04:09.460200",
+      "MAP": 80.2,
+      "HR": 79.8,
+      "SpO2": 99.7,
+      "RR": 39.4,
+      "Temp": 40.0,
+      "SBP": 111.2,
+      "DBP": 66.0
+    },
+    {
+      "timestamp": "2026-05-07T04:04:09.460200",
+      "MAP": 73.8,
+      "HR": 79.4,
+      "SpO2": 93.9,
+      "RR": 39.9,
+      "Temp": 39.3,
+      "SBP": 118.0,
+      "DBP": 64.3
+    },
+    {
+      "timestamp": "2026-05-07T05:04:09.460200",
+      "MAP": 76.6,
+      "HR": 78.8,
+      "SpO2": 98.7,
+      "RR": 42.3,
+      "Temp": 41.2,
+      "SBP": 123.0,
+      "DBP": 66.3
+    },
+    {
+      "timestamp": "2026-05-07T06:04:09.460200",
+      "MAP": 79.8,
+      "HR": 81.6,
+      "SpO2": 95.3,
+      "RR": 39.8,
+      "Temp": 40.0,
+      "SBP": 117.1,
+      "DBP": 69.1
+    },
+    {
+      "timestamp": "2026-05-07T07:04:09.460200",
+      "MAP": 77.3,
+      "HR": 76.4,
+      "SpO2": 94.6,
+      "RR": 41.5,
+      "Temp": 41.9,
+      "SBP": 115.6,
+      "DBP": 69.5
+    },
+    {
+      "timestamp": "2026-05-07T08:04:09.460200",
+      "MAP": 74.5,
+      "HR": 81.8,
+      "SpO2": 98.2,
+      "RR": 40.3,
+      "Temp": 39.7,
+      "SBP": 116.5,
+      "DBP": 65.3
+    },
+    {
+      "timestamp": "2026-05-07T09:04:09.460200",
+      "MAP": 78.6,
+      "HR": 81.0,
+      "SpO2": 99.6,
+      "RR": 39.9,
+      "Temp": 40.3,
+      "SBP": 120.5,
+      "DBP": 67.4
+    },
+    {
+      "timestamp": "2026-05-07T10:04:09.460200",
+      "MAP": 77.6,
+      "HR": 77.2,
+      "SpO2": 97.2,
+      "RR": 40.2,
+      "Temp": 41.6,
+      "SBP": 113.8,
+      "DBP": 69.3
+    },
+    {
+      "timestamp": "2026-05-07T11:04:09.460200",
+      "MAP": 75.4,
+      "HR": 79.0,
+      "SpO2": 92.3,
+      "RR": 41.6,
+      "Temp": 40.2,
+      "SBP": 118.9,
+      "DBP": 65.0
+    },
+    {
+      "timestamp": "2026-05-07T12:04:09.460200",
+      "MAP": 75.5,
+      "HR": 80.6,
+      "SpO2": 98.3,
+      "RR": 40.2,
+      "Temp": 41.4,
+      "SBP": 117.9,
+      "DBP": 69.6
+    },
+    {
+      "timestamp": "2026-05-07T13:04:09.460200",
+      "MAP": 76.7,
+      "HR": 75.8,
+      "SpO2": 97.6,
+      "RR": 38.5,
+      "Temp": 41.7,
+      "SBP": 120.9,
+      "DBP": 69.7
+    },
+    {
+      "timestamp": "2026-05-07T14:04:09.460200",
+      "MAP": 80.9,
+      "HR": 76.4,
+      "SpO2": 93.5,
+      "RR": 39.8,
+      "Temp": 39.0,
+      "SBP": 113.3,
+      "DBP": 69.7
+    },
+    {
+      "timestamp": "2026-05-07T15:04:09.460200",
+      "MAP": 75.7,
+      "HR": 79.7,
+      "SpO2": 99.5,
+      "RR": 40.2,
+      "Temp": 41.9,
+      "SBP": 122.3,
+      "DBP": 67.9
+    }
+  ],
+  "procedures": [
+    {
+      "name": "Central venous catheter",
+      "timestamp": "2026-05-05T16:04:09.460184"
+    },
+    {
+      "name": "Urinary catheter",
+      "timestamp": "2026-05-05T16:04:09.460184"
+    }
+  ],
+  "expected_severity": "GREEN",
+  "raw_notes": [
+    "ICU Progress Note \u2014 Wanda Harris, 70y F, Bed 9B\n\nS: Patient admitted with Congestive heart failure, Chronic kidney disease stage 3. Hemodynamically stable. Family updated regarding prognosis.\n\nO: Vitals \u2014 MAP 78 mmHg, HR 80 bpm, SpO2 96%, RR 18, Temp 36.7\u00b0C.\nLabs \u2014 BNP: 380, Creatinine: 1.6, Potassium: 4.5, Sodium: 136.\n\nA: Congestive heart failure, Chronic kidney disease stage 3. Severity: moderate, monitored closely.\n\nP: Continue Furosemide, Lisinopril, Carvedilol. Wean supplemental oxygen as tolerated. Reassess q4h. Multidisciplinary team review at 08:00."
+  ]
+}

@@ -1,0 +1,10 @@
+ICU Progress Note — James Mitchell, 51y M, Bed 8A
+
+S: Patient admitted with Acute respiratory distress syndrome, Post-operative state. Hemodynamically stable. Family updated regarding prognosis.
+
+O: Vitals — MAP 68 mmHg, HR 92 bpm, SpO2 93%, RR 20, Temp 37.8°C.
+Labs — PaO2/FiO2: 142, WBC: 13.2, Procalcitonin: 4.1, Albumin: 2.4.
+
+A: Acute respiratory distress syndrome, Post-operative state. Severity: moderate, monitored closely.
+
+P: Continue Propofol, Fentanyl, Cisatracurium. Wean supplemental oxygen as tolerated. Reassess q4h. Multidisciplinary team review at 08:00.

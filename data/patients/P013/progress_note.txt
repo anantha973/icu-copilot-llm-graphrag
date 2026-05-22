@@ -1,0 +1,10 @@
+ICU Progress Note — Mark Johnson, 62y M, Bed 7A
+
+S: Patient admitted with ST-elevation myocardial infarction, Cardiogenic shock. Hemodynamically unstable. Family updated regarding prognosis.
+
+O: Vitals — MAP 52 mmHg, HR 128 bpm, SpO2 89%, RR 28, Temp 36.2°C.
+Labs — Troponin I: 48.2, BNP: 1820, Lactate: 5.1, Creatinine: 2.4.
+
+A: ST-elevation myocardial infarction, Cardiogenic shock. Severity: critical, multi-organ involvement.
+
+P: Continue Dobutamine, Heparin, Aspirin. Escalate vasopressor support if MAP <65 mmHg. Reassess q4h. Multidisciplinary team review at 08:00.

@@ -1,0 +1,2087 @@
+/* ============================================================
+   ICU Clinical Copilot — Website Stylesheet
+   Phase 1: Foundation (Updated with Left Nav & Dark Headings)
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. GOOGLE FONTS IMPORT
+   ------------------------------------------------------------ */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ------------------------------------------------------------
+   2. DESIGN TOKENS
+   ------------------------------------------------------------ */
+:root {
+  /* Colour palette */
+  --bg-base:        #F7F3EE;
+  --surface:        #FFFFFF;
+  --surface-warm:   #FAF8F5;
+  --teal:           #5B9B8E;
+  --teal-dark:      #3D7A6F;
+  --teal-light:     #EAF2F0;
+  --sage:           #7FA67A;
+  --sage-light:     #EEF5EC;
+  --amber:          #D4956A;
+  --amber-light:    #FBF3EC;
+  --rose:           #C27878;
+  --rose-light:     #FAF0F0;
+  --text-primary:   #000000; /* Updated to black */
+  --text-muted:     #6B6B6B;
+  --border:         #E0D9D0;
+  --tag-bg:         #EAF2F0;
+  --tag-text:       #3D7A6F;
+
+  /* Node glow */
+  --node-glow: 0 0 12px rgba(91, 155, 142, 0.30);
+
+  /* Typography */
+  --font-display:  'Playfair Display', Georgia, serif;
+  --font-body:     'Inter', system-ui, sans-serif;
+  --font-mono:     'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Spacing scale */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* Layout */
+  --max-width:    1140px;
+  --nav-width:    260px;
+  --nav-collapsed-width: 70px;
+  --section-gap:  var(--space-24);
+  --card-radius:  12px;
+  --pill-radius:  999px;
+
+  /* Transitions */
+  --transition-fast:   150ms ease;
+  --transition-base:   250ms ease-out;
+  --transition-slow:   300ms ease-out;
+}
+
+/* ------------------------------------------------------------
+   3. RESET + BASE
+   ------------------------------------------------------------ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+}
+
+img, iframe {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: var(--nav-width);
+  transition: margin-left var(--transition-base), width var(--transition-base);
+  min-width: 0;
+  width: calc(100% - var(--nav-width));
+}
+
+body.nav-collapsed .main-content {
+  margin-left: var(--nav-collapsed-width);
+  width: calc(100% - var(--nav-collapsed-width));
+}
+
+/* ------------------------------------------------------------
+   4. TYPOGRAPHY SCALE
+   ------------------------------------------------------------ */
+h1, h2, h3, h4, h5, h6 {
+  color: #000000; /* Headings updated to black */
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-family: var(--font-body);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+h4 {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+p {
+  color: var(--text-muted);
+  line-height: 1.75;
+}
+
+/* ------------------------------------------------------------
+   5. LAYOUT UTILITIES
+   ------------------------------------------------------------ */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.section-gap {
+  padding-block: var(--section-gap);
+}
+
+.section-label {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--tag-text);
+  background: var(--tag-bg);
+  border-radius: var(--pill-radius);
+  padding: var(--space-1) var(--space-3);
+  margin-bottom: var(--space-4);
+  letter-spacing: 0.04em;
+}
+
+.section-heading {
+  margin-bottom: var(--space-3);
+}
+
+.section-sub {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  max-width: 56ch;
+  margin-bottom: var(--space-10);
+}
+
+/* Tag / code pill */
+.tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--tag-text);
+  background: var(--tag-bg);
+  border-radius: var(--pill-radius);
+  padding: 0.2rem 0.65rem;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+/* Stat badge */
+.stat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--pill-radius);
+  padding: var(--space-2) var(--space-5);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--teal-dark);
+}
+
+.stat-badge::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--teal);
+}
+
+/* Pull-quote */
+.pull-quote {
+  font-family: var(--font-body);
+  font-size: clamp(1.1rem, 2.2vw, 1.35rem);
+  font-weight: 500;
+  color: var(--text-primary);
+  font-style: italic;
+  border-left: 3px solid var(--teal);
+  padding-left: var(--space-6);
+  margin-block: var(--space-10);
+  line-height: 1.55;
+  max-width: 68ch;
+}
+
+/* ------------------------------------------------------------
+   6. NAVIGATION (LEFT SIDEBAR)
+   ------------------------------------------------------------ */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--nav-width);
+  height: 100vh;
+  background: rgba(247, 243, 238, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  transition: width var(--transition-base);
+  z-index: 100;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+body.nav-collapsed .nav {
+  width: var(--nav-collapsed-width);
+}
+
+.nav__inner {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6) 0;
+  width: 100%;
+}
+
+.nav__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-4);
+  margin-bottom: var(--space-8);
+  height: 40px;
+}
+
+body.nav-collapsed .nav__header {
+  justify-content: center;
+}
+
+.nav__brand {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #000000;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition: opacity var(--transition-fast);
+}
+
+body.nav-collapsed .nav__brand {
+  opacity: 0;
+  pointer-events: none;
+  display: none;
+}
+
+.nav__toggle {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast);
+}
+
+.nav__toggle:hover {
+  color: var(--teal-dark);
+}
+
+.nav__links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  list-style: none;
+  padding: 0 var(--space-3);
+  width: var(--nav-width);
+}
+
+.nav__links a {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  padding: var(--space-3);
+  border-radius: 8px;
+  transition: color var(--transition-fast), background var(--transition-fast);
+  white-space: nowrap;
+}
+
+.nav__links a:hover,
+.nav__links a.active {
+  color: #000000;
+  background: var(--teal-light);
+}
+
+.nav__links a.active {
+  font-weight: 600;
+}
+
+.nav__emoji {
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+}
+
+.nav__text {
+  transition: opacity var(--transition-fast);
+}
+
+body.nav-collapsed .nav__text {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------
+   7. CLINICAL REASONING PIPELINE (Hero right panel)
+   ------------------------------------------------------------ */
+
+/* Label above the card */
+.hero__pipeline-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--teal-dark);
+  text-align: center;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  background: var(--tag-bg);
+  border-radius: var(--pill-radius);
+  padding: var(--space-1) var(--space-5);
+}
+
+/* Footnote below the card */
+.hero__pipeline-footnote {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-align: center;
+  letter-spacing: 0.03em;
+  opacity: 0.75;
+}
+
+/* Outer card */
+.pipeline-card {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: var(--space-6) var(--space-6) var(--space-4);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Individual pipeline step ── */
+.pipeline-step {
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-4);
+  position: relative;
+
+  /* Staggered entrance animation */
+  opacity: 0;
+  transform: translateX(-10px);
+  animation: pipelineReveal 0.45s ease-out forwards;
+  animation-delay: var(--step-delay, 0s);
+}
+
+@keyframes pipelineReveal {
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Icon column: badge + vertical connector */
+.pipeline-step__icon-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 32px;
+}
+
+/* Step number badge */
+.pipeline-step__badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Badge colour variants */
+.pipeline-step__badge--input {
+  background: var(--teal-light);
+  color: var(--teal-dark);
+  border: 2px solid var(--teal);
+}
+
+.pipeline-step__badge--safety {
+  background: var(--rose-light);
+  color: var(--rose);
+  border: 2px solid var(--rose);
+  box-shadow: 0 0 10px rgba(194,120,120,0.30);
+  animation: safetyPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes safetyPulse {
+  0%,100% { box-shadow: 0 0 6px rgba(194,120,120,0.25); }
+  50%      { box-shadow: 0 0 16px rgba(194,120,120,0.50); }
+}
+
+.pipeline-step__badge--graph {
+  background: #EDF0FB;
+  color: #4A5FC4;
+  border: 2px solid #7B89D8;
+}
+
+.pipeline-step__badge--guidelines {
+  background: var(--amber-light);
+  color: var(--amber);
+  border: 2px solid var(--amber);
+}
+
+.pipeline-step__badge--llm {
+  background: #F0EBF8;
+  color: #7C4FA0;
+  border: 2px solid #A67DC4;
+}
+
+.pipeline-step__badge--physician {
+  background: var(--sage-light);
+  color: var(--sage);
+  border: 2px solid var(--sage);
+}
+
+/* Vertical connector line + animated dot */
+.pipeline-step__connector {
+  flex: 1;
+  width: 2px;
+  min-height: 28px;
+  background: linear-gradient(to bottom, var(--border) 0%, var(--border) 100%);
+  position: relative;
+  margin: 2px 0;
+  overflow: hidden;
+}
+
+.pipeline-step__dot {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--teal);
+  animation: dotFlow 2s linear infinite;
+  animation-delay: var(--step-delay, 0s);
+  top: -4px;
+}
+
+@keyframes dotFlow {
+  0%   { top: -4px; opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* Step body: title, meta, tag */
+.pipeline-step__body {
+  flex: 1;
+  padding-bottom: var(--space-4);
+  padding-top: 4px;
+}
+
+.pipeline-step__title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #000;
+  line-height: 1.3;
+  margin-bottom: 3px;
+}
+
+.pipeline-step__meta {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 5px;
+}
+
+.pipeline-step__tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--tag-text);
+  background: var(--tag-bg);
+  border-radius: var(--pill-radius);
+  padding: 0.15rem 0.55rem;
+  letter-spacing: 0.02em;
+}
+
+/* Modifier: critical (safety) step — highlighted background */
+.pipeline-step--critical {
+  background: var(--rose-light);
+  border-radius: 8px;
+  border-left: 3px solid var(--rose);
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-3);
+  margin-inline: calc(-1 * var(--space-2));
+}
+
+.pipeline-step--critical .pipeline-step__body {
+  padding-bottom: var(--space-2);
+}
+
+/* Terminal (last) step — no connector */
+.pipeline-step--terminal {
+  background: var(--sage-light);
+  border-radius: 8px;
+  border-left: 3px solid var(--sage);
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-3);
+  margin-inline: calc(-1 * var(--space-2));
+}
+
+.pipeline-step--terminal .pipeline-step__body {
+  padding-bottom: 0;
+}
+
+/* Floating badge inside critical/terminal steps */
+.pipeline-step__critical-badge {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--rose);
+  background: rgba(255,255,255,0.7);
+  border: 1px solid var(--rose);
+  border-radius: var(--pill-radius);
+  padding: 0.15rem 0.55rem;
+  white-space: nowrap;
+  align-self: flex-start;
+  margin-top: 4px;
+  letter-spacing: 0.03em;
+}
+
+.pipeline-step__critical-badge--physician {
+  color: var(--sage);
+  border-color: var(--sage);
+}
+
+
+/* ------------------------------------------------------------
+   8. HERO SECTION
+   ------------------------------------------------------------ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-block: var(--space-20);
+  background: linear-gradient(160deg, var(--bg-base) 60%, #EDF5F3 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle background texture */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 80% 20%, rgba(91,155,142,0.06) 0%, transparent 50%),
+                    radial-gradient(circle at 20% 80%, rgba(127,166,122,0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-16);
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero__left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--teal-dark);
+  background: var(--tag-bg);
+  border-radius: var(--pill-radius);
+  padding: var(--space-1) var(--space-4);
+  width: fit-content;
+  letter-spacing: 0.04em;
+}
+
+.hero__eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--teal);
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.hero__subtitle {
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  font-weight: 500;
+  color: #000000; /* Updated to black */
+  margin-top: calc(-1 * var(--space-3));
+}
+
+.hero__body {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+  max-width: 54ch;
+}
+
+.hero__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+/* Hero right panel */
+.hero__right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+}
+
+/* Scroll cue */
+.scroll-cue {
+  position: absolute;
+  bottom: var(--space-8);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.scroll-cue__arrow {
+  font-size: 1.1rem;
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+
+@keyframes scrollBounce {
+  0%, 100% { opacity: 0.4; transform: translateY(0); }
+  50%       { opacity: 1;   transform: translateY(4px); }
+}
+
+/* ------------------------------------------------------------
+   9. SECTION STUBS (§2–§9 placeholders)
+   ------------------------------------------------------------ */
+.section-stub {
+  padding-block: var(--section-gap);
+  border-top: 1px solid var(--border);
+}
+
+.section-stub__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.section-stub__badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  background: var(--surface-warm);
+  border: 1px dashed var(--border);
+  border-radius: var(--pill-radius);
+  padding: var(--space-1) var(--space-4);
+}
+
+/* ------------------------------------------------------------
+   10. SCROLL REVEAL ANIMATION (used by main.js)
+   ------------------------------------------------------------ */
+.reveal {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity var(--transition-slow), transform var(--transition-slow);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger utility — applied to children via JS or CSS :nth-child */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity var(--transition-slow), transform var(--transition-slow);
+}
+
+.stagger-children.visible > *:nth-child(1) { transition-delay: 0ms; }
+.stagger-children.visible > *:nth-child(2) { transition-delay: 100ms; }
+.stagger-children.visible > *:nth-child(3) { transition-delay: 200ms; }
+.stagger-children.visible > *:nth-child(4) { transition-delay: 300ms; }
+.stagger-children.visible > *:nth-child(5) { transition-delay: 400ms; }
+.stagger-children.visible > *:nth-child(6) { transition-delay: 500ms; }
+
+.stagger-children.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Severity pills */
+.severity-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  border-radius: var(--pill-radius);
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.severity-pill--red {
+  background: var(--rose-light);
+  color: var(--rose);
+  box-shadow: 0 0 12px rgba(194, 120, 120, 0.25);
+  animation: severityGlow 3s ease-in-out infinite;
+}
+
+.severity-pill--amber {
+  background: var(--amber-light);
+  color: var(--amber);
+}
+
+.severity-pill--green {
+  background: var(--sage-light);
+  color: var(--sage);
+}
+
+@keyframes severityGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(194, 120, 120, 0.20); }
+  50%       { box-shadow: 0 0 18px rgba(194, 120, 120, 0.40); }
+}
+
+/* Pulse dot animation */
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(1.3); }
+}
+
+/* ------------------------------------------------------------
+   11. PHASE 2 — §2 CLINICAL EVENT TIMELINE
+   ------------------------------------------------------------ */
+.clinical-event {
+  padding-block: var(--section-gap);
+  border-top: 1px solid var(--border);
+}
+
+.clinical-event .section-intro {
+  margin-bottom: var(--space-16);
+}
+
+.timeline {
+  position: relative;
+  padding-left: var(--space-10);
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--teal-light), var(--teal), var(--teal-light));
+}
+
+.timeline-beat {
+  position: relative;
+  margin-bottom: var(--space-10);
+  padding-left: var(--space-8);
+}
+
+.timeline-beat:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-beat::before {
+  content: '';
+  position: absolute;
+  left: calc(-1 * var(--space-10) + 1px - 8px);
+  top: 6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2.5px solid var(--teal);
+  box-shadow: var(--node-glow);
+}
+
+.beat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: var(--space-6) var(--space-8);
+  transition: border-left-color var(--transition-fast), background var(--transition-fast);
+}
+
+.beat-card:hover {
+  border-left: 3px solid var(--teal);
+  background: var(--surface-warm);
+}
+
+.beat-number {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--teal-dark);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-2);
+}
+
+.beat-heading {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: var(--space-3);
+}
+
+.beat-narrative {
+  font-size: 0.93rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: var(--space-4);
+}
+
+.beat-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--tag-text);
+  background: var(--tag-bg);
+  border-radius: var(--pill-radius);
+  padding: 0.18rem 0.6rem;
+  letter-spacing: 0.03em;
+}
+
+/* Beat 3 — severity trio */
+.severity-trio {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+/* Beat 5 — inline 3-node chain */
+.inline-chain {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: var(--space-4);
+  padding: var(--space-4) var(--space-6);
+  background: var(--amber-light);
+  border-left: 3px solid var(--amber);
+  border-radius: 0 var(--card-radius) var(--card-radius) 0;
+}
+
+.chain-node {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #000;
+  padding: var(--space-2) 0;
+}
+
+.chain-edge {
+  font-size: 0.72rem;
+  color: var(--amber);
+  font-family: var(--font-mono);
+  padding: 0 var(--space-4);
+}
+
+/* Beat 8 — two-pill contrast block */
+.contrast-block {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-4);
+}
+
+.contrast-pill {
+  flex: 1;
+  min-width: 140px;
+  text-align: center;
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--card-radius);
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.contrast-pill--ai {
+  background: var(--teal-light);
+  color: var(--teal-dark);
+  border: 1.5px solid var(--teal);
+}
+
+.contrast-pill--doctor {
+  background: var(--sage-light);
+  color: var(--sage);
+  border: 1.5px solid var(--sage);
+}
+
+/* ------------------------------------------------------------
+   12. PHASE 2 — §3 WHY GRAPH AI?
+   ------------------------------------------------------------ */
+.why-graph {
+  padding-block: var(--section-gap);
+  border-top: 1px solid var(--border);
+}
+
+.why-graph .section-intro {
+  margin-bottom: var(--space-12);
+}
+
+/* Two-panel comparison */
+.compare-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+  margin-bottom: var(--space-12);
+}
+
+.compare-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: var(--space-8) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.compare-panel--graph {
+  border-color: var(--teal);
+  background: linear-gradient(160deg, var(--surface) 70%, var(--teal-light) 100%);
+}
+
+.compare-panel__label {
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: var(--space-1) var(--space-3);
+  background: var(--surface-warm);
+  border-radius: var(--pill-radius);
+  width: fit-content;
+}
+
+.compare-panel--graph .compare-panel__label {
+  background: var(--teal-light);
+  color: var(--teal-dark);
+}
+
+.compare-panel__heading {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #000;
+}
+
+.flow-chain {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.flow-node {
+  background: var(--surface-warm);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #000;
+  text-align: center;
+}
+
+.compare-panel--graph .flow-node {
+  background: var(--teal-light);
+  border-color: var(--teal);
+  color: var(--teal-dark);
+  font-weight: 600;
+}
+
+.flow-arrow {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 1rem;
+  padding: var(--space-1) 0;
+}
+
+.compare-panel--graph .flow-arrow {
+  color: var(--teal);
+}
+
+.compare-caption {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+}
+
+/* Metformin callout chain */
+.metformin-chain {
+  margin-bottom: var(--space-12);
+  background: var(--amber-light);
+  border-left: 4px solid var(--amber);
+  border-radius: 0 var(--card-radius) var(--card-radius) 0;
+  padding: var(--space-8) var(--space-8);
+}
+
+.metformin-chain h3 {
+  color: #000;
+  margin-bottom: var(--space-6);
+  font-size: 1rem;
+}
+
+.metformin-chain .flow-chain {
+  max-width: 320px;
+}
+
+.metformin-chain .flow-node {
+  background: rgba(255,255,255,0.7);
+  border-color: var(--amber);
+  color: #000;
+}
+
+.metformin-chain .flow-node--alert {
+  background: var(--rose-light);
+  border-color: var(--rose);
+  color: var(--rose);
+  font-weight: 700;
+}
+
+.metformin-chain .flow-edge {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--amber);
+  padding: var(--space-1) var(--space-4);
+}
+
+.metformin-chain .flow-arrow {
+  color: var(--amber);
+}
+
+.graph-tech-tag {
+  margin-top: var(--space-6);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* ------------------------------------------------------------
+   13. FOOTER
+   ------------------------------------------------------------ */
+.footer {
+  border-top: 1px solid var(--border);
+  padding-block: var(--space-8);
+  text-align: center;
+}
+
+.footer p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ------------------------------------------------------------
+   12. REDUCED MOTION
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* Ensure spine nodes are immediately visible */
+  .spine-node {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal, .stagger-children > * {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------------
+   13. RESPONSIVE — MOBILE BREAKPOINT
+   ------------------------------------------------------------ */
+@media (max-width: 960px) {
+  body.nav-collapsed .nav {
+    transform: translateX(calc(-1 * var(--nav-collapsed-width)));
+  }
+  body.nav-collapsed .main-content {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  /* When nav is not collapsed, show overlay or push content? Let's just collapse by default on mobile or keep small */
+}
+
+@media (max-width: 768px) {
+  :root {
+    --section-gap: var(--space-16);
+  }
+
+  /* Hide nav on very small screens or make it a top bar again? 
+     For now, we just collapse it on mobile completely */
+  .nav {
+    transform: translateX(-100%);
+  }
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+  }
+  body.nav-collapsed .nav {
+    transform: translateX(0);
+  }
+  body.nav-collapsed .main-content {
+    margin-left: var(--nav-collapsed-width);
+    width: calc(100% - var(--nav-collapsed-width));
+  }
+
+  .hero__grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+  }
+
+  .hero__right {
+    order: -1;
+  }
+
+  .hero__spine-wrap .spine {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero__spine-wrap .spine-arrow {
+    transform: rotate(90deg);
+    padding: var(--space-1) 0;
+  }
+
+  .scroll-cue {
+    display: none;
+  }
+
+  /* Phase 2 mobile */
+  .compare-panels {
+    grid-template-columns: 1fr;
+  }
+
+  .contrast-block {
+    flex-direction: column;
+  }
+
+  .contrast-pill {
+    min-width: unset;
+  }
+
+  .metformin-chain {
+    padding: var(--space-5) var(--space-5);
+  }
+}
+
+/* ------------------------------------------------------------
+   14. PHASE 3 — §4 LAYER-BY-LAYER ARCHITECTURE
+   ------------------------------------------------------------ */
+.architecture {
+  padding-block: var(--section-gap);
+  border-top: 1px solid var(--border);
+}
+
+.architecture .section-intro {
+  margin-bottom: var(--space-12);
+}
+
+.arch-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-bottom: var(--space-10);
+}
+
+.arch-layer {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  border-radius: var(--card-radius);
+  padding: var(--space-6) var(--space-8);
+  transition:
+    border-left-color var(--transition-fast),
+    background var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.arch-layer:hover {
+  border-left-color: var(--teal);
+  background: var(--teal-light);
+  box-shadow: 0 2px 16px rgba(91,155,142,0.10);
+}
+
+.arch-layer__badge {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--teal-dark);
+  background: var(--teal-light);
+  border-radius: var(--pill-radius);
+  padding: 0.15rem 0.6rem;
+  display: inline-block;
+  margin-bottom: var(--space-3);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.arch-layer__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: var(--space-3);
+}
+
+.arch-layer__bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.arch-layer__bullets li {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  padding-left: var(--space-5);
+  position: relative;
+  line-height: 1.6;
+}
+
+.arch-layer__bullets li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--teal);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.arch-layer__bullets code {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  border-radius: 4px;
+  padding: 0.05em 0.4em;
+}
+
+.arch-callout {
+  display: flex;
+  gap: var(--space-6);
+  align-items: flex-start;
+  background: linear-gradient(135deg, var(--teal-light) 0%, var(--surface) 100%);
+  border: 1.5px solid var(--teal);
+  border-radius: var(--card-radius);
+  padding: var(--space-8) var(--space-8);
+  margin-top: var(--space-8);
+}
+
+.arch-callout__icon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.arch-callout__title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--teal-dark);
+  margin-bottom: var(--space-2);
+}
+
+.arch-callout__body {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+}
+
+/* ------------------------------------------------------------
+   15. PHASE 3 — §5 PRIMEKG GRAPH VISUALIZATION
+   ------------------------------------------------------------ */
+.primekg-section {
+  padding-block: var(--section-gap);
+  border-top: 1px solid var(--border);
+}
+
+.primekg-section .section-intro {
+  margin-bottom: var(--space-8);
+}
+
+.kg-launch-card {
+  width: 100%;
+  background: var(--surface);
+  border: 1.5px solid var(--teal);
+  border-radius: var(--card-radius);
+  padding: var(--space-8);
+  margin-bottom: var(--space-8);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  box-shadow: 0 4px 32px rgba(91,155,142,0.12);
+  transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.kg-launch-card:hover {
+  box-shadow: 0 8px 40px rgba(91,155,142,0.18);
+  border-color: var(--teal-dark);
+}
+
+.kg-launch-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.kg-launch-icon {
+  font-size: 3rem;
+  background: var(--teal-light);
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.kg-launch-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: var(--space-2);
+}
+
+.kg-launch-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin-bottom: 0;
+  line-height: 1.6;
+}
+
+.kg-launch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: var(--teal-dark);
+  color: #fff;
+  font-weight: 600;
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--pill-radius);
+  transition: background var(--transition-fast), transform var(--transition-fast);
+  white-space: nowrap;
+}
+
+.kg-launch-btn:hover {
+  background: var(--teal);
+  transform: translateY(-2px);
+  color: #fff;
+}
+
+.kg-stats {
+  display: flex;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-8);
+}
+
+.kg-stat-pill {
+  flex: 1;
+  min-width: 160px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: var(--space-5) var(--space-6);
+  text-align: center;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.kg-stat-pill:hover {
+  border-color: var(--teal);
+  box-shadow: var(--node-glow);
+}
+
+.kg-stat-pill__value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--teal-dark);
+  line-height: 1;
+  margin-bottom: var(--space-2);
+}
+
+.kg-stat-pill__label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.kg-explanation {
+  max-width: 72ch;
+}
+
+.kg-explanation p {
+  font-size: 0.93rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: var(--space-4);
+}
+
+.kg-tech-tag {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* ------------------------------------------------------------
+   16. PHASE 3 — §6 HOW THE AI THINKS
+   ------------------------------------------------------------ */
+.ai-thinking {
+  padding-block: var(--section-gap);
+  border-top: 1px solid var(--border);
+}
+
+.ai-thinking .section-intro {
+  margin-bottom: var(--space-12);
+}
+
+.ai-chain {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-bottom: var(--space-10);
+}
+
+.ai-step {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 2px solid transparent;
+  border-radius: var(--card-radius);
+  padding: var(--space-6) var(--space-8);
+  transition:
+    border-left-color var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.ai-step:hover {
+  border-left-color: var(--teal);
+  background: linear-gradient(135deg, var(--teal-light) 0%, var(--surface) 80%);
+}
+
+.ai-step__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-3);
+}
+
+.ai-step__number {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--teal-dark);
+  background: var(--teal-light);
+  border-radius: var(--pill-radius);
+  padding: 0.2rem 0.6rem;
+  letter-spacing: 0.06em;
+  min-width: 36px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.ai-step__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #000;
+  line-height: 1.2;
+}
+
+.ai-step__desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin-bottom: var(--space-3);
+}
+
+.ai-step__desc code {
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  border-radius: 4px;
+  padding: 0.05em 0.4em;
+}
+
+.hallucination-guard {
+  display: flex;
+  gap: var(--space-6);
+  align-items: flex-start;
+  background: var(--rose-light);
+  border: 1.5px solid var(--rose);
+  border-radius: var(--card-radius);
+  padding: var(--space-8) var(--space-8);
+}
+
+.hallucination-guard__icon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.hallucination-guard__title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--rose);
+  margin-bottom: var(--space-2);
+}
+
+.hallucination-guard__body {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+}
+
+/* ------------------------------------------------------------
+   17. PHASE 3 — RESPONSIVE OVERRIDES
+   ------------------------------------------------------------ */
+@media (max-width: 768px) {
+  .arch-callout {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .arch-layer {
+    padding: var(--space-5) var(--space-5);
+  }
+
+  .kg-stats {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .kg-launch-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--space-6);
+  }
+
+  .kg-launch-left {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+
+  .hallucination-guard {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .ai-step {
+    padding: var(--space-5) var(--space-5);
+  }
+}
+
+/* ------------------------------------------------------------
+   18. PHASE 4 — §7 SAFETY + EXPLAINABILITY
+   ------------------------------------------------------------ */
+.safety-section {
+  padding-block: var(--section-gap);
+  border-top: 1px solid var(--border);
+}
+
+.safety-section .section-intro {
+  margin-bottom: var(--space-12);
+}
+
+/* Two-column split card */
+.safety-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  margin-bottom: var(--space-10);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.safety-col {
+  padding: var(--space-8) var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.safety-col--deterministic {
+  background: linear-gradient(160deg, var(--sage-light) 0%, var(--surface) 100%);
+  border-right: 1px solid var(--border);
+}
+
+.safety-col--ai {
+  background: linear-gradient(160deg, var(--amber-light) 0%, var(--surface) 100%);
+}
+
+.safety-col__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.safety-col__badge {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: var(--pill-radius);
+  padding: 0.15rem 0.6rem;
+  display: inline-block;
+  width: fit-content;
+}
+
+.safety-col--deterministic .safety-col__badge {
+  background: var(--sage-light);
+  color: var(--sage);
+  border: 1px solid var(--sage);
+}
+
+.safety-col--ai .safety-col__badge {
+  background: var(--amber-light);
+  color: var(--amber);
+  border: 1px solid var(--amber);
+}
+
+.safety-col__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #000;
+}
+
+.safety-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1;
+}
+
+.safety-bullets li {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  padding-left: var(--space-5);
+  position: relative;
+  line-height: 1.6;
+}
+
+.safety-col--deterministic .safety-bullets li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--sage);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.safety-col--ai .safety-bullets li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--amber);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+/* Traceability table */
+.traceability-table {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+}
+
+.traceability-table__heading {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  padding: var(--space-4) var(--space-8);
+  background: var(--surface-warm);
+  border-bottom: 1px solid var(--border);
+}
+
+.trace-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  transition: background var(--transition-fast);
+}
+
+.trace-row:last-child {
+  border-bottom: none;
+}
+
+.trace-row:hover {
+  background: var(--teal-light);
+}
+
+.trace-row__dimension {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--teal-dark);
+  padding: var(--space-5) var(--space-8);
+  border-right: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, var(--teal-light) 0%, transparent 100%);
+}
+
+.trace-row__detail {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  padding: var(--space-5) var(--space-8);
+}
+
+/* ------------------------------------------------------------
+   19. PHASE 4 — §8 FAILURE MODES + RESILIENCE
+   ------------------------------------------------------------ */
+.failure-section {
+  padding-block: var(--section-gap);
+  border-top: 1px solid var(--border);
+}
+
+.failure-section .section-intro {
+  margin-bottom: var(--space-12);
+}
+
+/* 2×3 failure card grid */
+.failure-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+  margin-bottom: var(--space-10);
+}
+
+.failure-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: var(--space-6) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.failure-card:hover {
+  border-color: var(--amber);
+  box-shadow: 0 2px 16px rgba(212, 149, 106, 0.10);
+}
+
+.failure-card--rose {
+  background: var(--rose-light);
+  border-color: var(--rose);
+}
+
+.failure-card--rose:hover {
+  border-color: var(--rose);
+  box-shadow: 0 2px 16px rgba(194, 120, 120, 0.15);
+}
+
+.failure-card--amber {
+  background: var(--amber-light);
+  border-color: var(--amber);
+}
+
+.failure-card--amber:hover {
+  box-shadow: 0 2px 16px rgba(212, 149, 106, 0.15);
+}
+
+.failure-card__scenario {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #000;
+  line-height: 1.3;
+}
+
+.failure-card__arrow {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.failure-card__response {
+  font-size: 0.83rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* ------------------------------------------------------------
+   20. PHASE 4 — §9 FUTURE INFRASTRUCTURE
+   ------------------------------------------------------------ */
+.future-section {
+  padding-block: var(--section-gap);
+  border-top: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--bg-base) 0%, var(--surface-warm) 100%);
+}
+
+.future-section .section-intro {
+  margin-bottom: var(--space-12);
+}
+
+/* 3-column desktop grid */
+.future-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
+}
+
+.future-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: var(--space-8) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  transition:
+    border-color var(--transition-fast),
+    transform var(--transition-base),
+    box-shadow var(--transition-fast);
+}
+
+.future-card:hover {
+  border-color: var(--teal);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(91,155,142,0.12);
+}
+
+.future-card__horizon {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--teal-dark);
+  background: var(--teal-light);
+  border-radius: var(--pill-radius);
+  padding: 0.15rem 0.6rem;
+  display: inline-block;
+  width: fit-content;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.future-card__direction {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #000;
+  line-height: 1.25;
+}
+
+.future-card__desc {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+}
+
+/* ------------------------------------------------------------
+   21. PHASE 4 — FOOTER ENHANCEMENT
+   ------------------------------------------------------------ */
+.footer {
+  border-top: 1px solid var(--border);
+  padding-block: var(--space-10);
+  background: var(--surface-warm);
+}
+
+.footer__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-5);
+}
+
+.footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.footer__name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #000;
+}
+
+.footer__desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.footer__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.footer__copy {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: center;
+  font-style: italic;
+}
+
+/* ------------------------------------------------------------
+   22. PHASE 4 — RESPONSIVE OVERRIDES
+   ------------------------------------------------------------ */
+@media (max-width: 960px) {
+  .failure-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .future-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .safety-split {
+    grid-template-columns: 1fr;
+  }
+
+  .safety-col--deterministic {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .safety-col {
+    padding: var(--space-6) var(--space-5);
+  }
+
+  .trace-row {
+    grid-template-columns: 1fr;
+  }
+
+  .trace-row__dimension {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: var(--space-3) var(--space-5);
+  }
+
+  .trace-row__detail {
+    padding: var(--space-3) var(--space-5);
+  }
+
+  .failure-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .future-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer__inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

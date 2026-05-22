@@ -1,0 +1,371 @@
+{
+  "patient_id": "P004",
+  "scenario": "ards_postop",
+  "demographics": {
+    "name": "Marie Odom",
+    "age": 73,
+    "sex": "F",
+    "bed": "2B",
+    "admission_date": "2026-05-05T16:04:09.453466",
+    "weight_kg": 59.2
+  },
+  "conditions": [
+    {
+      "name": "Acute respiratory distress syndrome",
+      "icd_code": "J80",
+      "status": "active"
+    },
+    {
+      "name": "Post-operative state",
+      "icd_code": "Z48.89",
+      "status": "active"
+    },
+    {
+      "name": "Hypertension",
+      "icd_code": "I10",
+      "status": "chronic"
+    }
+  ],
+  "medications": [
+    {
+      "name": "Propofol",
+      "dose": "10\u201350 mcg/kg/min",
+      "route": "IV",
+      "indication": "Sedation"
+    },
+    {
+      "name": "Fentanyl",
+      "dose": "25 mcg/h",
+      "route": "IV",
+      "indication": "Analgesia"
+    },
+    {
+      "name": "Cisatracurium",
+      "dose": "0.1 mg/kg/h",
+      "route": "IV",
+      "indication": "Neuromuscular blockade"
+    },
+    {
+      "name": "Piperacillin-tazobactam",
+      "dose": "4.5g q6h",
+      "route": "IV",
+      "indication": "HAP prophylaxis"
+    }
+  ],
+  "lab_results": [
+    {
+      "test": "PaO2/FiO2",
+      "value": 140.04,
+      "unit": "mmHg",
+      "flag": "LOW",
+      "timestamp": "2026-05-07T12:04:09.453469"
+    },
+    {
+      "test": "WBC",
+      "value": 12.99,
+      "unit": "10^3/uL",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T10:04:09.453472"
+    },
+    {
+      "test": "Procalcitonin",
+      "value": 3.83,
+      "unit": "ng/mL",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T12:04:09.453475"
+    },
+    {
+      "test": "Albumin",
+      "value": 2.33,
+      "unit": "g/dL",
+      "flag": "LOW",
+      "timestamp": "2026-05-07T13:04:09.453477"
+    },
+    {
+      "test": "CRP",
+      "value": 119.55,
+      "unit": "mg/L",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T14:04:09.453479"
+    },
+    {
+      "test": "Creatinine",
+      "value": 1.44,
+      "unit": "mg/dL",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T12:04:09.453483"
+    },
+    {
+      "test": "Lactate",
+      "value": 1.77,
+      "unit": "mmol/L",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T15:04:09.453485"
+    }
+  ],
+  "vitals_latest": {
+    "MAP": 65.81,
+    "HR": 93.76,
+    "SpO2": 95.32,
+    "RR": 20.09,
+    "Temp": 38.06,
+    "SBP": 102.5,
+    "DBP": 60.17
+  },
+  "vitals_timeseries": [
+    {
+      "timestamp": "2026-05-06T16:04:09.453490",
+      "MAP": 65.4,
+      "HR": 93.5,
+      "SpO2": 96.4,
+      "RR": 20.9,
+      "Temp": 37.2,
+      "SBP": 99.1,
+      "DBP": 59.3
+    },
+    {
+      "timestamp": "2026-05-06T17:04:09.453490",
+      "MAP": 70.2,
+      "HR": 94.7,
+      "SpO2": 96.1,
+      "RR": 41.9,
+      "Temp": 40.5,
+      "SBP": 97.3,
+      "DBP": 62.6
+    },
+    {
+      "timestamp": "2026-05-06T18:04:09.453490",
+      "MAP": 65.6,
+      "HR": 90.6,
+      "SpO2": 89.0,
+      "RR": 40.6,
+      "Temp": 38.7,
+      "SBP": 97.8,
+      "DBP": 58.7
+    },
+    {
+      "timestamp": "2026-05-06T19:04:09.453490",
+      "MAP": 66.8,
+      "HR": 94.2,
+      "SpO2": 94.6,
+      "RR": 38.4,
+      "Temp": 40.8,
+      "SBP": 100.5,
+      "DBP": 60.2
+    },
+    {
+      "timestamp": "2026-05-06T20:04:09.453490",
+      "MAP": 66.3,
+      "HR": 88.9,
+      "SpO2": 91.5,
+      "RR": 40.0,
+      "Temp": 38.6,
+      "SBP": 104.0,
+      "DBP": 59.0
+    },
+    {
+      "timestamp": "2026-05-06T21:04:09.453490",
+      "MAP": 65.6,
+      "HR": 90.8,
+      "SpO2": 96.0,
+      "RR": 39.7,
+      "Temp": 40.4,
+      "SBP": 105.6,
+      "DBP": 62.1
+    },
+    {
+      "timestamp": "2026-05-06T22:04:09.453490",
+      "MAP": 64.5,
+      "HR": 95.2,
+      "SpO2": 94.1,
+      "RR": 40.0,
+      "Temp": 38.7,
+      "SBP": 105.2,
+      "DBP": 61.5
+    },
+    {
+      "timestamp": "2026-05-06T23:04:09.453490",
+      "MAP": 65.4,
+      "HR": 89.6,
+      "SpO2": 93.8,
+      "RR": 39.2,
+      "Temp": 39.8,
+      "SBP": 102.3,
+      "DBP": 60.0
+    },
+    {
+      "timestamp": "2026-05-07T00:04:09.453490",
+      "MAP": 67.5,
+      "HR": 95.0,
+      "SpO2": 91.0,
+      "RR": 38.8,
+      "Temp": 41.2,
+      "SBP": 98.5,
+      "DBP": 60.3
+    },
+    {
+      "timestamp": "2026-05-07T01:04:09.453490",
+      "MAP": 70.6,
+      "HR": 96.3,
+      "SpO2": 94.4,
+      "RR": 41.6,
+      "Temp": 38.9,
+      "SBP": 101.5,
+      "DBP": 59.2
+    },
+    {
+      "timestamp": "2026-05-07T02:04:09.453490",
+      "MAP": 68.8,
+      "HR": 92.0,
+      "SpO2": 96.3,
+      "RR": 41.7,
+      "Temp": 40.5,
+      "SBP": 101.5,
+      "DBP": 61.9
+    },
+    {
+      "timestamp": "2026-05-07T03:04:09.453490",
+      "MAP": 68.2,
+      "HR": 93.4,
+      "SpO2": 92.6,
+      "RR": 38.8,
+      "Temp": 41.6,
+      "SBP": 104.1,
+      "DBP": 58.5
+    },
+    {
+      "timestamp": "2026-05-07T04:04:09.453490",
+      "MAP": 68.4,
+      "HR": 92.0,
+      "SpO2": 91.3,
+      "RR": 39.8,
+      "Temp": 40.4,
+      "SBP": 103.4,
+      "DBP": 57.8
+    },
+    {
+      "timestamp": "2026-05-07T05:04:09.453490",
+      "MAP": 67.3,
+      "HR": 92.9,
+      "SpO2": 95.7,
+      "RR": 40.4,
+      "Temp": 39.7,
+      "SBP": 103.5,
+      "DBP": 61.0
+    },
+    {
+      "timestamp": "2026-05-07T06:04:09.453490",
+      "MAP": 67.7,
+      "HR": 94.5,
+      "SpO2": 93.7,
+      "RR": 41.0,
+      "Temp": 40.9,
+      "SBP": 100.6,
+      "DBP": 60.0
+    },
+    {
+      "timestamp": "2026-05-07T07:04:09.453490",
+      "MAP": 66.9,
+      "HR": 92.0,
+      "SpO2": 89.1,
+      "RR": 41.6,
+      "Temp": 42.0,
+      "SBP": 105.2,
+      "DBP": 59.6
+    },
+    {
+      "timestamp": "2026-05-07T08:04:09.453490",
+      "MAP": 66.8,
+      "HR": 88.8,
+      "SpO2": 94.5,
+      "RR": 38.7,
+      "Temp": 40.9,
+      "SBP": 98.2,
+      "DBP": 59.5
+    },
+    {
+      "timestamp": "2026-05-07T09:04:09.453490",
+      "MAP": 68.9,
+      "HR": 90.5,
+      "SpO2": 92.0,
+      "RR": 39.5,
+      "Temp": 43.4,
+      "SBP": 98.5,
+      "DBP": 61.2
+    },
+    {
+      "timestamp": "2026-05-07T10:04:09.453490",
+      "MAP": 71.5,
+      "HR": 89.2,
+      "SpO2": 94.0,
+      "RR": 40.7,
+      "Temp": 42.8,
+      "SBP": 98.5,
+      "DBP": 60.1
+    },
+    {
+      "timestamp": "2026-05-07T11:04:09.453490",
+      "MAP": 67.1,
+      "HR": 96.4,
+      "SpO2": 92.6,
+      "RR": 38.1,
+      "Temp": 41.7,
+      "SBP": 105.9,
+      "DBP": 59.0
+    },
+    {
+      "timestamp": "2026-05-07T12:04:09.453490",
+      "MAP": 71.9,
+      "HR": 94.7,
+      "SpO2": 90.9,
+      "RR": 40.8,
+      "Temp": 42.3,
+      "SBP": 95.8,
+      "DBP": 60.9
+    },
+    {
+      "timestamp": "2026-05-07T13:04:09.453490",
+      "MAP": 70.0,
+      "HR": 91.9,
+      "SpO2": 91.2,
+      "RR": 38.2,
+      "Temp": 42.6,
+      "SBP": 96.4,
+      "DBP": 63.3
+    },
+    {
+      "timestamp": "2026-05-07T14:04:09.453490",
+      "MAP": 70.0,
+      "HR": 88.0,
+      "SpO2": 94.1,
+      "RR": 39.7,
+      "Temp": 39.6,
+      "SBP": 96.4,
+      "DBP": 62.3
+    },
+    {
+      "timestamp": "2026-05-07T15:04:09.453490",
+      "MAP": 70.0,
+      "HR": 90.9,
+      "SpO2": 97.2,
+      "RR": 38.2,
+      "Temp": 41.2,
+      "SBP": 102.1,
+      "DBP": 64.2
+    }
+  ],
+  "procedures": [
+    {
+      "name": "Central venous catheter",
+      "timestamp": "2026-05-05T16:04:09.453466"
+    },
+    {
+      "name": "Urinary catheter",
+      "timestamp": "2026-05-05T16:04:09.453466"
+    }
+  ],
+  "expected_severity": "AMBER",
+  "raw_notes": [
+    "ICU Progress Note \u2014 Marie Odom, 73y F, Bed 2B\n\nS: Patient admitted with Acute respiratory distress syndrome, Post-operative state. Hemodynamically stable. Family updated regarding prognosis.\n\nO: Vitals \u2014 MAP 68 mmHg, HR 92 bpm, SpO2 93%, RR 20, Temp 37.8\u00b0C.\nLabs \u2014 PaO2/FiO2: 142, WBC: 13.2, Procalcitonin: 4.1, Albumin: 2.4.\n\nA: Acute respiratory distress syndrome, Post-operative state. Severity: moderate, monitored closely.\n\nP: Continue Propofol, Fentanyl, Cisatracurium. Wean supplemental oxygen as tolerated. Reassess q4h. Multidisciplinary team review at 08:00."
+  ]
+}

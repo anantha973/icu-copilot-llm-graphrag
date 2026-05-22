@@ -1,0 +1,10 @@
+ICU Progress Note — Lindsey Black, 68y F, Bed 1B
+
+S: Patient admitted with Community-acquired pneumonia, Respiratory failure. Hemodynamically stable. Family updated regarding prognosis.
+
+O: Vitals — MAP 72 mmHg, HR 102 bpm, SpO2 93%, RR 24, Temp 38.5°C.
+Labs — WBC: 16.8, CRP: 186, Procalcitonin: 3.8, Lactate: 2.1.
+
+A: Community-acquired pneumonia, Respiratory failure. Severity: moderate, monitored closely.
+
+P: Continue Ceftriaxone, Azithromycin, Dexamethasone. Wean supplemental oxygen as tolerated. Reassess q4h. Multidisciplinary team review at 08:00.

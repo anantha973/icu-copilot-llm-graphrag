@@ -1,0 +1,10 @@
+ICU Progress Note — Julia Weaver, 54y F, Bed 4B
+
+S: Patient admitted with Type 2 diabetes mellitus, Hypertension. Hemodynamically stable. Family updated regarding prognosis.
+
+O: Vitals — MAP 87 mmHg, HR 74 bpm, SpO2 98%, RR 16, Temp 36.8°C.
+Labs — Glucose: 142, HbA1c: 8.1, Creatinine: 1.1, WBC: 8.4.
+
+A: Type 2 diabetes mellitus, Hypertension. Severity: moderate, monitored closely.
+
+P: Continue Insulin glargine, Metformin, Lisinopril. Wean supplemental oxygen as tolerated. Reassess q4h. Multidisciplinary team review at 08:00.

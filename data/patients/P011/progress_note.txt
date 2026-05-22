@@ -1,0 +1,10 @@
+ICU Progress Note — Jack Jones, 72y M, Bed 6A
+
+S: Patient admitted with Ischemic stroke, Hypertension. Hemodynamically stable. Family updated regarding prognosis.
+
+O: Vitals — MAP 90 mmHg, HR 68 bpm, SpO2 98%, RR 14, Temp 36.6°C.
+Labs — INR: 1.1, Glucose: 118, Creatinine: 0.9, WBC: 7.8.
+
+A: Ischemic stroke, Hypertension. Severity: moderate, monitored closely.
+
+P: Continue Clopidogrel, Amlodipine, Enoxaparin. Wean supplemental oxygen as tolerated. Reassess q4h. Multidisciplinary team review at 08:00.

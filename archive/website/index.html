@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="ICU Clinical Copilot — Graph-augmented AI for critical care running entirely on-premise. Reasoning over medical knowledge graphs, clinical guidelines, and patient data to assist intensivists in real time." />
+  <meta name="keywords"
+    content="ICU, clinical AI, graph AI, PrimeKG, on-premise, critical care, MedGemma, FAISS, knowledge graph" />
+  <title>ICU Clinical Copilot — Graph-Augmented AI for Critical Care</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ============================================================
+       NAVIGATION (LEFT SIDEBAR)
+       ============================================================ -->
+  <nav class="nav" id="sidebar" role="navigation" aria-label="Main navigation">
+    <div class="nav__inner">
+      <div class="nav__header">
+        <span class="nav__brand">ICU Copilot</span>
+        <button id="nav-toggle" class="nav__toggle" aria-label="Toggle navigation">☰</button>
+      </div>
+      <ul class="nav__links" role="list">
+        <li><a href="#hero" id="nav-hero"><span class="nav__emoji">🏠</span><span class="nav__text">Overview</span></a>
+        </li>
+        <li><a href="#clinical-event" id="nav-clinical"><span class="nav__emoji">⏱️</span><span
+              class="nav__text">Clinical Event</span></a></li>
+        <li><a href="#why-graph" id="nav-graph"><span class="nav__emoji">🕸️</span><span class="nav__text">Why Graph
+              AI</span></a></li>
+        <li><a href="#architecture" id="nav-arch"><span class="nav__emoji">🏗️</span><span
+              class="nav__text">Architecture</span></a></li>
+        <li><a href="#primekg" id="nav-kg"><span class="nav__emoji">🧠</span><span class="nav__text">PrimeKG</span></a>
+        </li>
+        <li><a href="#ai-thinking" id="nav-ai"><span class="nav__emoji">🤖</span><span class="nav__text">AI
+              Pipeline</span></a></li>
+        <li><a href="#safety" id="nav-safety"><span class="nav__emoji">🛡️</span><span
+              class="nav__text">Safety</span></a></li>
+        <li><a href="#failure-modes" id="nav-failure"><span class="nav__emoji">⚠️</span><span
+              class="nav__text">Resilience</span></a></li>
+        <li><a href="#future" id="nav-future"><span class="nav__emoji">🚀</span><span
+              class="nav__text">Future</span></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <!-- ============================================================
+         §1 — HERO
+         ============================================================ -->
+    <section id="hero" class="hero" aria-labelledby="hero-heading">
+      <div class="container">
+        <div class="hero__grid">
+
+          <!-- Left: copy + badges -->
+          <div class="hero__left">
+
+            <span class="hero__eyebrow">On-Premise · Zero Cloud · Real-Time</span>
+
+            <h1 id="hero-heading">ICU Clinical<br>Copilot</h1>
+
+            <p class="hero__subtitle">
+              Graph-Augmented AI for Critical Care —<br>Running Entirely On-Premise
+            </p>
+
+            <p class="hero__body">
+              Hospitals cannot outsource life-critical decisions to the cloud. Latency,
+              privacy regulations, and network failures make that impossible. ICU Clinical
+              Copilot runs entirely on local hardware — reasoning over medical knowledge
+              graphs, clinical guidelines, and real patient data to assist intensivists
+              in real time.
+            </p>
+
+            <div class="hero__badges">
+              <span class="stat-badge" aria-label="129,000 medical concepts">129,000 Medical Concepts</span>
+              <span class="stat-badge" aria-label="8 million relationships">8 Million Relationships</span>
+              <span class="stat-badge" aria-label="On-premise, zero cloud">On-Premise · Zero Cloud</span>
+            </div>
+
+          </div>
+
+          <!-- Right: clinical reasoning pipeline diagram -->
+          <div class="hero__right">
+            <p class="hero__pipeline-label">Clinical Reasoning Pipeline</p>
+
+            <div class="pipeline-card" role="img"
+              aria-label="Clinical reasoning pipeline: Patient Data ingestion, Deterministic Safety Check, Graph Retrieval from PrimeKG, Guideline Retrieval from FAISS, LLM Reasoning, Physician Review">
+
+              <!-- Step 1 -->
+              <div class="pipeline-step" style="--step-delay: 0.15s">
+                <div class="pipeline-step__icon-col">
+                  <div class="pipeline-step__badge pipeline-step__badge--input">1</div>
+                  <div class="pipeline-step__connector" aria-hidden="true">
+                    <span class="pipeline-step__dot"></span>
+                  </div>
+                </div>
+                <div class="pipeline-step__body">
+                  <div class="pipeline-step__title">Patient Data Ingestion</div>
+                  <div class="pipeline-step__meta">FHIR JSON + clinical notes → PatientState</div>
+                  <div class="pipeline-step__tag">synthea_parser · medgemma_extractor</div>
+                </div>
+              </div>
+
+              <!-- Step 2 — Deterministic, highlighted -->
+              <div class="pipeline-step pipeline-step--critical" style="--step-delay: 0.30s">
+                <div class="pipeline-step__icon-col">
+                  <div class="pipeline-step__badge pipeline-step__badge--safety">2</div>
+                  <div class="pipeline-step__connector" aria-hidden="true">
+                    <span class="pipeline-step__dot"></span>
+                  </div>
+                </div>
+                <div class="pipeline-step__body">
+                  <div class="pipeline-step__title">Deterministic Safety Gate</div>
+                  <div class="pipeline-step__meta">MAP &lt; 65 → RED alert. No AI. Non-negotiable.</div>
+                  <div class="pipeline-step__tag">severity_classifier · Stage 1 · no-LLM</div>
+                </div>
+                <div class="pipeline-step__critical-badge" aria-label="Deterministic only">⚡ Deterministic</div>
+              </div>
+
+              <!-- Step 3 -->
+              <div class="pipeline-step" style="--step-delay: 0.45s">
+                <div class="pipeline-step__icon-col">
+                  <div class="pipeline-step__badge pipeline-step__badge--graph">3</div>
+                  <div class="pipeline-step__connector" aria-hidden="true">
+                    <span class="pipeline-step__dot"></span>
+                  </div>
+                </div>
+                <div class="pipeline-step__body">
+                  <div class="pipeline-step__title">PrimeKG Graph Retrieval</div>
+                  <div class="pipeline-step__meta">2-hop ego subgraph · 8M relationships traversed</div>
+                  <div class="pipeline-step__tag">subgraph_retriever · RapidFuzz · NetworkX</div>
+                </div>
+              </div>
+
+              <!-- Step 4 -->
+              <div class="pipeline-step" style="--step-delay: 0.60s">
+                <div class="pipeline-step__icon-col">
+                  <div class="pipeline-step__badge pipeline-step__badge--guidelines">4</div>
+                  <div class="pipeline-step__connector" aria-hidden="true">
+                    <span class="pipeline-step__dot"></span>
+                  </div>
+                </div>
+                <div class="pipeline-step__body">
+                  <div class="pipeline-step__title">Guideline Retrieval</div>
+                  <div class="pipeline-step__meta">FAISS top-3 · NIH / ADA / AHA protocols</div>
+                  <div class="pipeline-step__tag">guideline_indexer · all-MiniLM-L6-v2</div>
+                </div>
+              </div>
+
+              <!-- Step 5 -->
+              <div class="pipeline-step" style="--step-delay: 0.75s">
+                <div class="pipeline-step__icon-col">
+                  <div class="pipeline-step__badge pipeline-step__badge--llm">5</div>
+                  <div class="pipeline-step__connector" aria-hidden="true">
+                    <span class="pipeline-step__dot"></span>
+                  </div>
+                </div>
+                <div class="pipeline-step__body">
+                  <div class="pipeline-step__title">LLM Reasoning</div>
+                  <div class="pipeline-step__meta">Graph + guidelines + severity → clinical summary</div>
+                  <div class="pipeline-step__tag">MedGemma 4B · Gemma 4 E4B · reasoner.py</div>
+                </div>
+              </div>
+
+              <!-- Step 6 — terminal node -->
+              <div class="pipeline-step pipeline-step--terminal" style="--step-delay: 0.90s">
+                <div class="pipeline-step__icon-col">
+                  <div class="pipeline-step__badge pipeline-step__badge--physician">6</div>
+                </div>
+                <div class="pipeline-step__body">
+                  <div class="pipeline-step__title">Physician Review</div>
+                  <div class="pipeline-step__meta">AI suggests. Doctor decides. Always.</div>
+                  <div class="pipeline-step__tag">physician-in-loop · audit trail</div>
+                </div>
+                <div class="pipeline-step__critical-badge pipeline-step__critical-badge--physician"
+                  aria-label="Human in the loop">👨‍⚕️ Human-in-Loop</div>
+              </div>
+
+            </div><!-- /pipeline-card -->
+
+            <p class="hero__pipeline-footnote">
+              Deterministic safety gate precedes every AI inference
+            </p>
+          </div>
+
+        </div><!-- /hero__grid -->
+      </div><!-- /container -->
+
+      <!-- Scroll cue -->
+      <div class="scroll-cue" aria-hidden="true">
+        <span>Scroll</span>
+        <span class="scroll-cue__arrow">↓</span>
+      </div>
+
+    </section>
+    <!-- /§1 HERO -->
+
+    <!-- ============================================================
+         §2 — CLINICAL EVENT TIMELINE
+         ============================================================ -->
+    <section id="clinical-event" class="clinical-event" aria-labelledby="clinical-heading">
+      <div class="container">
+
+        <div class="section-intro">
+          <span class="section-label">§2 — Clinical Event</span>
+          <h2 id="clinical-heading" class="section-heading">What Happens When a Patient Becomes Critical?</h2>
+          <p class="section-sub">Eight steps. Every one verifiable. Determinism before AI — always.</p>
+        </div>
+
+        <div class="timeline">
+
+          <!-- Beat 1 -->
+          <div class="timeline-beat reveal">
+            <div class="beat-card">
+              <div class="beat-number">Step 01</div>
+              <p class="beat-heading">Patient Becomes Unstable</p>
+              <p class="beat-narrative">Vitals deteriorate. MAP drops. SpO₂ falls. Lactate rises. The body is sending
+                signals the monitor captures but cannot interpret.</p>
+              <span class="beat-tag">PatientState.vitals</span>
+            </div>
+          </div>
+
+          <!-- Beat 2 -->
+          <div class="timeline-beat reveal">
+            <div class="beat-card">
+              <div class="beat-number">Step 02</div>
+              <p class="beat-heading">Data Arrives at the System</p>
+              <p class="beat-narrative">Structured FHIR records and clinical notes are ingested simultaneously. Two
+                parsers, two data shapes — unified into a single patient state object.</p>
+              <span class="beat-tag">synthea_parser.py · medgemma_extractor.py</span>
+            </div>
+          </div>
+
+          <!-- Beat 3 — severity badge trio -->
+          <div class="timeline-beat reveal">
+            <div class="beat-card">
+              <div class="beat-number">Step 03</div>
+              <p class="beat-heading">Instant Safety Check</p>
+              <p class="beat-narrative">Before any AI runs, deterministic rules fire. MAP &lt; 65 → RED. This is not AI.
+                This is logic. Non-negotiable, non-probabilistic.</p>
+              <div class="severity-trio">
+                <span class="severity-pill severity-pill--red">🔴 RED — Critical</span>
+                <span class="severity-pill severity-pill--amber">🟡 AMBER — Borderline</span>
+                <span class="severity-pill severity-pill--green">🟢 GREEN — Stable</span>
+              </div>
+              <span class="beat-tag">severity_classifier.py — Stage 1</span>
+            </div>
+          </div>
+
+          <!-- Beat 4 -->
+          <div class="timeline-beat reveal">
+            <div class="beat-card">
+              <div class="beat-number">Step 04</div>
+              <p class="beat-heading">Clinical Guidelines Retrieved</p>
+              <p class="beat-narrative">The system searches indexed NIH guidelines using vector similarity — pulling the
+                three most relevant protocol chunks. 384-dimensional embeddings. Cosine similarity. Fast.</p>
+              <span class="beat-tag">guideline_indexer.py · FAISS top-k</span>
+            </div>
+          </div>
+
+          <!-- Beat 5 — inline 3-node chain -->
+          <div class="timeline-beat reveal">
+            <div class="beat-card">
+              <div class="beat-number">Step 05</div>
+              <p class="beat-heading">Disease Relationships Loaded</p>
+              <p class="beat-narrative">The patient's conditions are matched to PrimeKG. A 2-hop subgraph is extracted —
+                revealing drug interactions and disease cascades that no keyword search would surface.</p>
+              <div class="inline-chain"
+                aria-label="Disease chain: Condition leads to Kidney Failure leads to Lactic Acidosis">
+                <span class="chain-node">Condition (e.g. Type 2 Diabetes)</span>
+                <span class="chain-edge">↓ &nbsp;disease_disease edge</span>
+                <span class="chain-node">Acute Kidney Failure</span>
+                <span class="chain-edge">↓ &nbsp;complication_of edge</span>
+                <span class="chain-node">Lactic Acidosis Risk</span>
+              </div>
+              <span class="beat-tag">subgraph_retriever.py · ego_graph(radius=2)</span>
+            </div>
+          </div>
+
+          <!-- Beat 6 -->
+          <div class="timeline-beat reveal">
+            <div class="beat-card">
+              <div class="beat-number">Step 06</div>
+              <p class="beat-heading">Evidence Assembled</p>
+              <p class="beat-narrative">Graph context + guideline chunks + deterministic severity result are merged into
+                a structured XML-tagged prompt. Nothing is hidden from the model — it sees everything.</p>
+              <span class="beat-tag">global_kb_retriever.py</span>
+            </div>
+          </div>
+
+          <!-- Beat 7 -->
+          <div class="timeline-beat reveal">
+            <div class="beat-card">
+              <div class="beat-number">Step 07</div>
+              <p class="beat-heading">AI Generates Clinical Suggestion</p>
+              <p class="beat-narrative">MedGemma 4B produces a clinical summary. Gemma 4 E4B reasons over the evidence —
+                citing specific graph nodes, surfacing drug interactions, explaining severity with evidence bullets.</p>
+              <span class="beat-tag">reasoner.py · MedGemma 4B · Gemma 4 E4B</span>
+            </div>
+          </div>
+
+          <!-- Beat 8 — contrast block -->
+          <div class="timeline-beat reveal">
+            <div class="beat-card">
+              <div class="beat-number">Step 08</div>
+              <p class="beat-heading">Physician Reviews</p>
+              <p class="beat-narrative">The AI suggestion appears on the dashboard. The doctor reads, evaluates,
+                decides. The clinical authority never shifts. The AI never acts autonomously.</p>
+              <div class="contrast-block">
+                <div class="contrast-pill contrast-pill--ai">🤖 AI suggests</div>
+                <div class="contrast-pill contrast-pill--doctor">👨‍⚕️ Doctor decides</div>
+              </div>
+              <span class="beat-tag">dashboard · physician-in-loop</span>
+            </div>
+          </div>
+
+        </div><!-- /timeline -->
+      </div><!-- /container -->
+    </section>
+    <!-- /§2 CLINICAL EVENT -->
+
+    <!-- ============================================================
+         §3 — WHY GRAPH AI?
+         ============================================================ -->
+    <section id="why-graph" class="why-graph" aria-labelledby="why-graph-heading">
+      <div class="container">
+
+        <div class="section-intro">
+          <span class="section-label">§3 — Why Graph AI?</span>
+          <h2 id="why-graph-heading" class="section-heading">Why Graph AI?</h2>
+          <p class="section-sub">Standard AI finds relevant text. Graph AI understands causal chains — and surfaces
+            risks that aren't written anywhere.</p>
+        </div>
+
+        <!-- Two-panel comparison -->
+        <div class="compare-panels">
+
+          <!-- Standard AI panel -->
+          <div class="compare-panel">
+            <span class="compare-panel__label">Standard AI</span>
+            <p class="compare-panel__heading">Vector Search + LLM</p>
+            <div class="flow-chain">
+              <div class="flow-node">[Query]</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">[Vector Search]</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">[Text Chunks]</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">[LLM]</div>
+            </div>
+            <p class="compare-caption">Finds relevant text. Does not understand relationships.</p>
+          </div>
+
+          <!-- Graph AI panel -->
+          <div class="compare-panel compare-panel--graph">
+            <span class="compare-panel__label">Graph AI — This System</span>
+            <p class="compare-panel__heading">Graph Traversal + Contextual Reasoning</p>
+            <div class="flow-chain">
+              <div class="flow-node">[Query]</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">[Graph Traversal]</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">Metformin → Kidney Failure → Lactic Acidosis</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">[Contextual LLM Reasoning]</div>
+            </div>
+            <p class="compare-caption">Understands causal chains. Surfaces risks that aren't written anywhere.</p>
+          </div>
+
+        </div><!-- /compare-panels -->
+
+        <!-- Metformin callout chain -->
+        <div class="metformin-chain reveal">
+          <h3>Worked Example — Metformin &amp; Kidney Failure</h3>
+          <div class="flow-chain">
+            <div class="flow-node">Metformin</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-edge">causes in kidney failure</div>
+            <div class="flow-node">Reduced Creatinine Clearance</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-edge">triggers</div>
+            <div class="flow-node">Lactic Acidosis Risk</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-edge">contradicts</div>
+            <div class="flow-node flow-node--alert">⚠️ Continue Metformin? — Alert Raised</div>
+          </div>
+          <div class="graph-tech-tag">
+            <span class="beat-tag">PrimeKG</span>
+            <span class="beat-tag">drug_disease edges</span>
+            <span class="beat-tag">disease_disease edges</span>
+            <span class="beat-tag">RapidFuzz entity linking</span>
+          </div>
+        </div>
+
+        <!-- Pull-quote -->
+        <blockquote class="pull-quote">
+          "A standard chatbot sees three separate facts. This system sees a chain of causation — and raises the alert
+          before the doctor has to connect the dots."
+        </blockquote>
+
+      </div><!-- /container -->
+    </section>
+    <!-- /§3 WHY GRAPH AI -->
+
+    <!-- ============================================================
+         §4 — LAYER-BY-LAYER ARCHITECTURE
+         ============================================================ -->
+    <section id="architecture" class="architecture" aria-labelledby="arch-heading">
+      <div class="container">
+
+        <div class="section-intro">
+          <span class="section-label">§4 — Architecture</span>
+          <h2 id="arch-heading" class="section-heading">Layer-by-Layer Architecture</h2>
+          <p class="section-sub">Built bottom-up for reliability. Each layer has one responsibility — and can fail
+            independently without bringing the system down.</p>
+        </div>
+
+        <!-- Stacked layer cards — bottom-up visual metaphor -->
+        <div class="arch-stack stagger-children" role="list">
+
+          <!-- Layer 0 — Foundation -->
+          <div class="arch-layer reveal" role="listitem">
+            <div class="arch-layer__badge">Layer 0 · Foundation</div>
+            <h3 class="arch-layer__title">Data Ingestion + Patient State</h3>
+            <ul class="arch-layer__bullets">
+              <li>FHIR-format JSON parsed by <code>synthea_parser.py</code></li>
+              <li>Free-text clinical notes extracted by <code>medgemma_extractor.py</code> using MedGemma 4B</li>
+              <li>Both streams unified into a single <code>PatientState</code> dataclass</li>
+              <li>Single source of truth — all downstream layers read from here</li>
+            </ul>
+            <span class="beat-tag">synthea_parser.py · medgemma_extractor.py · PatientState</span>
+          </div>
+
+          <!-- Layer 1A — Pipeline A -->
+          <div class="arch-layer reveal" role="listitem">
+            <div class="arch-layer__badge">Layer 1A · Pipeline A</div>
+            <h3 class="arch-layer__title">Deterministic Safety + Severity Classification</h3>
+            <ul class="arch-layer__bullets">
+              <li>Rule-based vital threshold checks — MAP &lt; 65, SpO₂ &lt; 90, Lactate &gt; 4.0</li>
+              <li>Severity levels: <strong>RED / AMBER / GREEN</strong> — no probabilistic component</li>
+              <li>Fires before any AI. Critical alerts block AI inference until acknowledged</li>
+              <li>Output is a signed, tamper-evident severity object</li>
+            </ul>
+            <span class="beat-tag">severity_classifier.py · Stage 1 rules</span>
+          </div>
+
+          <!-- Layer 1B — Pipeline B -->
+          <div class="arch-layer reveal" role="listitem">
+            <div class="arch-layer__badge">Layer 1B · Pipeline B</div>
+            <h3 class="arch-layer__title">FAISS Guideline Retrieval</h3>
+            <ul class="arch-layer__bullets">
+              <li>NIH + ADA + AHA clinical guidelines indexed offline via <code>guideline_indexer.py</code></li>
+              <li>all-MiniLM-L6-v2 embeddings — 384 dimensions, cosine similarity</li>
+              <li>Top-3 most relevant guideline chunks retrieved per patient query</li>
+              <li>No network calls at inference time — fully on-premise FAISS index</li>
+            </ul>
+            <span class="beat-tag">guideline_indexer.py · FAISS · all-MiniLM-L6-v2 · top-k=3</span>
+          </div>
+
+          <!-- Layer 2 — Graph Retrieval -->
+          <div class="arch-layer reveal" role="listitem">
+            <div class="arch-layer__badge">Layer 2 · Graph Retrieval</div>
+            <h3 class="arch-layer__title">PrimeKG Subgraph Retrieval</h3>
+            <ul class="arch-layer__bullets">
+              <li>129,000 biomedical concepts and 8 million relationships (PrimeKG)</li>
+              <li>RapidFuzz entity linking maps free-text drug/disease names to graph nodes</li>
+              <li>2-hop ego subgraph extracted per condition — reveals cascading relationships</li>
+              <li>drug_disease, disease_disease, and gene_disease edge types traversed</li>
+            </ul>
+            <span class="beat-tag">subgraph_retriever.py · PrimeKG · ego_graph(radius=2) · RapidFuzz</span>
+          </div>
+
+          <!-- Layer 3 — LLM Reasoning -->
+          <div class="arch-layer reveal" role="listitem">
+            <div class="arch-layer__badge">Layer 3 · Reasoning</div>
+            <h3 class="arch-layer__title">Contextual LLM Reasoning</h3>
+            <ul class="arch-layer__bullets">
+              <li>All evidence assembled into a structured XML-tagged prompt by <code>global_kb_retriever.py</code></li>
+              <li>MedGemma 4B writes clinical summary — domain-tuned for medical language</li>
+              <li>Gemma 4 E4B reasons over graph context — cites specific nodes, surfaces interactions</li>
+              <li>Output includes: severity, drug alert flags, evidence bullets, uncertainty markers</li>
+            </ul>
+            <span class="beat-tag">reasoner.py · MedGemma 4B · Gemma 4 E4B · global_kb_retriever.py</span>
+          </div>
+
+          <!-- Layer 4 — Dashboard -->
+          <div class="arch-layer reveal" role="listitem">
+            <div class="arch-layer__badge">Layer 4 · Output</div>
+            <h3 class="arch-layer__title">Physician Dashboard</h3>
+            <ul class="arch-layer__bullets">
+              <li>FastAPI REST layer serves patient state, alerts, and AI suggestions</li>
+              <li>Real-time ward overview — severity-sorted patient grid</li>
+              <li>Detailed per-patient view with AI explanation and source traceability</li>
+              <li>Physician decision logged — AI never acts without human confirmation</li>
+            </ul>
+            <span class="beat-tag">app.py · FastAPI · physician-in-loop · audit trail</span>
+          </div>
+
+        </div><!-- /arch-stack -->
+
+        <!-- Key callout -->
+        <div class="arch-callout">
+          <div class="arch-callout__icon">⚡</div>
+          <div>
+            <p class="arch-callout__title">Key architectural property</p>
+            <p class="arch-callout__body">Layers 0 and 1A are purely deterministic. They cannot be overridden by AI
+              output. If Layer 1A fires a RED alert, the system halts AI inference and surfaces the deterministic alert
+              immediately. The probabilistic layers (1B, 2, 3) only run when the patient is stable enough to warrant
+              deeper analysis.</p>
+          </div>
+        </div>
+
+      </div><!-- /container -->
+    </section>
+    <!-- /§4 ARCHITECTURE -->
+
+    <!-- ============================================================
+         §5 — PRIMEKG GRAPH VISUALIZATION
+         ============================================================ -->
+    <section id="primekg" class="primekg-section" aria-labelledby="kg-heading">
+      <div class="container">
+
+        <div class="section-intro">
+          <span class="section-label">§5 — PrimeKG Knowledge Graph</span>
+          <h2 id="kg-heading" class="section-heading">The Biomedical Knowledge Graph</h2>
+          <p class="section-sub">An interactive slice of PrimeKG — the diabetes subgraph. Every node is a real
+            biomedical entity. Every edge is a validated relationship.</p>
+        </div>
+
+        <!-- Graph Launch Card -->
+        <div class="kg-launch-card reveal">
+          <div class="kg-launch-left">
+            <div class="kg-launch-icon">🕸️</div>
+            <div class="kg-launch-content">
+              <h3 class="kg-launch-title">Interactive Diabetes Subgraph</h3>
+              <p class="kg-launch-desc">Explore the full interactive biomedical knowledge graph for diabetes, including
+                drug interactions and disease pathways. High-density graph viewing requires a dedicated page.</p>
+            </div>
+          </div>
+          <a href="./diabetes_primekg_graph.html" target="_blank" class="kg-launch-btn">
+            Launch Graph <span aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <!-- Stat pills -->
+        <div class="kg-stats">
+          <div class="kg-stat-pill">
+            <span class="kg-stat-pill__value">129,000</span>
+            <span class="kg-stat-pill__label">Biomedical Concepts</span>
+          </div>
+          <div class="kg-stat-pill">
+            <span class="kg-stat-pill__value">8 Million</span>
+            <span class="kg-stat-pill__label">Validated Relationships</span>
+          </div>
+          <div class="kg-stat-pill">
+            <span class="kg-stat-pill__value">2-Hop</span>
+            <span class="kg-stat-pill__label">Subgraph Radius at Inference</span>
+          </div>
+        </div>
+
+        <!-- Explanation -->
+        <div class="kg-explanation reveal">
+          <p>The graph shown above is a live slice of PrimeKG filtered to the diabetes disease neighbourhood. During
+            inference, the system performs real-time graph traversal — extracting the 2-hop ego subgraph around a
+            patient's active conditions and medications. This surfaces drug interactions and disease cascades that
+            cannot be found by keyword or vector search alone.</p>
+          <div class="kg-tech-tag">
+            <span class="beat-tag">PrimeKG v1.0</span>
+            <span class="beat-tag">NetworkX ego_graph</span>
+            <span class="beat-tag">RapidFuzz entity linking</span>
+            <span class="beat-tag">Pyvis visualisation</span>
+          </div>
+        </div>
+
+      </div><!-- /container -->
+    </section>
+    <!-- /§5 PRIMEKG -->
+
+    <!-- ============================================================
+         §6 — HOW THE AI THINKS
+         ============================================================ -->
+    <section id="ai-thinking" class="ai-thinking" aria-labelledby="ai-heading">
+      <div class="container">
+
+        <div class="section-intro">
+          <span class="section-label">§6 — AI Pipeline</span>
+          <h2 id="ai-heading" class="section-heading">How the AI Thinks</h2>
+          <p class="section-sub">Seven deterministic steps. Every inference is traceable. Every suggestion is grounded
+            in evidence the physician can inspect.</p>
+        </div>
+
+        <div class="ai-chain">
+
+          <!-- Step 1 -->
+          <div class="ai-step reveal">
+            <div class="ai-step__header">
+              <span class="ai-step__number">01</span>
+              <h3 class="ai-step__title">Read Patient State</h3>
+            </div>
+            <p class="ai-step__desc">The unified <code>PatientState</code> object is read — containing parsed vitals,
+              medications, active conditions, and any free-text notes extracted by MedGemma. This is the single ground
+              truth for all subsequent reasoning.</p>
+            <span class="beat-tag">PatientState · synthea_parser · medgemma_extractor</span>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="ai-step reveal">
+            <div class="ai-step__header">
+              <span class="ai-step__number">02</span>
+              <h3 class="ai-step__title">Deterministic Safety Check</h3>
+            </div>
+            <p class="ai-step__desc">Before any LLM runs, vital thresholds are evaluated against hardcoded clinical
+              rules. MAP &lt; 65 mmHg, SpO₂ &lt; 90%, Lactate &gt; 4.0 mmol/L — each produces an immediate flagged
+              alert. This layer cannot be overridden by AI output.</p>
+            <span class="beat-tag">severity_classifier.py · Stage 1 · no-LLM</span>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="ai-step reveal">
+            <div class="ai-step__header">
+              <span class="ai-step__number">03</span>
+              <h3 class="ai-step__title">Entity Linking to PrimeKG</h3>
+            </div>
+            <p class="ai-step__desc">Each drug and disease name in the patient record is fuzzy-matched to a PrimeKG node
+              using RapidFuzz with a 85% similarity threshold. Unmatched entities are flagged and excluded — preventing
+              graph traversal on hallucinated nodes.</p>
+            <span class="beat-tag">RapidFuzz · threshold=85 · entity_linker.py</span>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="ai-step reveal">
+            <div class="ai-step__header">
+              <span class="ai-step__number">04</span>
+              <h3 class="ai-step__title">2-Hop Graph Traversal</h3>
+            </div>
+            <p class="ai-step__desc">For each linked entity, a 2-hop ego subgraph is extracted from the in-memory
+              PrimeKG NetworkX graph. Drug–disease, disease–disease, and gene–disease edges are all traversed. The
+              result is a structured list of biomedical relationships with edge-type labels.</p>
+            <span class="beat-tag">subgraph_retriever.py · ego_graph(radius=2) · NetworkX</span>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="ai-step reveal">
+            <div class="ai-step__header">
+              <span class="ai-step__number">05</span>
+              <h3 class="ai-step__title">Guideline Retrieval</h3>
+            </div>
+            <p class="ai-step__desc">In parallel, the patient's conditions are embedded and queried against the offline
+              FAISS index. The top-3 most semantically relevant clinical guideline chunks are retrieved — sourced from
+              indexed NIH, ADA, and AHA protocols.</p>
+            <span class="beat-tag">guideline_indexer.py · FAISS · top-k=3 · all-MiniLM-L6-v2</span>
+          </div>
+
+          <!-- Step 6 -->
+          <div class="ai-step reveal">
+            <div class="ai-step__header">
+              <span class="ai-step__number">06</span>
+              <h3 class="ai-step__title">Evidence Assembly + Prompt Construction</h3>
+            </div>
+            <p class="ai-step__desc">Graph context, guideline chunks, severity result, and patient vitals are merged
+              into a structured XML-tagged prompt by <code>global_kb_retriever.py</code>. Every input is labelled by
+              source — the LLM cannot conflate guideline evidence with graph evidence.</p>
+            <span class="beat-tag">global_kb_retriever.py · XML-tagged context · structured prompt</span>
+          </div>
+
+          <!-- Step 7 -->
+          <div class="ai-step reveal">
+            <div class="ai-step__header">
+              <span class="ai-step__number">07</span>
+              <h3 class="ai-step__title">LLM Inference + Traceability Output</h3>
+            </div>
+            <p class="ai-step__desc">MedGemma 4B produces the clinical language summary. Gemma 4 E4B reasons over the
+              assembled evidence — citing specific graph node names, flagging drug interactions, explaining severity
+              classification, and marking uncertain inferences explicitly.</p>
+            <span class="beat-tag">reasoner.py · MedGemma 4B · Gemma 4 E4B · citation-aware</span>
+          </div>
+
+        </div><!-- /ai-chain -->
+
+        <!-- Hallucination guard callout -->
+        <div class="hallucination-guard reveal">
+          <div class="hallucination-guard__icon">🛡️</div>
+          <div>
+            <p class="hallucination-guard__title">Hallucination Guard</p>
+            <p class="hallucination-guard__body">If entity linking fails (similarity &lt; 85%), the system does not
+              traverse the graph for that entity. If the LLM produces a drug name not present in the original patient
+              record, the dashboard flags it with an "unverified entity" marker. Graph citations are validated against
+              the actual subgraph output — any LLM claim not traceable to a retrieved edge is marked uncertain.</p>
+          </div>
+        </div>
+
+      </div><!-- /container -->
+    </section>
+    <!-- /§6 HOW THE AI THINKS -->
+
+    <!-- ============================================================
+         §7 — SAFETY + EXPLAINABILITY
+         ============================================================ -->
+    <section id="safety" class="safety-section" aria-labelledby="safety-heading">
+      <div class="container">
+
+        <div class="section-intro">
+          <span class="section-label">§7 — Safety + Explainability</span>
+          <h2 id="safety-heading" class="section-heading">Safety &amp; Explainability</h2>
+          <p class="section-sub">Two parallel systems. One deterministic — never overridable. One probabilistic — always
+            auditable. Together they ensure every clinical suggestion is both safe and explainable.</p>
+        </div>
+
+        <!-- Two-column split card -->
+        <div class="safety-split reveal">
+
+          <!-- Left: Deterministic -->
+          <div class="safety-col safety-col--deterministic">
+            <div class="safety-col__header">
+              <span class="safety-col__badge">Deterministic Layer</span>
+              <h3 class="safety-col__title">Rule-Based Safety Gates</h3>
+            </div>
+            <ul class="safety-bullets">
+              <li>MAP &lt; 65 mmHg → immediate RED alert, AI inference blocked</li>
+              <li>SpO₂ &lt; 90% → oxygen emergency flag raised before LLM runs</li>
+              <li>Lactate &gt; 4.0 mmol/L → critical metabolic alert surfaced instantly</li>
+              <li>Drug contraindications checked against a hardcoded rule set — no model inference involved</li>
+              <li>Severity classification signed as a tamper-evident object before passing downstream</li>
+              <li>All rule firings written to audit log with timestamp and threshold values</li>
+            </ul>
+            <span class="beat-tag">severity_classifier.py · Stage 1 · no-LLM</span>
+          </div>
+
+          <!-- Right: Probabilistic AI -->
+          <div class="safety-col safety-col--ai">
+            <div class="safety-col__header">
+              <span class="safety-col__badge">Probabilistic AI Layer</span>
+              <h3 class="safety-col__title">Grounded AI Assistance</h3>
+            </div>
+            <ul class="safety-bullets">
+              <li>LLM suggestions cite specific PrimeKG graph nodes by name — not paraphrased</li>
+              <li>Every drug alert traces to a retrieved drug_disease or disease_disease edge</li>
+              <li>Guideline citations tagged with source document and chunk index</li>
+              <li>Uncertain inferences explicitly marked — model instructed to surface doubt</li>
+              <li>AI never acts autonomously — output displayed for physician review only</li>
+            </ul>
+            <span class="beat-tag">reasoner.py · citation-aware · physician-in-loop</span>
+          </div>
+
+        </div><!-- /safety-split -->
+
+        <!-- Traceability table -->
+        <div class="traceability-table reveal">
+          <h3 class="traceability-table__heading">Full Traceability Chain</h3>
+          <div class="trace-row">
+            <div class="trace-row__dimension">Graph Traceability</div>
+            <div class="trace-row__detail">Every LLM mention of a drug or disease is validated against the actual
+              subgraph retrieved for that patient. Unvalidated claims are flagged with an ⚠ unverified entity marker.
+            </div>
+          </div>
+          <div class="trace-row">
+            <div class="trace-row__dimension">Explainability</div>
+            <div class="trace-row__detail">The physician sees the exact graph edges that triggered a drug alert — not a
+              black-box score. "Metformin → Kidney Failure" is shown as a named edge, not a probability.</div>
+          </div>
+          <div class="trace-row">
+            <div class="trace-row__dimension">Fallback Behaviour</div>
+            <div class="trace-row__detail">If entity linking fails (similarity &lt; 85%), the system skips graph context
+              for that entity and flags it as unlinked. The suggestion still runs but carries a reduced-confidence
+              marker.</div>
+          </div>
+          <div class="trace-row">
+            <div class="trace-row__dimension">Audit Trail</div>
+            <div class="trace-row__detail">Every inference cycle writes: patient ID, timestamp, severity result,
+              retrieved guideline chunks, subgraph node list, and AI suggestion hash. Immutable. Physician-reviewable.
+            </div>
+          </div>
+        </div><!-- /traceability-table -->
+
+      </div><!-- /container -->
+    </section>
+    <!-- /§7 SAFETY -->
+
+    <!-- ============================================================
+         §8 — FAILURE MODES + RESILIENCE
+         ============================================================ -->
+    <section id="failure-modes" class="failure-section" aria-labelledby="failure-heading">
+      <div class="container">
+
+        <div class="section-intro">
+          <span class="section-label">§8 — Failure Modes + Resilience</span>
+          <h2 id="failure-heading" class="section-heading">Failure Modes &amp; Resilience</h2>
+          <p class="section-sub">Every system fails. The question is whether it fails safely. Each failure mode below
+            has a known response — tested, documented, and logged.</p>
+        </div>
+
+        <!-- 2×3 failure grid -->
+        <div class="failure-grid stagger-children" role="list">
+
+          <div class="failure-card reveal" role="listitem">
+            <div class="failure-card__scenario">LLM Timeout or OOM</div>
+            <div class="failure-card__arrow">↓ System Response</div>
+            <div class="failure-card__response">Deterministic severity result is surfaced immediately. AI suggestion is
+              marked "unavailable — check deterministic alert". No crash. No silent failure.</div>
+          </div>
+
+          <div class="failure-card reveal" role="listitem">
+            <div class="failure-card__scenario">Entity Linking Failure</div>
+            <div class="failure-card__arrow">↓ System Response</div>
+            <div class="failure-card__response">Drug or disease name below 85% match threshold is excluded from graph
+              traversal. A "no graph context" flag is appended to the prompt. The LLM is instructed to note this
+              explicitly.</div>
+          </div>
+
+          <div class="failure-card reveal" role="listitem">
+            <div class="failure-card__scenario">FAISS Index Corrupt or Missing</div>
+            <div class="failure-card__arrow">↓ System Response</div>
+            <div class="failure-card__response">Guideline retrieval is skipped. Inference continues with graph context
+              only. No error surfaced to the physician — just a "guideline retrieval unavailable" note in the trace log.
+            </div>
+          </div>
+
+          <div class="failure-card failure-card--rose reveal" role="listitem">
+            <div class="failure-card__scenario">PrimeKG Graph Not Loaded</div>
+            <div class="failure-card__arrow">↓ System Response</div>
+            <div class="failure-card__response">System falls back to guideline-only retrieval. All drug interaction
+              alerts are suppressed and replaced with a "graph unavailable — manual review required" warning displayed
+              to the physician.</div>
+          </div>
+
+          <div class="failure-card failure-card--rose reveal" role="listitem">
+            <div class="failure-card__scenario">LLM Hallucinated Drug Name</div>
+            <div class="failure-card__arrow">↓ System Response</div>
+            <div class="failure-card__response">Post-inference validation checks all drug names in the output against
+              the original patient record. Unrecognised names are flagged with ⚠ unverified entity — never silently
+              passed to the physician.</div>
+          </div>
+
+          <div class="failure-card failure-card--amber reveal" role="listitem">
+            <div class="failure-card__scenario">FHIR Parse Error</div>
+            <div class="failure-card__arrow">↓ System Response</div>
+            <div class="failure-card__response">Partial patient state is flagged as incomplete. Severity classification
+              runs on available vitals only. AI inference is deferred until complete data arrives. A parse-failure alert
+              is shown on the dashboard.</div>
+          </div>
+
+        </div><!-- /failure-grid -->
+
+        <!-- Closing pull-quote -->
+        <blockquote class="pull-quote">
+          "A system that fails silently is more dangerous than one that fails loudly. Every failure mode here surfaces a
+          visible, traceable signal — never a clean screen that hides a broken inference."
+        </blockquote>
+
+      </div><!-- /container -->
+    </section>
+    <!-- /§8 FAILURE MODES -->
+
+    <!-- ============================================================
+         §9 — FUTURE INFRASTRUCTURE
+         ============================================================ -->
+    <section id="future" class="future-section" aria-labelledby="future-heading">
+      <div class="container">
+
+        <div class="section-intro">
+          <span class="section-label">§9 — Future Infrastructure</span>
+          <h2 id="future-heading" class="section-heading">Future Infrastructure</h2>
+          <p class="section-sub">Six directions. Each grounded in a real clinical need — not a feature wishlist. None
+            require cloud.</p>
+        </div>
+
+        <!-- 3-column desktop / single-column mobile grid -->
+        <div class="future-grid stagger-children" role="list">
+
+          <div class="future-card reveal" role="listitem">
+            <div class="future-card__horizon">Horizon 1</div>
+            <h3 class="future-card__direction">HL7 FHIR Live Feed</h3>
+            <p class="future-card__desc">Replace the static synthetic patient loader with a live HL7 FHIR R4 websocket
+              feed from real hospital EMRs. Zero change to downstream layers — the PatientState interface remains the
+              same.</p>
+          </div>
+
+          <div class="future-card reveal" role="listitem">
+            <div class="future-card__horizon">Horizon 2</div>
+            <h3 class="future-card__direction">Multi-Patient Ward Mode</h3>
+            <p class="future-card__desc">Extend the severity-sorted grid to a full ward — 12–24 patients, all processed
+              in parallel. Priority queue triggers AI inference for RED patients first. GREEN patients are polled on a
+              5-minute cadence.</p>
+          </div>
+
+          <div class="future-card reveal" role="listitem">
+            <div class="future-card__horizon">Horizon 3</div>
+            <h3 class="future-card__direction">Federated Graph Updates</h3>
+            <p class="future-card__desc">Allow hospitals to contribute local drug interaction observations to a
+              federated update layer — without sharing patient data. PrimeKG edges are weighted by local clinical
+              evidence. Privacy-preserving by design.</p>
+          </div>
+
+          <div class="future-card reveal" role="listitem">
+            <div class="future-card__horizon">Horizon 4</div>
+            <h3 class="future-card__direction">Temporal Reasoning</h3>
+            <p class="future-card__desc">Add time-series awareness to the graph traversal — tracking how a patient's
+              condition graph evolves over hours. Detecting early deterioration patterns before vitals breach threshold
+              rules.</p>
+          </div>
+
+          <div class="future-card reveal" role="listitem">
+            <div class="future-card__horizon">Horizon 5</div>
+            <h3 class="future-card__direction">Regulatory Compliance Layer</h3>
+            <p class="future-card__desc">Add a formal audit export in DICOM-SR and HL7 Clinical Document Architecture
+              format. Full inference trace, physician decision log, and uncertainty markers packaged for MDR and FDA
+              SaMD review.</p>
+          </div>
+
+          <div class="future-card reveal" role="listitem">
+            <div class="future-card__horizon">Horizon 6</div>
+            <h3 class="future-card__direction">Hardware-Optimised Inference</h3>
+            <p class="future-card__desc">Port the reasoning layer to run on a dedicated on-premise NVIDIA L40S or AMD
+              MI300X. Sub-500ms end-to-end inference. No cloud dependency. No HIPAA surface area outside the hospital
+              perimeter.</p>
+          </div>
+
+        </div><!-- /future-grid -->
+
+      </div><!-- /container -->
+    </section>
+    <!-- /§9 FUTURE -->
+
+    <!-- ============================================================
+         FOOTER
+         ============================================================ -->
+    <footer class="footer" id="footer">
+      <div class="container">
+        <div class="footer__inner">
+          <div class="footer__brand">
+            <span class="footer__name">ICU Clinical Copilot</span>
+            <span class="footer__desc">Graph-Augmented AI for Critical Care — Running Entirely On-Premise</span>
+          </div>
+          <div class="footer__tags">
+            <span class="beat-tag">On-Premise</span>
+            <span class="beat-tag">Zero Cloud</span>
+            <span class="beat-tag">PrimeKG</span>
+            <span class="beat-tag">MedGemma</span>
+            <span class="beat-tag">Physician-in-Loop</span>
+          </div>
+        </div>
+        <p class="footer__copy">Built for intensivists. Designed for trust.</p>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // ── Sidebar toggle ──────────────────────────────────────
+      const toggleBtn = document.getElementById('nav-toggle');
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+          document.body.classList.toggle('nav-collapsed');
+        });
+      }
+
+      // ── Scroll-reveal: add .visible to .reveal elements ─────
+      const revealEls = document.querySelectorAll('.reveal, .stagger-children');
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12 });
+        revealEls.forEach(el => observer.observe(el));
+      } else {
+        // Fallback: make everything visible immediately
+        revealEls.forEach(el => el.classList.add('visible'));
+      }
+
+      // ── Active nav link on scroll ────────────────────────────
+      const sections = document.querySelectorAll('section[id], footer[id]');
+      const navLinks = document.querySelectorAll('.nav__links a');
+      const onScroll = () => {
+        let current = '';
+        sections.forEach(sec => {
+          if (window.scrollY >= sec.offsetTop - 120) current = sec.id;
+        });
+        navLinks.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+        });
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+    });
+  </script>
+</body>
+
+</html>

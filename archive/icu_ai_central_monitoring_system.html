@@ -1,0 +1,525 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); background: transparent; }
+
+  .shell {
+    background: #0a0e1a;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    min-height: 820px;
+  }
+
+  .topbar {
+    background: #0d1221;
+    border-bottom: 0.5px solid rgba(255,255,255,0.08);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 16px; }
+  .logo { font-size: 14px; font-weight: 500; color: #e2e8f0; letter-spacing: 0.04em; }
+  .logo span { color: #38bdf8; }
+  .ward-badge {
+    background: rgba(56,189,248,0.1);
+    border: 0.5px solid rgba(56,189,248,0.25);
+    color: #7dd3fc;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .topbar-center { display: flex; gap: 20px; align-items: center; }
+  .stat-pill {
+    text-align: center;
+  }
+  .stat-pill .val { font-size: 18px; font-weight: 500; color: #e2e8f0; }
+  .stat-pill .lbl { font-size: 10px; color: #64748b; text-transform: uppercase; letter-spacing: 0.06em; }
+  .stat-pill.ok .val { color: #4ade80; }
+  .stat-pill.warn .val { color: #fb923c; }
+  .stat-pill.crit .val { color: #f87171; }
+  .divider { width: 0.5px; height: 28px; background: rgba(255,255,255,0.07); }
+  .topbar-right { display: flex; align-items: center; gap: 12px; }
+  .clock { font-size: 13px; color: #94a3b8; }
+  .ai-badge {
+    background: rgba(139,92,246,0.15);
+    border: 0.5px solid rgba(139,92,246,0.35);
+    color: #c4b5fd;
+    font-size: 11px; padding: 4px 10px; border-radius: 20px;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .ai-dot { width: 6px; height: 6px; background: #a78bfa; border-radius: 50%; animation: pulse 1.8s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .layout { display: grid; grid-template-columns: 1fr 260px; height: calc(100% - 53px); }
+
+  .main-area { padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+
+  .section-label {
+    font-size: 10px; color: #475569; text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+
+  .patient-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .patient-card {
+    background: #0d1221;
+    border: 0.5px solid rgba(255,255,255,0.08);
+    border-radius: var(--border-radius-md);
+    padding: 10px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    position: relative;
+  }
+  .patient-card:hover { border-color: rgba(56,189,248,0.35); }
+  .patient-card.selected { border-color: #38bdf8; background: #0f1a2e; }
+  .patient-card.critical { border-color: #f87171; background: #150d0d; animation: critblink 1s ease-in-out infinite alternate; }
+  @keyframes critblink { from{border-color:#f87171} to{border-color:rgba(248,113,113,0.35)} }
+  .patient-card.warning { border-color: #fb923c; background: #160f08; }
+
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 7px; }
+  .bed-id { font-size: 11px; font-weight: 500; color: #94a3b8; }
+  .pt-name { font-size: 13px; font-weight: 500; color: #e2e8f0; }
+  .pt-meta { font-size: 10px; color: #475569; }
+  .status-dot {
+    width: 8px; height: 8px; border-radius: 50%; margin-top: 2px;
+  }
+  .dot-stable { background: #4ade80; }
+  .dot-warning { background: #fb923c; animation: pulse 1.2s infinite; }
+  .dot-critical { background: #f87171; animation: pulse 0.6s infinite; }
+
+  .vitals-row { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: 6px; }
+  .vital {
+    background: rgba(255,255,255,0.03);
+    border-radius: 5px;
+    padding: 4px 6px;
+  }
+  .vital .v-lbl { font-size: 9px; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; }
+  .vital .v-val { font-size: 13px; font-weight: 500; color: #cbd5e1; line-height: 1.2; }
+  .vital .v-val.alert { color: #f87171; }
+  .vital .v-val.warn { color: #fb923c; }
+  .vital .v-val.ok { color: #4ade80; }
+
+  .mini-wave { height: 24px; margin-top: 6px; }
+  .mini-wave svg { width: 100%; height: 100%; }
+
+  .card-footer {
+    margin-top: 6px;
+    font-size: 9px;
+    color: #334155;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .ai-alert-strip {
+    background: rgba(248,113,113,0.07);
+    border: 0.5px solid rgba(248,113,113,0.25);
+    border-radius: var(--border-radius-md);
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .alert-icon {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: rgba(248,113,113,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; flex-shrink: 0;
+  }
+  .alert-body { flex: 1; }
+  .alert-title { font-size: 12px; font-weight: 500; color: #fca5a5; }
+  .alert-sub { font-size: 11px; color: #64748b; margin-top: 1px; }
+  .alert-time { font-size: 10px; color: #475569; }
+  .alert-btn {
+    background: rgba(248,113,113,0.12);
+    border: 0.5px solid rgba(248,113,113,0.3);
+    color: #fca5a5;
+    font-size: 10px; padding: 4px 10px;
+    border-radius: 5px; cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .ai-warn-strip {
+    background: rgba(251,146,60,0.07);
+    border: 0.5px solid rgba(251,146,60,0.22);
+    border-radius: var(--border-radius-md);
+    padding: 8px 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .alert-icon.warn-icon { background: rgba(251,146,60,0.15); }
+  .alert-title.warn-t { color: #fdba74; }
+
+  .sidebar {
+    background: #0d1221;
+    border-left: 0.5px solid rgba(255,255,255,0.07);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .sidebar-section { padding: 14px; border-bottom: 0.5px solid rgba(255,255,255,0.06); }
+  .sidebar-title { font-size: 11px; font-weight: 500; color: #94a3b8; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .ai-insight-card {
+    background: rgba(139,92,246,0.08);
+    border: 0.5px solid rgba(139,92,246,0.2);
+    border-radius: var(--border-radius-md);
+    padding: 10px;
+    margin-bottom: 8px;
+  }
+  .insight-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+  .insight-tag {
+    font-size: 9px; padding: 2px 7px; border-radius: 10px;
+    background: rgba(139,92,246,0.15); color: #c4b5fd;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .insight-tag.risk { background: rgba(248,113,113,0.15); color: #fca5a5; }
+  .insight-tag.obs { background: rgba(56,189,248,0.12); color: #7dd3fc; }
+  .insight-bed { font-size: 10px; color: #475569; }
+  .insight-text { font-size: 11px; color: #94a3b8; line-height: 1.5; }
+  .insight-action {
+    margin-top: 6px;
+    font-size: 10px;
+    color: #a78bfa;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 3px;
+  }
+
+  .trend-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 0.5px solid rgba(255,255,255,0.04); }
+  .trend-label { font-size: 11px; color: #64748b; }
+  .trend-val { font-size: 12px; font-weight: 500; color: #cbd5e1; }
+  .trend-arrow { font-size: 11px; }
+  .up { color: #f87171; }
+  .down { color: #4ade80; }
+  .flat { color: #94a3b8; }
+
+  .staff-row { display: flex; align-items: center; gap: 8px; padding: 5px 0; }
+  .avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 500; flex-shrink: 0;
+  }
+  .av1 { background: rgba(56,189,248,0.15); color: #7dd3fc; }
+  .av2 { background: rgba(74,222,128,0.12); color: #86efac; }
+  .av3 { background: rgba(251,146,60,0.12); color: #fdba74; }
+  .staff-info .s-name { font-size: 11px; color: #94a3b8; }
+  .staff-info .s-role { font-size: 10px; color: #334155; }
+  .staff-badge {
+    margin-left: auto; font-size: 9px; padding: 2px 7px;
+    border-radius: 10px;
+  }
+  .s-on { background: rgba(74,222,128,0.1); color: #4ade80; }
+  .s-rsp { background: rgba(248,113,113,0.1); color: #f87171; }
+
+  .mini-chart-area { height: 70px; background: rgba(255,255,255,0.02); border-radius: 5px; overflow: hidden; }
+
+  .chat-input-row {
+    padding: 10px 14px;
+    display: flex; gap: 6px;
+    border-top: 0.5px solid rgba(255,255,255,0.06);
+    margin-top: auto;
+  }
+  .ai-chat-input {
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    border: 0.5px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 7px 10px;
+    font-size: 11px;
+    color: #94a3b8;
+  }
+  .send-btn {
+    background: rgba(139,92,246,0.2);
+    border: 0.5px solid rgba(139,92,246,0.35);
+    color: #c4b5fd;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 11px;
+  }
+</style>
+
+<h2 class="sr-only">Agentic AI ICU Central Monitoring System — shows real-time patient vitals for 8 ICU beds with AI-generated alerts and clinical insights in a sidebar</h2>
+
+<div class="shell">
+
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="logo"><span>neuro</span>watch AI</span>
+      <span class="ward-badge">ICU Ward — Block A</span>
+    </div>
+    <div class="topbar-center">
+      <div class="stat-pill ok"><div class="val">5</div><div class="lbl">Stable</div></div>
+      <div class="divider"></div>
+      <div class="stat-pill warn"><div class="val">2</div><div class="lbl">Watch</div></div>
+      <div class="divider"></div>
+      <div class="stat-pill crit"><div class="val">1</div><div class="lbl">Critical</div></div>
+      <div class="divider"></div>
+      <div class="stat-pill"><div class="val" style="color:#94a3b8">8</div><div class="lbl">Total Beds</div></div>
+    </div>
+    <div class="topbar-right">
+      <div class="ai-badge"><div class="ai-dot"></div>AI Agent Active</div>
+      <span class="clock" id="clock">—</span>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div class="main-area">
+
+      <div class="section-label">Patient Bed Overview</div>
+
+      <div class="patient-grid">
+
+        <div class="patient-card critical">
+          <div class="card-header">
+            <div><div class="bed-id">Bed 01</div><div class="pt-name">R. Müller</div><div class="pt-meta">M, 67 · Post-cardiac</div></div>
+            <div class="status-dot dot-critical"></div>
+          </div>
+          <div class="vitals-row">
+            <div class="vital"><div class="v-lbl">HR</div><div class="v-val alert">118 bpm</div></div>
+            <div class="vital"><div class="v-lbl">SpO₂</div><div class="v-val alert">89%</div></div>
+            <div class="vital"><div class="v-lbl">BP</div><div class="v-val warn">158/102</div></div>
+            <div class="vital"><div class="v-lbl">Temp</div><div class="v-val warn">38.9°C</div></div>
+          </div>
+          <div class="mini-wave">
+            <svg viewBox="0 0 120 24" preserveAspectRatio="none"><polyline points="0,12 10,12 14,4 18,20 22,12 32,12 36,4 40,20 44,12 54,12 58,2 62,22 66,12 76,12 80,6 84,18 88,12 98,12 102,4 106,20 110,12 120,12" fill="none" stroke="#f87171" stroke-width="1.5"/></svg>
+          </div>
+          <div class="card-footer"><span>RR: 22/min</span><span>EWS: 7</span></div>
+        </div>
+
+        <div class="patient-card warning">
+          <div class="card-header">
+            <div><div class="bed-id">Bed 02</div><div class="pt-name">S. Patel</div><div class="pt-meta">F, 54 · Sepsis</div></div>
+            <div class="status-dot dot-warning"></div>
+          </div>
+          <div class="vitals-row">
+            <div class="vital"><div class="v-lbl">HR</div><div class="v-val warn">102 bpm</div></div>
+            <div class="vital"><div class="v-lbl">SpO₂</div><div class="v-val ok">95%</div></div>
+            <div class="vital"><div class="v-lbl">BP</div><div class="v-val warn">92/60</div></div>
+            <div class="vital"><div class="v-lbl">Temp</div><div class="v-val warn">39.2°C</div></div>
+          </div>
+          <div class="mini-wave">
+            <svg viewBox="0 0 120 24" preserveAspectRatio="none"><polyline points="0,12 8,12 12,5 16,19 20,12 28,12 32,5 36,19 40,12 50,12 54,5 58,19 62,12 72,12 76,5 80,19 84,12 94,12 98,5 102,19 106,12 120,12" fill="none" stroke="#fb923c" stroke-width="1.5"/></svg>
+          </div>
+          <div class="card-footer"><span>RR: 19/min</span><span>EWS: 5</span></div>
+        </div>
+
+        <div class="patient-card selected">
+          <div class="card-header">
+            <div><div class="bed-id">Bed 03</div><div class="pt-name">L. Fischer</div><div class="pt-meta">M, 45 · Trauma</div></div>
+            <div class="status-dot dot-stable"></div>
+          </div>
+          <div class="vitals-row">
+            <div class="vital"><div class="v-lbl">HR</div><div class="v-val ok">76 bpm</div></div>
+            <div class="vital"><div class="v-lbl">SpO₂</div><div class="v-val ok">98%</div></div>
+            <div class="vital"><div class="v-lbl">BP</div><div class="v-val ok">122/78</div></div>
+            <div class="vital"><div class="v-lbl">Temp</div><div class="v-val ok">37.1°C</div></div>
+          </div>
+          <div class="mini-wave">
+            <svg viewBox="0 0 120 24" preserveAspectRatio="none"><polyline points="0,12 10,12 14,6 18,18 22,12 32,12 36,6 40,18 44,12 54,12 58,6 62,18 66,12 76,12 80,6 84,18 88,12 98,12 102,6 106,18 110,12 120,12" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg>
+          </div>
+          <div class="card-footer"><span>RR: 15/min</span><span>EWS: 1</span></div>
+        </div>
+
+        <div class="patient-card">
+          <div class="card-header">
+            <div><div class="bed-id">Bed 04</div><div class="pt-name">K. Weber</div><div class="pt-meta">F, 72 · Pneumonia</div></div>
+            <div class="status-dot dot-stable"></div>
+          </div>
+          <div class="vitals-row">
+            <div class="vital"><div class="v-lbl">HR</div><div class="v-val ok">82 bpm</div></div>
+            <div class="vital"><div class="v-lbl">SpO₂</div><div class="v-val ok">96%</div></div>
+            <div class="vital"><div class="v-lbl">BP</div><div class="v-val ok">130/84</div></div>
+            <div class="vital"><div class="v-lbl">Temp</div><div class="v-val ok">37.5°C</div></div>
+          </div>
+          <div class="mini-wave">
+            <svg viewBox="0 0 120 24" preserveAspectRatio="none"><polyline points="0,12 10,12 13,7 17,17 21,12 31,12 34,7 38,17 42,12 52,12 55,7 59,17 63,12 73,12 76,7 80,17 84,12 94,12 97,7 101,17 105,12 120,12" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg>
+          </div>
+          <div class="card-footer"><span>RR: 17/min</span><span>EWS: 2</span></div>
+        </div>
+
+        <div class="patient-card">
+          <div class="card-header">
+            <div><div class="bed-id">Bed 05</div><div class="pt-name">A. Becker</div><div class="pt-meta">M, 58 · Post-op</div></div>
+            <div class="status-dot dot-stable"></div>
+          </div>
+          <div class="vitals-row">
+            <div class="vital"><div class="v-lbl">HR</div><div class="v-val ok">71 bpm</div></div>
+            <div class="vital"><div class="v-lbl">SpO₂</div><div class="v-val ok">97%</div></div>
+            <div class="vital"><div class="v-lbl">BP</div><div class="v-val ok">118/75</div></div>
+            <div class="vital"><div class="v-lbl">Temp</div><div class="v-val ok">36.8°C</div></div>
+          </div>
+          <div class="mini-wave">
+            <svg viewBox="0 0 120 24" preserveAspectRatio="none"><polyline points="0,12 10,12 13,8 17,16 21,12 31,12 34,8 38,16 42,12 52,12 55,8 59,16 63,12 73,12 76,8 80,16 84,12 94,12 97,8 101,16 105,12 120,12" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg>
+          </div>
+          <div class="card-footer"><span>RR: 14/min</span><span>EWS: 1</span></div>
+        </div>
+
+        <div class="patient-card">
+          <div class="card-header">
+            <div><div class="bed-id">Bed 06</div><div class="pt-name">T. Nguyen</div><div class="pt-meta">F, 39 · ARDS</div></div>
+            <div class="status-dot dot-stable"></div>
+          </div>
+          <div class="vitals-row">
+            <div class="vital"><div class="v-lbl">HR</div><div class="v-val ok">88 bpm</div></div>
+            <div class="vital"><div class="v-lbl">SpO₂</div><div class="v-val ok">97%</div></div>
+            <div class="vital"><div class="v-lbl">BP</div><div class="v-val ok">115/72</div></div>
+            <div class="vital"><div class="v-lbl">Temp</div><div class="v-val ok">37.3°C</div></div>
+          </div>
+          <div class="mini-wave">
+            <svg viewBox="0 0 120 24" preserveAspectRatio="none"><polyline points="0,12 10,12 13,8 17,16 21,12 31,12 34,8 38,16 42,12 52,12 55,8 59,16 63,12 73,12 76,8 80,16 84,12 94,12 97,8 101,16 105,12 120,12" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg>
+          </div>
+          <div class="card-footer"><span>RR: 16/min</span><span>EWS: 2</span></div>
+        </div>
+
+        <div class="patient-card warning">
+          <div class="card-header">
+            <div><div class="bed-id">Bed 07</div><div class="pt-name">H. Schneider</div><div class="pt-meta">M, 61 · Stroke</div></div>
+            <div class="status-dot dot-warning"></div>
+          </div>
+          <div class="vitals-row">
+            <div class="vital"><div class="v-lbl">HR</div><div class="v-val ok">79 bpm</div></div>
+            <div class="vital"><div class="v-lbl">SpO₂</div><div class="v-val warn">93%</div></div>
+            <div class="vital"><div class="v-lbl">BP</div><div class="v-val warn">162/98</div></div>
+            <div class="vital"><div class="v-lbl">Temp</div><div class="v-val ok">37.0°C</div></div>
+          </div>
+          <div class="mini-wave">
+            <svg viewBox="0 0 120 24" preserveAspectRatio="none"><polyline points="0,12 8,12 12,7 16,17 20,12 28,12 32,7 36,17 40,12 50,12 54,7 58,17 62,12 72,12 76,7 80,17 84,12 94,12 98,7 102,17 106,12 120,12" fill="none" stroke="#fb923c" stroke-width="1.5"/></svg>
+          </div>
+          <div class="card-footer"><span>RR: 18/min</span><span>EWS: 4</span></div>
+        </div>
+
+        <div class="patient-card">
+          <div class="card-header">
+            <div><div class="bed-id">Bed 08</div><div class="pt-name">M. Hoffmann</div><div class="pt-meta">F, 50 · Renal</div></div>
+            <div class="status-dot dot-stable"></div>
+          </div>
+          <div class="vitals-row">
+            <div class="vital"><div class="v-lbl">HR</div><div class="v-val ok">68 bpm</div></div>
+            <div class="vital"><div class="v-lbl">SpO₂</div><div class="v-val ok">99%</div></div>
+            <div class="vital"><div class="v-lbl">BP</div><div class="v-val ok">124/80</div></div>
+            <div class="vital"><div class="v-lbl">Temp</div><div class="v-val ok">36.9°C</div></div>
+          </div>
+          <div class="mini-wave">
+            <svg viewBox="0 0 120 24" preserveAspectRatio="none"><polyline points="0,12 10,12 13,8 17,16 21,12 31,12 34,8 38,16 42,12 52,12 55,8 59,16 63,12 73,12 76,8 80,16 84,12 94,12 97,8 101,16 105,12 120,12" fill="none" stroke="#4ade80" stroke-width="1.5"/></svg>
+          </div>
+          <div class="card-footer"><span>RR: 13/min</span><span>EWS: 0</span></div>
+        </div>
+
+      </div>
+
+      <div class="section-label" style="margin-top:4px">AI Agent Notifications</div>
+
+      <div class="ai-alert-strip">
+        <div class="alert-icon">⚠</div>
+        <div class="alert-body">
+          <div class="alert-title">Critical — Bed 01 · R. Müller: SpO₂ drop + tachycardia pattern detected</div>
+          <div class="alert-sub">AI identified 94% probability of acute decompensation. SpO₂ trending from 94% → 89% over 12 min alongside HR 118 bpm. Suggests respiratory intervention.</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0">
+          <span class="alert-time">2 min ago</span>
+          <button class="alert-btn" onclick="sendPrompt('Show me more AI analysis for Bed 01 patient R. Müller — critical SpO2 drop and tachycardia')">Review ↗</button>
+        </div>
+      </div>
+
+      <div class="ai-warn-strip">
+        <div class="alert-icon warn-icon">↑</div>
+        <div class="alert-body">
+          <div class="alert-title warn-t">Watch — Bed 02 · S. Patel: Sepsis score rising (qSOFA: 2)</div>
+          <div class="alert-sub">AI flagged early sepsis trajectory. BP 92/60 + fever 39.2°C + tachycardia. Recommend blood culture and lactate check within 30 min.</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0">
+          <span class="alert-time">8 min ago</span>
+          <button class="alert-btn" style="background:rgba(251,146,60,0.1);border-color:rgba(251,146,60,0.3);color:#fdba74" onclick="sendPrompt('Show sepsis protocol recommendation for Bed 02 patient S. Patel')">Review ↗</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="sidebar">
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">AI Clinical Insights</div>
+        <div class="ai-insight-card">
+          <div class="insight-header">
+            <span class="insight-tag risk">High Risk</span>
+            <span class="insight-bed">Bed 01</span>
+          </div>
+          <div class="insight-text">Waveform morphology shows P-wave irregularity. Possible AF onset. Cross-referenced with patient's cardiac history.</div>
+          <div class="insight-action" onclick="sendPrompt('Explain the AF risk analysis for Bed 01 and what action should be taken')">View analysis ↗</div>
+        </div>
+        <div class="ai-insight-card" style="background:rgba(56,189,248,0.05);border-color:rgba(56,189,248,0.15);">
+          <div class="insight-header">
+            <span class="insight-tag obs">Observation</span>
+            <span class="insight-bed">Bed 07</span>
+          </div>
+          <div class="insight-text">Systolic BP trending up over 3hr shift. Current 162/98. Neuro vitals stable but elevated pressure warrants check.</div>
+          <div class="insight-action" style="color:#7dd3fc" onclick="sendPrompt('Provide BP trend analysis for Bed 07 stroke patient H. Schneider')">View trend ↗</div>
+        </div>
+        <div class="ai-insight-card" style="background:rgba(74,222,128,0.04);border-color:rgba(74,222,128,0.12);">
+          <div class="insight-header">
+            <span class="insight-tag" style="background:rgba(74,222,128,0.1);color:#86efac">Positive</span>
+            <span class="insight-bed">Bed 03</span>
+          </div>
+          <div class="insight-text">L. Fischer vitals stable for 6hr. AI recommends consideration for step-down to HDU based on EWS trend.</div>
+          <div class="insight-action" style="color:#86efac" onclick="sendPrompt('Generate step-down readiness report for Bed 03 patient L. Fischer')">Generate report ↗</div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">Ward Trends (6hr)</div>
+        <div class="trend-row"><span class="trend-label">Avg HR</span><span class="trend-val">88 bpm</span><span class="trend-arrow up">↑</span></div>
+        <div class="trend-row"><span class="trend-label">Avg SpO₂</span><span class="trend-val">95.4%</span><span class="trend-arrow down">↓</span></div>
+        <div class="trend-row"><span class="trend-label">Alarm load</span><span class="trend-val">14 events</span><span class="trend-arrow up">↑</span></div>
+        <div class="trend-row"><span class="trend-label">Avg EWS</span><span class="trend-val">2.8</span><span class="trend-arrow flat">→</span></div>
+        <div class="trend-row" style="border:none"><span class="trend-label">Interventions</span><span class="trend-val">3</span><span class="trend-arrow flat">→</span></div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">On-Duty Staff</div>
+        <div class="staff-row">
+          <div class="avatar av1">DR</div>
+          <div class="staff-info"><div class="s-name">Dr. K. Richter</div><div class="s-role">Attending</div></div>
+          <span class="staff-badge s-on">On ward</span>
+        </div>
+        <div class="staff-row">
+          <div class="avatar av2">NM</div>
+          <div class="staff-info"><div class="s-name">N. Meier RN</div><div class="s-role">Head Nurse</div></div>
+          <span class="staff-badge s-rsp">Responding</span>
+        </div>
+        <div class="staff-row">
+          <div class="avatar av3">DT</div>
+          <div class="staff-info"><div class="s-name">Dr. A. Torres</div><div class="s-role">Resident</div></div>
+          <span class="staff-badge s-on">On ward</span>
+        </div>
+      </div>
+
+      <div class="chat-input-row">
+        <input class="ai-chat-input" placeholder="Ask AI agent... e.g. 'who needs attention now?'" id="aiInput" onkeydown="if(event.key==='Enter'&&this.value.trim()){sendPrompt(this.value.trim());this.value=''}" />
+        <button class="send-btn" onclick="var i=document.getElementById('aiInput');if(i.value.trim()){sendPrompt(i.value.trim());i.value=''}">↗</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  function tick() {
+    const now = new Date();
+    const s = now.toLocaleTimeString('de-DE', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    document.getElementById('clock').textContent = s + ' · Sun 26 Apr';
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  document.querySelectorAll('.patient-card').forEach(card => {
+    card.addEventListener('click', function() {
+      document.querySelectorAll('.patient-card').forEach(c => c.classList.remove('selected'));
+      this.classList.add('selected');
+    });
+  });
+</script>

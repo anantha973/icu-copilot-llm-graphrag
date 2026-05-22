@@ -1,0 +1,10 @@
+ICU Progress Note — Wanda Harris, 70y F, Bed 9B
+
+S: Patient admitted with Congestive heart failure, Chronic kidney disease stage 3. Hemodynamically stable. Family updated regarding prognosis.
+
+O: Vitals — MAP 78 mmHg, HR 80 bpm, SpO2 96%, RR 18, Temp 36.7°C.
+Labs — BNP: 380, Creatinine: 1.6, Potassium: 4.5, Sodium: 136.
+
+A: Congestive heart failure, Chronic kidney disease stage 3. Severity: moderate, monitored closely.
+
+P: Continue Furosemide, Lisinopril, Carvedilol. Wean supplemental oxygen as tolerated. Reassess q4h. Multidisciplinary team review at 08:00.

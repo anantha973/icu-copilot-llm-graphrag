@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICU Clinical Copilot: Architecture Overview</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #fdfbf7;        /* Soft cream */
+            --text-main: #3a3532;       /* Deep earthy grey-brown */
+            --text-light: #6e665e;      /* Muted taupe */
+            --accent-green: #bdd1c5;    /* Pastel sage */
+            --accent-sand: #ebdcb2;     /* Warm sand */
+            --accent-terra: #e8bfae;    /* Soft terracotta */
+            --accent-blue: #c2d3e4;     /* Dusty blue */
+            --border-color: #e5ded5;    /* Light taupe border */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            font-family: 'Lora', serif;
+            font-size: 3rem;
+            color: var(--text-main);
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            font-weight: 300;
+        }
+
+        /* DIAGRAM STYLES */
+        .diagram-container {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(58, 53, 50, 0.05);
+            margin-bottom: 60px;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .diagram-title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+            color: var(--text-main);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .layer {
+            display: flex;
+            align-items: stretch;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .layer:last-child {
+            margin-bottom: 0;
+        }
+
+        .layer-label {
+            flex: 0 0 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-right: 20px;
+            text-align: right;
+            border-right: 3px dashed var(--border-color);
+            margin-right: 30px;
+        }
+
+        .layer-label h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .layer-label span {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        .layer-content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .node {
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 120px;
+        }
+
+        .node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.06);
+        }
+
+        .node h4 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .node p {
+            font-size: 0.85rem;
+            color: rgba(0,0,0,0.6);
+            line-height: 1.4;
+        }
+
+        .tech-tag {
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            background: #fff;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--text-light);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Pastel Colors for Nodes */
+        .bg-sand { background-color: var(--accent-sand); border: 1px solid #dcd1af; }
+        .bg-green { background-color: var(--accent-green); border: 1px solid #a9bfae; }
+        .bg-blue { background-color: var(--accent-blue); border: 1px solid #aebfd0; }
+        .bg-terra { background-color: var(--accent-terra); border: 1px solid #d4a997; }
+
+        /* CONTENT SECTIONS */
+        .section-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 900px) {
+            .section-grid { grid-template-columns: 1fr; }
+            .layer { flex-direction: column; }
+            .layer-label { text-align: left; border-right: none; border-bottom: 3px dashed var(--border-color); padding-bottom: 15px; margin-right: 0; margin-bottom: 20px; flex: auto;}
+        }
+
+        .content-box {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(58, 53, 50, 0.04);
+            border: 1px solid var(--border-color);
+        }
+
+        h2 {
+            font-family: 'Lora', serif;
+            font-size: 2rem;
+            color: var(--text-main);
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--accent-sand);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+
+        ul {
+            list-style-type: none;
+            margin-bottom: 20px;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 12px;
+            color: var(--text-light);
+        }
+
+        ul li::before {
+            content: '🌿';
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-size: 0.9rem;
+        }
+
+        .highlight {
+            background-color: var(--accent-sand);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        /* Data flow arrows between layers (Desktop only) */
+        .flow-arrow {
+            text-align: center;
+            color: var(--border-color);
+            font-size: 24px;
+            margin: -10px 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* QUERY FLOWCHART */
+        .query-flow {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            background: #ffffff;
+            padding: 30px 20px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .flow-step {
+            flex: 1;
+            min-width: 140px;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-num {
+            width: 36px;
+            height: 36px;
+            background: var(--accent-terra);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin: 0 auto 12px auto;
+            border: 2px solid #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .flow-step h4 {
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .flow-step p {
+            font-size: 0.8rem;
+            line-height: 1.4;
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        .flow-arrow-horizontal {
+            color: var(--accent-sand);
+            font-size: 24px;
+            flex-shrink: 0;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .query-flow {
+                flex-direction: column;
+                align-items: center;
+            }
+            .flow-arrow-horizontal {
+                transform: rotate(90deg);
+                margin: 15px 0;
+            }
+        }
+        /* NEW SECTIONS STYLES */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px solid var(--border-color);
+        }
+        
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        th {
+            background-color: var(--bg-color);
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Collapsible Elements */
+        details {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            transition: all 0.3s ease;
+        }
+
+        details:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+
+        summary {
+            padding: 20px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--text-main);
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--text-light);
+            transition: transform 0.3s ease;
+        }
+
+        details[open] summary::after {
+            content: '−';
+            transform: rotate(180deg);
+        }
+
+        .details-content {
+            padding: 0 20px 20px 20px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 10px;
+            padding-top: 20px;
+            color: var(--text-light);
+        }
+
+        /* Timeline Styles */
+        .timeline {
+            position: relative;
+            max-width: 100%;
+            margin: 40px 0;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--accent-sand);
+            border-radius: 4px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -37px;
+            top: 5px;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            border: 4px solid var(--accent-terra);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .timeline-time {
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .timeline-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+
+        /* Severity Colors */
+        .severity-red { color: #d9534f; font-weight: bold; }
+        .severity-amber { color: #f0ad4e; font-weight: bold; }
+        .severity-green { color: #5cb85c; font-weight: bold; }
+
+        .tag-red { background: #feebeb; color: #d9534f; border: 1px solid #fbd2d2; }
+        .tag-amber { background: #fdf5e6; color: #f0ad4e; border: 1px solid #fce8c7; }
+        .tag-green { background: #eef8f0; color: #5cb85c; border: 1px solid #d4ecd8; }
+        .tag-blue { background: #eaf1f8; color: #428bca; border: 1px solid #d1e1f1; }
+
+        .status-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        /* Interactive Hover Cards */
+        .hover-card {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+            border-bottom: 1px dashed var(--text-light);
+        }
+
+        .hover-card .tooltip {
+            visibility: hidden;
+            width: 250px;
+            background-color: var(--text-main);
+            color: #fff;
+            text-align: left;
+            border-radius: 8px;
+            padding: 15px;
+            position: absolute;
+            z-index: 100;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -125px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.85rem;
+            font-weight: 400;
+            line-height: 1.5;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .hover-card .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -8px;
+            border-width: 8px;
+            border-style: solid;
+            border-color: var(--text-main) transparent transparent transparent;
+        }
+
+        .hover-card:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Animated Data Flow */
+        .animated-arrow {
+            display: inline-block;
+            animation: moveArrow 2s infinite linear;
+            color: var(--accent-terra);
+            font-weight: bold;
+        }
+
+        @keyframes moveArrow {
+            0% { transform: translateX(0); opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { transform: translateX(10px); opacity: 0.2; }
+        }
+
+        /* ICU Dark Mode Section */
+        .icu-dark-section {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 40px;
+            border-radius: 24px;
+            margin-bottom: 60px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+            border: 1px solid #333;
+        }
+
+        .icu-dark-section h2, .icu-dark-section h3 {
+            color: #fff;
+            border-color: #444;
+        }
+
+        .icu-dark-section .content-box {
+            background-color: #252526;
+            border: 1px solid #3e3e42;
+            color: #ccc;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+.icu-dark-section p, .icu-dark-section li {
+            color: #b0b0b0;
+        }
+
+        /* DASHBOARD LAYOUT */
+        .sidebar {
+            width: 280px;
+            background: #ffffff;
+            border-right: 1px solid var(--border-color);
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 100;
+        }
+
+        .sidebar.collapsed {
+            width: 80px;
+            padding: 30px 10px;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+
+        .sidebar-header h2 {
+            font-family: 'Lora', serif;
+            font-size: 1.2rem;
+            margin: 0;
+            border: none;
+            padding: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            transition: opacity 0.3s;
+        }
+
+        .sidebar.collapsed .sidebar-header h2 {
+            opacity: 0;
+            width: 0;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .toggle-btn:hover {
+            background: var(--bg-color);
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex: 1;
+        }
+
+        .nav-links li {
+            padding: 0;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .nav-links li::before {
+            display: none;
+        }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            background: var(--bg-color);
+            color: var(--text-main);
+        }
+
+        .nav-links a.active {
+            background: var(--accent-sand);
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            margin-right: 15px;
+            min-width: 24px;
+            text-align: center;
+        }
+
+        .sidebar.collapsed .nav-text {
+            display: none;
+        }
+
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px;
+            background: var(--bg-color);
+        }
+
+        .page {
+            display: none;
+            max-width: 1100px;
+            margin: 0 auto;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>ICU Copilot</h2>
+            <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="active" onclick="showPage('overview', this)"><span class="nav-icon">📊</span><span class="nav-text">System Overview</span></a></li>
+            <li><a href="#" onclick="showPage('clinical', this)"><span class="nav-icon">⚕️</span><span class="nav-text">Clinical Workflows</span></a></li>
+            <li><a href="#" onclick="showPage('data', this)"><span class="nav-icon">🔄</span><span class="nav-text">Data Architecture</span></a></li>
+            <li><a href="#" onclick="showPage('decision', this)"><span class="nav-icon">⚖️</span><span class="nav-text">Decision Engine</span></a></li>
+            <li><a href="#" onclick="showPage('timeline', this)"><span class="nav-icon">⏱️</span><span class="nav-text">Fallbacks & Timeline</span></a></li>
+            <li><a href="#" onclick="showPage('xai', this)"><span class="nav-icon">🧠</span><span class="nav-text">Explainable AI</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <!-- Overview Page -->
+        <div id="page-overview" class="page active">
+            <header style="margin-bottom: 40px; text-align: left;">
+                <h1>ICU Clinical Copilot</h1>
+        <p class="subtitle">An architectural overview of local-first, AI-driven healthcare infrastructure.</p>
+            </header>
+            
+    <!-- ARCHITECTURE DIAGRAM -->
+    <div class="diagram-container">
+        <div class="diagram-title">System Architecture Flow</div>
+
+        <!-- Layer 1 -->
+        <div class="layer">
+            <div class="layer-label">
+                <h3>Foundation</h3>
+                <span>Layer 1: Raw Data</span>
+            </div>
+            <div class="layer-content">
+                <div class="node bg-sand">
+                    <span class="tech-tag">CSV / DB</span>
+                    <h4>PrimeKG Dataset</h4>
+                    <p>100k+ global medical relationships (Drugs, Diseases, Genes).</p>
+                </div>
+                <div class="node bg-sand">
+                    <span class="tech-tag">PDF / FAISS</span>
+                    <h4>Clinical Guidelines</h4>
+                    <p>Hospital protocols and Sepsis/ICU intervention manuals.</p>
+                </div>
+                <div class="node bg-sand">
+                    <span class="tech-tag">FHIR / JSON</span>
+                    <h4>Electronic Medical Records</h4>
+                    <p>Real-time patient vitals, active medications, and lab results.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flow-arrow">⬇</div>
+
+        <!-- Layer 2 -->
+        <div class="layer">
+            <div class="layer-label">
+                <h3>Processing</h3>
+                <span>Layer 2: Engine</span>
+            </div>
+            <div class="layer-content">
+                <div class="node bg-green">
+                    <span class="tech-tag">NetworkX / PyVis</span>
+                    <h4>Graph Builder Engine</h4>
+                    <p>Fuses EMR data with PrimeKG to build isolated, patient-specific knowledge graphs.</p>
+                </div>
+                <div class="node bg-green">
+                    <span class="tech-tag">MiniLM / LangChain</span>
+                    <h4>Vector Indexer</h4>
+                    <p>Chunks and converts text guidelines into mathematical embeddings for semantic search.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flow-arrow">⬇</div>
+
+        <!-- Layer 3 -->
+        <div class="layer">
+            <div class="layer-label">
+                <h3>Intelligence</h3>
+                <span>Layer 3: AI Core</span>
+            </div>
+            <div class="layer-content">
+                <div class="node bg-blue">
+                    <span class="tech-tag">llama.cpp / GGUF</span>
+                    <h4>Local Clinical LLMs</h4>
+                    <p>MedGemma (4B) and Gemma-4. Generates clinical narratives securely on-premise without internet.</p>
+                </div>
+                <div class="node bg-blue">
+                    <span class="tech-tag">Python / Heuristics</span>
+                    <h4>Severity Classifier</h4>
+                    <p>Rule-based engine running deterministic checks (e.g., MAP &lt; 65) to assign RED/AMBER/GREEN scores.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flow-arrow">⬇</div>
+
+        <!-- Layer 4 -->
+        <div class="layer">
+            <div class="layer-label">
+                <h3>Presentation</h3>
+                <span>Layer 4: UI Cockpit</span>
+            </div>
+            <div class="layer-content">
+                <div class="node bg-terra">
+                    <span class="tech-tag">FastAPI / WebSockets</span>
+                    <h4>Async Backend API</h4>
+                    <p>High-speed central router pushing real-time state and LLM streaming to the client.</p>
+                </div>
+                <div class="node bg-terra">
+                    <span class="tech-tag">React / Streamlit</span>
+                    <h4>Physician Dashboard</h4>
+                    <p>Interactive "Cockpit" UI displaying vitals, interactive 3D graphs, and the AI chat interface.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- EXPLANATIONS -->
+    <div class="section-grid">
+        <!-- Technical Concepts -->
+        <div class="content-box">
+            <h2>Core Concepts Explained</h2>
+            
+            <h3>GraphRAG (Graph-guided RAG)</h3>
+            <p>Traditional AI searches for matching text documents (Standard RAG). <span class="highlight">GraphRAG</span> is smarter: it navigates a web of relationships. If a patient takes Metformin, the AI travels along a mathematical edge to find that it treats Diabetes, and checks for contraindications automatically.</p>
+
+            <h3>Vector Indexing (FAISS)</h3>
+            <p>Medical guidelines are long PDFs. We use <span class="highlight">Vector Embeddings</span> to turn sentences into coordinates in space. When the AI needs to know about "Low blood pressure protocols," it mathematically finds the closest matching paragraph instantly using FAISS.</p>
+
+            <h3>Local LLMs & On-Premise AI</h3>
+            <p>Hospitals cannot legally send patient data to OpenAI or Google due to HIPAA. We use <span class="highlight">Quantized Local Models</span> (like MedGemma inside a GGUF file). These are compressed "brains" that run entirely on the hospital's local laptop/server hardware.</p>
+
+            <h3>NetworkX & PyVis</h3>
+            <p><span class="highlight">NetworkX</span> is the invisible engine mapping the mathematical nodes and edges. <span class="highlight">PyVis</span> is the renderer that turns those invisible math equations into the beautiful, physics-driven floating bubbles you see on the dashboard.</p>
+        </div>
+
+        <!-- Thought Process & How to Build -->
+        <div class="content-box">
+            <h2>The Thought Process</h2>
+            <p>The goal was to build a system that is <strong>Trustworthy, Secure, and Instant</strong>.</p>
+            <ul>
+                <li><strong>Trust:</strong> Doctors don't trust black-box AI. By grounding the AI in a visual Knowledge Graph (PrimeKG) and citing exact hospital PDFs, the AI proves its reasoning.</li>
+                <li><strong>Security:</strong> By enforcing a strictly local architecture (Layer 3), no patient data ever touches the internet.</li>
+                <li><strong>Separation of Concerns:</strong> The 4-layer architecture ensures that if the LLM fails, the rule-based Severity Classifier (Layer 3) and raw Vitals display (Layer 4) remain 100% functional.</li>
+            </ul>
+
+            <h2>How to Build This</h2>
+            <p>Building this requires a step-by-step pipeline approach:</p>
+            <ul>
+                <li><strong>Step 1 (Data Prep):</strong> Download PrimeKG (CSV) and chunk your hospital PDFs using Python's LangChain. Store them in a local FAISS index.</li>
+                <li><strong>Step 2 (Graph Construction):</strong> Write a Python script using <code>pandas</code> to find all rows matching your patient's symptoms. Connect them using <code>networkx</code>.</li>
+                <li><strong>Step 3 (AI Binding):</strong> Load a `.gguf` language model via <code>llama.cpp</code>. Write a prompt that injects the Graph text and the FAISS text <em>before</em> asking the AI to diagnose.</li>
+                <li><strong>Step 4 (The Web Server):</strong> Wrap everything in <code>FastAPI</code>. Expose endpoints like <code>/api/patient/123</code> that return the AI's response to a beautiful frontend.</li>
+            </ul>
+        </div>
+    </div>
+
+    
+    <!-- REAL-WORLD EXAMPLE: DOCTOR QUERY -->
+    <div class="content-box" style="margin-bottom: 60px;">
+        <h2>The AI in Action: A Clinical Query</h2>
+        <p>What exactly happens under the hood when a doctor asks the Copilot a complex question? Let's trace the data flow using a real-world diabetes scenario.</p>
+        
+        <div style="background: var(--bg-color); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin: 25px 0;">
+            <strong style="color: #c96b52;">Doctor's Query:</strong> <em>"The patient has Type 2 Diabetes and their latest labs show acute kidney injury (creatinine 2.5 mg/dL). Should I increase their Metformin dose to control their spiking glucose?"</em>
+        </div>
+
+        <div class="query-flow">
+            <!-- Flowchart Nodes -->
+            <div class="flow-step">
+                <div class="step-num">1</div>
+                <h4>Query Reception</h4>
+                <p>The <strong>FastAPI Backend</strong> receives the text.</p>
+            </div>
+            <div class="flow-arrow-horizontal">➔</div>
+            
+            <div class="flow-step">
+                <div class="step-num">2</div>
+                <h4>Graph Extraction</h4>
+                <p>The system queries <strong>PrimeKG</strong>. It finds: <code>[Metformin] ➔ [Contraindicates] ➔ [Kidney Injury]</code>.</p>
+            </div>
+            <div class="flow-arrow-horizontal">➔</div>
+            
+            <div class="flow-step">
+                <div class="step-num">3</div>
+                <h4>Guideline Retrieval</h4>
+                <p><strong>FAISS</strong> searches hospital PDFs and retrieves the specific creatinine safety protocol.</p>
+            </div>
+            <div class="flow-arrow-horizontal">➔</div>
+            
+            <div class="flow-step">
+                <div class="step-num">4</div>
+                <h4>LLM Synthesis</h4>
+                <p><strong>MedGemma (4B)</strong> reads the graph data and the PDF data securely on local hardware.</p>
+            </div>
+            <div class="flow-arrow-horizontal">➔</div>
+            
+            <div class="flow-step">
+                <div class="step-num">5</div>
+                <h4>Final Output</h4>
+                <p>The AI warns the doctor and suggests alternatives on the <strong>Dashboard</strong>.</p>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 40px;">The Step-by-Step Breakdown</h3>
+        <ul style="margin-top: 15px;">
+            <li><strong>Step 1 (Intent & Entity Recognition):</strong> The system identifies key medical entities in the question: <em>"Type 2 Diabetes"</em>, <em>"Acute Kidney Injury (AKI)"</em>, and <em>"Metformin"</em>.</li>
+            <li><strong>Step 2 (The Knowledge Graph - PrimeKG):</strong> Instead of guessing, the AI looks at the patient's personalized mathematical graph. It finds the node for <strong>Metformin</strong> and sees a bright red mathematical edge labeled <code>contraindicates</code> pointing directly to <strong>Renal Failure / AKI</strong>. The graph proves that Metformin is dangerous here because failing kidneys cannot clear the drug from the body safely.</li>
+            <li><strong>Step 3 (Vector Search - FAISS):</strong> The AI needs official hospital policy to back up the graph. It converts the query into a mathematical vector and searches the hospital's indexed PDF guidelines. It retrieves a specific paragraph from the <em>ICU Endocrine Protocol</em>: "Discontinue Metformin immediately if Creatinine > 1.5 mg/dL due to risk of lactic acidosis."</li>
+            <li><strong>Step 4 (Prompt Construction):</strong> A hidden super-prompt is built locally behind the scenes:<br>
+            <div style="background: #f4f0ea; padding: 10px 15px; border-radius: 8px; margin: 10px 0; font-family: monospace; font-size: 0.85rem; color: #5a524a;">
+            Context 1 (Graph): Metformin contraindicates AKI.<br>
+            Context 2 (PDF): Stop Metformin if Creatinine > 1.5.<br>
+            Task: Answer the doctor safely using only this context.
+            </div>
+            </li>
+            <li><strong>Step 5 (Inference - MedGemma):</strong> The local 4-billion parameter model reads the strict context. It generates the final response: <br><br>
+            <em style="color: #c95b4f; font-weight: 500;">"CRITICAL WARNING: Do not increase Metformin. The Knowledge Graph indicates Metformin is contraindicated in Acute Kidney Injury. Furthermore, hospital guidelines state Metformin must be discontinued when Creatinine exceeds 1.5 mg/dL (Patient is at 2.5 mg/dL) due to high risk of lactic acidosis. Consider switching to an insulin sliding scale for glucose control."</em></li>
+        </ul>
+    </div>
+
+    
+        </div>
+
+        <!-- Clinical Workflows Page -->
+        <div id="page-clinical" class="page">
+    <!-- 1. CLINICAL WORKFLOW POV -->
+    <div class="content-box" style="margin-bottom: 60px;">
+        <h2>1. Clinical Workflow POV: Event-by-Event Architecture</h2>
+        <p>This is the <strong>REAL architecture</strong>. Understand the system through the lens of a clinical event: "What happens from the moment a patient problem occurs?"</p>
+        
+        <details>
+            <summary>Case Study: DKA (Diabetic Ketoacidosis) Detection</summary>
+            <div class="details-content">
+                <div class="query-flow">
+                    <div class="flow-step"><div class="step-num bg-terra">1</div><h4>Monitor Detects</h4><p>Glucose rises > 350 mg/dL, pH drops &lt; 7.3</p></div>
+                    <div class="flow-arrow-horizontal animated-arrow">➔</div>
+                    <div class="flow-step"><div class="step-num">2</div><h4>EMR Updates</h4><p>FHIR JSON payload generated</p></div>
+                    <div class="flow-arrow-horizontal animated-arrow">➔</div>
+                    <div class="flow-step"><div class="step-num">3</div><h4>Backend Triggers</h4><p>FastAPI async event fires</p></div>
+                    <div class="flow-arrow-horizontal animated-arrow">➔</div>
+                    <div class="flow-step"><div class="step-num">4</div><h4>Severity Engine</h4><p>Rules trigger RED alert</p></div>
+                    <div class="flow-arrow-horizontal animated-arrow">➔</div>
+                    <div class="flow-step"><div class="step-num bg-green">5</div><h4>Graph Updates</h4><p>PyVis dynamically links Glucose ↔ Ketones</p></div>
+                    <div class="flow-arrow-horizontal animated-arrow">➔</div>
+                    <div class="flow-step"><div class="step-num bg-blue">6</div><h4>AI Reasoning</h4><p>Local LLM drafts insulin/fluids plan</p></div>
+                    <div class="flow-arrow-horizontal animated-arrow">➔</div>
+                    <div class="flow-step"><div class="step-num">7</div><h4>Dashboard</h4><p>UI renders actionable alert</p></div>
+                </div>
+            </div>
+        </details>
+
+        <details>
+            <summary>Case Study: Severe Hypoglycemia Emergency</summary>
+            <div class="details-content">
+                <p><strong>Trigger:</strong> CGM reads glucose &lt; 50 mg/dL.</p>
+                <ul>
+                    <li><strong>Backend Actions:</strong> Immediate websocket broadcast (bypass AI for speed).</li>
+                    <li><strong>Rule Engine:</strong> Triggers deterministic critical alarm (D50 IV protocol).</li>
+                    <li><strong>Graph Engine:</strong> Maps recent insulin doses to current blood sugar drop.</li>
+                    <li><strong>Outcome:</strong> Flashing visual alert to nurses' station within 200ms.</li>
+                </ul>
+            </div>
+        </details>
+
+        <details>
+            <summary>Case Study: AKI + Metformin Contraindication</summary>
+            <div class="details-content">
+                <p><strong>Trigger:</strong> New lab result: Creatinine 2.5 mg/dL.</p>
+                <ul>
+                    <li><strong>Graph Updates:</strong> Edge connects [Patient] ➔ [AKI]. Existing edge: [Patient] ➔ [Metformin].</li>
+                    <li><strong>Vector Retrieval:</strong> FAISS retrieves "Metformin lactic acidosis risk in renal failure".</li>
+                    <li><strong>AI Reasoning:</strong> LLM synthesizes graph intersection and flags drug interaction.</li>
+                    <li><strong>Outcome:</strong> Physician sees blocked medication warning before prescribing next dose.</li>
+                </ul>
+            </div>
+        </details>
+        
+        <details>
+            <summary>Case Study: Steroid-induced Hyperglycemia</summary>
+            <div class="details-content">
+                <p><strong>Trigger:</strong> Dexamethasone administered.</p>
+                <ul>
+                    <li><strong>Graph Updates:</strong> Connects Dexamethasone to expected glucose spike.</li>
+                    <li><strong>AI Reasoning:</strong> Anticipates rising insulin requirement; suggests proactive sliding scale adjustment.</li>
+                </ul>
+            </div>
+        </details>
+    </div>
+
+    
+        </div>
+
+        <!-- Data Architecture Page -->
+        <div id="page-data" class="page">
+    <!-- 2. DATA FLOW ARCHITECTURE -->
+    <div class="content-box" style="margin-bottom: 60px;">
+        <h2>2. Data Flow Architecture</h2>
+        <p>Where does the data travel? Understanding the pipeline from hardware to AI inference.</p>
+        
+        <div class="layer">
+            <div class="layer-label">
+                <h3>Edge Devices</h3>
+                <span>Streaming Data</span>
+            </div>
+            <div class="layer-content">
+                <div class="node bg-sand"><span class="tech-tag">HL7 / Serial</span><h4>Bedside Monitor</h4><p>Heart rate, BP, SpO2 (1Hz stream)</p></div>
+                <div class="node bg-sand"><span class="tech-tag">Bluetooth/API</span><h4>CGM &amp; Pump</h4><p>Continuous Glucose, Insulin basal rates</p></div>
+            </div>
+        </div>
+        <div class="flow-arrow animated-arrow">⬇</div>
+        <div class="layer">
+            <div class="layer-label">
+                <h3>Ingestion</h3>
+                <span>Structured Data</span>
+            </div>
+            <div class="layer-content">
+                <div class="node bg-green"><span class="tech-tag">FHIR</span><h4>EMR Server</h4><p>Labs, Demographics, Historicals</p></div>
+                <div class="node bg-green"><span class="tech-tag">FastAPI</span><h4>Async Backend</h4><p>Validates and normalizes payloads</p></div>
+            </div>
+        </div>
+        <div class="flow-arrow animated-arrow">⬇</div>
+        <div class="layer">
+            <div class="layer-label">
+                <h3>Intelligence</h3>
+                <span>AI Context Data</span>
+            </div>
+            <div class="layer-content">
+                <div class="node bg-blue"><span class="tech-tag">FAISS</span><h4>Vector Retrieval</h4><p>Extracts guideline embeddings</p></div>
+                <div class="node bg-blue"><span class="tech-tag">NetworkX</span><h4>Graph Engine</h4><p>Traverses PrimeKG medical relations</p></div>
+                <div class="node bg-blue"><span class="tech-tag">llama.cpp</span><h4>Local LLM Inference</h4><p>Generates text based on vector+graph context</p></div>
+            </div>
+        </div>
+        <div class="flow-arrow animated-arrow">⬇</div>
+        <div class="layer">
+            <div class="layer-label">
+                <h3>Client</h3>
+                <span>Rendering</span>
+            </div>
+            <div class="layer-content">
+                <div class="node bg-terra"><span class="tech-tag">WebSockets</span><h4>Real-time Stream</h4><p>Pushes UI updates without polling</p></div>
+                <div class="node bg-terra"><span class="tech-tag">React/Streamlit</span><h4>Dashboard Rendering</h4><p>Paints 3D graphs and alerts</p></div>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- 7. INFRASTRUCTURE & DEPLOYMENT -->
+    <div class="content-box" style="margin-bottom: 60px;">
+        <h2>7. Infrastructure & Deployment Architecture</h2>
+        <p>The DevOps and hardware reality of running on-premise hospital AI.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Component</th>
+                    <th>Runs On</th>
+                    <th>Resource Allocation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Local LLM (MedGemma)</strong></td>
+                    <td>Local GPU Server / Apple Silicon</td>
+                    <td>~8GB VRAM (Q4_K_M GGUF format)</td>
+                </tr>
+                <tr>
+                    <td><strong>FAISS Vector Store</strong></td>
+                    <td>Local NVMe SSD</td>
+                    <td>High IOPS, ~2GB RAM mapped</td>
+                </tr>
+                <tr>
+                    <td><strong>FastAPI / Python Backend</strong></td>
+                    <td>Hospital Edge Server</td>
+                    <td>CPU optimized, multi-worker uvicorn</td>
+                </tr>
+                <tr>
+                    <td><strong>WebSockets (Concurrency)</strong></td>
+                    <td>Redis Pub/Sub Backplane</td>
+                    <td>Handles 1000+ simultaneous telemetry streams</td>
+                </tr>
+                <tr>
+                    <td><strong>Security Boundary</strong></td>
+                    <td>Hospital VLAN</td>
+                    <td>Air-gapped from internet, strict firewall rules</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    
+        </div>
+
+        <!-- Decision Engine Page -->
+        <div id="page-decision" class="page">
+    <!-- 3. DECISION RESPONSIBILITY LAYER -->
+    <div class="content-box" style="margin-bottom: 60px;">
+        <h2>3. Decision Responsibility Layer</h2>
+        <p>In medical systems, "Who makes the decision?" is critical. Not everything is AI.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Situation</th>
+                    <th>Decision Maker</th>
+                    <th>Mechanism</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Glucose > 400 mg/dL</td>
+                    <td><span class="status-tag tag-red">Deterministic Rules</span></td>
+                    <td>If/Else logic engine. Zero latency.</td>
+                </tr>
+                <tr>
+                    <td>Insulin Dosing Suggestion</td>
+                    <td><span class="status-tag tag-blue">AI-Assisted</span></td>
+                    <td>LLM suggests based on FAISS guidelines, requires MD approval.</td>
+                </tr>
+                <tr>
+                    <td>Final Medication Order</td>
+                    <td><span class="status-tag tag-green">Physician Only</span></td>
+                    <td>Human-in-the-loop requirement. E-signature.</td>
+                </tr>
+                <tr>
+                    <td>Blocked Unsafe Action (AKI + Metformin)</td>
+                    <td><span class="status-tag tag-amber">Graph Hard-Stop</span></td>
+                    <td>Knowledge graph constraint physically blocks UI submission.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    
+    <!-- 8. EVENT-DRIVEN SYSTEM THINKING -->
+    <div class="content-box" style="margin-bottom: 60px;">
+        <h2>8. Event-Driven System Thinking: How Hospital AI Actually Thinks</h2>
+        <p>The system does not "poll" every 5 minutes. It is purely <strong>Event-Driven</strong>.</p>
+        <ul>
+            <li><strong>State Transitions:</strong> The ICU Copilot exists in discrete states (Normal, Warning, Critical). Transitions only happen upon <em>events</em> (e.g., lab result arrives).</li>
+            <li><strong>Asynchronous Triggers:</strong> A heart rate anomaly triggers a localized Python asyncio task, which does not block the UI from receiving glucose updates.</li>
+            <li><strong>Alert Escalation Chains:</strong> If a <span class="status-tag tag-amber">Warning</span> is not acknowledged in UI within 15 minutes, it elevates to <span class="status-tag tag-red">Critical</span> and triggers an SMS gateway API.</li>
+            <li><strong>Temporal Reasoning:</strong> The graph holds history. "Glucose is 180" means nothing. "Glucose was 80, now 180 in 20 minutes" triggers an aggressive rate-of-change event.</li>
+        </ul>
+    </div>
+
+    
+        </div>
+
+        <!-- Timeline & Fallbacks Page -->
+        <div id="page-timeline" class="page">
+    <!-- 4. FAILURE MODE ANALYSIS -->
+    <div class="icu-dark-section">
+        <h2>4. Failure Mode Analysis (Fallbacks)</h2>
+        <p>How real ICU systems are engineered: "What if this layer fails?"</p>
+        <div class="section-grid">
+            <div class="content-box">
+                <h3 class="severity-red">Component: Local LLM Crashes</h3>
+                <p><strong>Impact:</strong> Natural language summaries stop.</p>
+                <p><strong>Fallback:</strong> System reverts to <em>Safe-Mode Rules Engine</em>. Basic text alerts ("High Glucose") continue firing. UI grays out AI chat window.</p>
+            </div>
+            <div class="content-box">
+                <h3 class="severity-amber">Component: WebSocket Disconnects</h3>
+                <p><strong>Impact:</strong> Real-time streaming halts.</p>
+                <p><strong>Fallback:</strong> Client switches to HTTP Long-Polling. UI displays <span class="status-tag tag-amber">"Degraded Connection"</span> banner.</p>
+            </div>
+            <div class="content-box">
+                <h3 class="severity-green">Component: FAISS Retrieval Fails</h3>
+                <p><strong>Impact:</strong> Guidelines unavailable for RAG.</p>
+                <p><strong>Fallback:</strong> LLM appends: <em>"Warning: Operating without guideline vector context."</em> Relies entirely on structured EMR/Graph data.</p>
+            </div>
+            <div class="content-box">
+                <h3 class="severity-red">Component: Monitor Data Corrupted</h3>
+                <p><strong>Impact:</strong> Erratic vitals (e.g. HR = 999).</p>
+                <p><strong>Fallback:</strong> Anomaly detection layer drops frame. AI inference paused until 3 stable frames received.</p>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- 5. PATIENT TIMELINE SIMULATION -->
+    <div class="content-box" style="margin-bottom: 60px;">
+        <h2>5. Patient Timeline Simulation</h2>
+        <p>How does the architecture behave over time? Memory, state, and event loops for a Diabetes ICU patient.</p>
+        
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-time">08:00 AM</div>
+                <div class="timeline-content">
+                    <h4>Glucose Spike Detected</h4>
+                    <p>Sensor reads 320 mg/dL. <span class="status-tag tag-red">Rule Engine Alert</span> triggered.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">09:00 AM</div>
+                <div class="timeline-content">
+                    <h4>Intervention</h4>
+                    <p>IV Insulin administered. Graph updates to include <code>[Insulin IV]</code> node.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">10:00 AM</div>
+                <div class="timeline-content">
+                    <h4>Electrolyte Shift</h4>
+                    <p>Potassium drops to 3.2 mEq/L (Insulin drives K+ into cells).</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">11:00 AM</div>
+                <div class="timeline-content">
+                    <h4>AI Anticipation</h4>
+                    <p>Graph identifies <code>[Hypokalemia] ➔ [Arrhythmia Risk]</code>. AI generates early warning to supplement potassium.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">12:00 PM</div>
+                <div class="timeline-content">
+                    <h4>Physician Action</h4>
+                    <p>K+ IV rider ordered. Patient stabilized. Dashboard returns to <span class="status-tag tag-green">Green State</span>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+        </div>
+
+        <!-- Explainable AI Page -->
+        <div id="page-xai" class="page">
+    <!-- 6. EXPLAINABLE AI SECTION -->
+    <div class="content-box" style="margin-bottom: 60px;">
+        <h2>6. Explainable AI (XAI) Lens</h2>
+        <p>In healthcare, doctors must know <em>WHY</em> the AI said something. Explainability is built into the response payload.</p>
+        <div style="background: #f4f0ea; padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
+            <h4>AI Recommendation: "Hold Metformin"</h4>
+            <ul style="margin-top: 15px;">
+                <li><span class="hover-card"><strong>Graph Evidence</strong><span class="tooltip">Path: Metformin ➔ contraindicates ➔ Renal Impairment</span></span>: Edge #442 found in PrimeKG.</li>
+                <li><span class="hover-card"><strong>Guideline Evidence</strong><span class="tooltip">PDF: ICU_Endocrine_V4.pdf, Page 12, Paragraph 3</span></span>: Extracted via FAISS vector match (Cosine Similarity 0.92).</li>
+                <li><span class="hover-card"><strong>Lab Evidence</strong><span class="tooltip">EMR pull at 10:45 AM</span></span>: Creatinine = 2.5 mg/dL.</li>
+                <li><span class="hover-card"><strong>Confidence Score</strong><span class="tooltip">Calculated based on evidence density and LLM logprobs</span></span>: <strong>98%</strong></li>
+            </ul>
+        </div>
+    </div>
+
+    
+    <!-- 10. TRACE THIS QUERY -->
+<div class="icu-dark-section">
+        <h2>10. "Trace This Query" Interactive Walkthrough</h2>
+        <p><strong>Scenario:</strong> Patient glucose rises rapidly from 180 ➔ 420 mg/dL.</p>
+        
+        <div class="query-flow" style="background: transparent; border: none; color: #fff;">
+            <div class="flow-step">
+                <div class="step-num" style="background: #111; color: #fff; border-color: #555;">T:0s</div>
+                <h4 style="color:#fff;">Hardware Trigger</h4>
+                <p style="color:#aaa;">CGM pushes 420 value over API.</p>
+            </div>
+            <div class="flow-arrow-horizontal" style="color: #555;">➔</div>
+            <div class="flow-step">
+                <div class="step-num" style="background: #111; color: #fff; border-color: #555;">T:50ms</div>
+                <h4 style="color:#fff;">Rule Engine</h4>
+                <p style="color:#aaa;">Value > 400 trips deterministic RED flag.</p>
+            </div>
+            <div class="flow-arrow-horizontal" style="color: #555;">➔</div>
+            <div class="flow-step">
+                <div class="step-num" style="background: #111; color: #fff; border-color: #555;">T:150ms</div>
+                <h4 style="color:#fff;">Vector Retrieval</h4>
+                <p style="color:#aaa;">FAISS pulls DKA treatment protocol.</p>
+            </div>
+            <div class="flow-arrow-horizontal" style="color: #555;">➔</div>
+            <div class="flow-step">
+                <div class="step-num" style="background: #111; color: #fff; border-color: #555;">T:800ms</div>
+                <h4 style="color:#fff;">AI Inference</h4>
+                <p style="color:#aaa;">Local LLM streams insulin drip recommendation.</p>
+            </div>
+            <div class="flow-arrow-horizontal" style="color: #555;">➔</div>
+            <div class="flow-step">
+                <div class="step-num" style="background: #d9534f; color: #fff; border-color: #d9534f;">T:1.2s</div>
+                <h4 style="color:#fff;">Physician Alert</h4>
+                <p style="color:#aaa;">UI flashes red, sounding audible alarm.</p>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </main>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        }
+
+        function showPage(pageId, element) {
+            // Remove active from links
+            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+            element.classList.add('active');
+
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            
+            // Show target page
+            document.getElementById('page-' + pageId).classList.add('active');
+        }
+    </script>
+</body>\n</html>\n

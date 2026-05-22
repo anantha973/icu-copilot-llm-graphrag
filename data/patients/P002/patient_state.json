@@ -1,0 +1,371 @@
+{
+  "patient_id": "P002",
+  "scenario": "cap_pneumonia",
+  "demographics": {
+    "name": "Lindsey Black",
+    "age": 68,
+    "sex": "F",
+    "bed": "1B",
+    "admission_date": "2026-05-05T16:04:09.452396",
+    "weight_kg": 83.0
+  },
+  "conditions": [
+    {
+      "name": "Community-acquired pneumonia",
+      "icd_code": "J18.9",
+      "status": "active"
+    },
+    {
+      "name": "Respiratory failure",
+      "icd_code": "J96.01",
+      "status": "active"
+    },
+    {
+      "name": "COPD",
+      "icd_code": "J44.1",
+      "status": "chronic"
+    }
+  ],
+  "medications": [
+    {
+      "name": "Ceftriaxone",
+      "dose": "2g daily",
+      "route": "IV",
+      "indication": "CAP"
+    },
+    {
+      "name": "Azithromycin",
+      "dose": "500 mg daily",
+      "route": "IV",
+      "indication": "Atypical coverage"
+    },
+    {
+      "name": "Dexamethasone",
+      "dose": "6 mg daily",
+      "route": "IV",
+      "indication": "COVID/CAP"
+    },
+    {
+      "name": "Ipratropium-albuterol",
+      "dose": "3 mL q4h",
+      "route": "Nebulizer",
+      "indication": "COPD exacerbation"
+    }
+  ],
+  "lab_results": [
+    {
+      "test": "WBC",
+      "value": 16.14,
+      "unit": "10^3/uL",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T10:04:09.452401"
+    },
+    {
+      "test": "CRP",
+      "value": 184.1,
+      "unit": "mg/L",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T11:04:09.452404"
+    },
+    {
+      "test": "Procalcitonin",
+      "value": 4.06,
+      "unit": "ng/mL",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T11:04:09.452407"
+    },
+    {
+      "test": "Lactate",
+      "value": 2.16,
+      "unit": "mmol/L",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T10:04:09.452409"
+    },
+    {
+      "test": "PaO2",
+      "value": 60.2,
+      "unit": "mmHg",
+      "flag": "LOW",
+      "timestamp": "2026-05-07T14:04:09.452412"
+    },
+    {
+      "test": "Creatinine",
+      "value": 1.17,
+      "unit": "mg/dL",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T15:04:09.452414"
+    },
+    {
+      "test": "Hemoglobin",
+      "value": 12.65,
+      "unit": "g/dL",
+      "flag": "LOW",
+      "timestamp": "2026-05-07T13:04:09.452417"
+    }
+  ],
+  "vitals_latest": {
+    "MAP": 72.94,
+    "HR": 98.94,
+    "SpO2": 95.98,
+    "RR": 24.01,
+    "Temp": 39.01,
+    "SBP": 106.5,
+    "DBP": 62.98
+  },
+  "vitals_timeseries": [
+    {
+      "timestamp": "2026-05-06T16:04:09.452423",
+      "MAP": 72.4,
+      "HR": 103.7,
+      "SpO2": 95.3,
+      "RR": 24.2,
+      "Temp": 39.8,
+      "SBP": 104.9,
+      "DBP": 62.7
+    },
+    {
+      "timestamp": "2026-05-06T17:04:09.452423",
+      "MAP": 71.3,
+      "HR": 102.0,
+      "SpO2": 96.9,
+      "RR": 40.6,
+      "Temp": 40.7,
+      "SBP": 103.9,
+      "DBP": 60.2
+    },
+    {
+      "timestamp": "2026-05-06T18:04:09.452423",
+      "MAP": 74.1,
+      "HR": 97.5,
+      "SpO2": 93.9,
+      "RR": 39.8,
+      "Temp": 40.4,
+      "SBP": 107.5,
+      "DBP": 59.5
+    },
+    {
+      "timestamp": "2026-05-06T19:04:09.452423",
+      "MAP": 74.3,
+      "HR": 106.6,
+      "SpO2": 90.6,
+      "RR": 41.2,
+      "Temp": 40.6,
+      "SBP": 104.5,
+      "DBP": 61.6
+    },
+    {
+      "timestamp": "2026-05-06T20:04:09.452423",
+      "MAP": 72.3,
+      "HR": 105.6,
+      "SpO2": 96.4,
+      "RR": 40.1,
+      "Temp": 40.5,
+      "SBP": 112.2,
+      "DBP": 63.4
+    },
+    {
+      "timestamp": "2026-05-06T21:04:09.452423",
+      "MAP": 70.1,
+      "HR": 102.7,
+      "SpO2": 93.3,
+      "RR": 39.7,
+      "Temp": 42.0,
+      "SBP": 104.4,
+      "DBP": 60.0
+    },
+    {
+      "timestamp": "2026-05-06T22:04:09.452423",
+      "MAP": 71.4,
+      "HR": 102.3,
+      "SpO2": 97.2,
+      "RR": 41.7,
+      "Temp": 38.1,
+      "SBP": 108.9,
+      "DBP": 64.7
+    },
+    {
+      "timestamp": "2026-05-06T23:04:09.452423",
+      "MAP": 71.0,
+      "HR": 105.6,
+      "SpO2": 96.2,
+      "RR": 42.7,
+      "Temp": 39.5,
+      "SBP": 106.9,
+      "DBP": 63.5
+    },
+    {
+      "timestamp": "2026-05-07T00:04:09.452423",
+      "MAP": 74.7,
+      "HR": 107.1,
+      "SpO2": 98.1,
+      "RR": 41.7,
+      "Temp": 40.1,
+      "SBP": 104.8,
+      "DBP": 60.9
+    },
+    {
+      "timestamp": "2026-05-07T01:04:09.452423",
+      "MAP": 71.4,
+      "HR": 100.0,
+      "SpO2": 93.6,
+      "RR": 40.5,
+      "Temp": 38.9,
+      "SBP": 105.0,
+      "DBP": 64.7
+    },
+    {
+      "timestamp": "2026-05-07T02:04:09.452423",
+      "MAP": 69.6,
+      "HR": 106.2,
+      "SpO2": 92.2,
+      "RR": 39.3,
+      "Temp": 41.0,
+      "SBP": 106.2,
+      "DBP": 64.3
+    },
+    {
+      "timestamp": "2026-05-07T03:04:09.452423",
+      "MAP": 74.8,
+      "HR": 100.9,
+      "SpO2": 98.7,
+      "RR": 43.0,
+      "Temp": 42.8,
+      "SBP": 108.7,
+      "DBP": 60.1
+    },
+    {
+      "timestamp": "2026-05-07T04:04:09.452423",
+      "MAP": 71.0,
+      "HR": 106.0,
+      "SpO2": 95.4,
+      "RR": 41.3,
+      "Temp": 38.9,
+      "SBP": 102.8,
+      "DBP": 61.8
+    },
+    {
+      "timestamp": "2026-05-07T05:04:09.452423",
+      "MAP": 71.6,
+      "HR": 102.8,
+      "SpO2": 91.2,
+      "RR": 42.0,
+      "Temp": 42.5,
+      "SBP": 107.6,
+      "DBP": 62.3
+    },
+    {
+      "timestamp": "2026-05-07T06:04:09.452423",
+      "MAP": 71.1,
+      "HR": 100.6,
+      "SpO2": 96.7,
+      "RR": 42.2,
+      "Temp": 41.0,
+      "SBP": 108.1,
+      "DBP": 60.1
+    },
+    {
+      "timestamp": "2026-05-07T07:04:09.452423",
+      "MAP": 74.1,
+      "HR": 103.4,
+      "SpO2": 91.5,
+      "RR": 40.9,
+      "Temp": 39.8,
+      "SBP": 110.4,
+      "DBP": 58.4
+    },
+    {
+      "timestamp": "2026-05-07T08:04:09.452423",
+      "MAP": 73.1,
+      "HR": 104.5,
+      "SpO2": 94.6,
+      "RR": 43.4,
+      "Temp": 40.3,
+      "SBP": 106.0,
+      "DBP": 62.5
+    },
+    {
+      "timestamp": "2026-05-07T09:04:09.452423",
+      "MAP": 75.3,
+      "HR": 104.6,
+      "SpO2": 96.2,
+      "RR": 41.8,
+      "Temp": 41.2,
+      "SBP": 111.4,
+      "DBP": 60.1
+    },
+    {
+      "timestamp": "2026-05-07T10:04:09.452423",
+      "MAP": 75.5,
+      "HR": 97.7,
+      "SpO2": 91.8,
+      "RR": 42.2,
+      "Temp": 39.7,
+      "SBP": 105.3,
+      "DBP": 59.8
+    },
+    {
+      "timestamp": "2026-05-07T11:04:09.452423",
+      "MAP": 71.8,
+      "HR": 98.0,
+      "SpO2": 94.1,
+      "RR": 42.7,
+      "Temp": 42.1,
+      "SBP": 103.1,
+      "DBP": 61.6
+    },
+    {
+      "timestamp": "2026-05-07T12:04:09.452423",
+      "MAP": 74.7,
+      "HR": 104.3,
+      "SpO2": 98.1,
+      "RR": 41.9,
+      "Temp": 41.5,
+      "SBP": 112.3,
+      "DBP": 62.8
+    },
+    {
+      "timestamp": "2026-05-07T13:04:09.452423",
+      "MAP": 72.3,
+      "HR": 98.7,
+      "SpO2": 90.8,
+      "RR": 42.3,
+      "Temp": 38.9,
+      "SBP": 104.6,
+      "DBP": 58.7
+    },
+    {
+      "timestamp": "2026-05-07T14:04:09.452423",
+      "MAP": 71.9,
+      "HR": 102.3,
+      "SpO2": 91.1,
+      "RR": 40.3,
+      "Temp": 39.7,
+      "SBP": 102.5,
+      "DBP": 61.6
+    },
+    {
+      "timestamp": "2026-05-07T15:04:09.452423",
+      "MAP": 77.1,
+      "HR": 101.4,
+      "SpO2": 92.7,
+      "RR": 41.3,
+      "Temp": 40.6,
+      "SBP": 110.1,
+      "DBP": 58.4
+    }
+  ],
+  "procedures": [
+    {
+      "name": "Central venous catheter",
+      "timestamp": "2026-05-05T16:04:09.452396"
+    },
+    {
+      "name": "Urinary catheter",
+      "timestamp": "2026-05-05T16:04:09.452396"
+    }
+  ],
+  "expected_severity": "AMBER",
+  "raw_notes": [
+    "ICU Progress Note \u2014 Lindsey Black, 68y F, Bed 1B\n\nS: Patient admitted with Community-acquired pneumonia, Respiratory failure. Hemodynamically stable. Family updated regarding prognosis.\n\nO: Vitals \u2014 MAP 72 mmHg, HR 102 bpm, SpO2 93%, RR 24, Temp 38.5\u00b0C.\nLabs \u2014 WBC: 16.8, CRP: 186, Procalcitonin: 3.8, Lactate: 2.1.\n\nA: Community-acquired pneumonia, Respiratory failure. Severity: moderate, monitored closely.\n\nP: Continue Ceftriaxone, Azithromycin, Dexamethasone. Wean supplemental oxygen as tolerated. Reassess q4h. Multidisciplinary team review at 08:00."
+  ]
+}

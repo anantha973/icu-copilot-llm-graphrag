@@ -1,0 +1,351 @@
+{
+  "patient_id": "P011",
+  "scenario": "stroke_rehab",
+  "demographics": {
+    "name": "Jack Jones",
+    "age": 72,
+    "sex": "M",
+    "bed": "6A",
+    "admission_date": "2026-05-02T16:04:09.457102",
+    "weight_kg": 96.6
+  },
+  "conditions": [
+    {
+      "name": "Ischemic stroke",
+      "icd_code": "I63.9",
+      "status": "active"
+    },
+    {
+      "name": "Hypertension",
+      "icd_code": "I10",
+      "status": "chronic"
+    },
+    {
+      "name": "Dysphagia",
+      "icd_code": "R13.10",
+      "status": "active"
+    }
+  ],
+  "medications": [
+    {
+      "name": "Clopidogrel",
+      "dose": "75 mg daily",
+      "route": "PO",
+      "indication": "Stroke prevention"
+    },
+    {
+      "name": "Amlodipine",
+      "dose": "5 mg daily",
+      "route": "PO",
+      "indication": "Hypertension"
+    },
+    {
+      "name": "Enoxaparin",
+      "dose": "40 mg daily",
+      "route": "SC",
+      "indication": "DVT prophylaxis"
+    }
+  ],
+  "lab_results": [
+    {
+      "test": "INR",
+      "value": 1.18,
+      "unit": "",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T14:04:09.457107"
+    },
+    {
+      "test": "Glucose",
+      "value": 126.76,
+      "unit": "mg/dL",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T15:04:09.457111"
+    },
+    {
+      "test": "Creatinine",
+      "value": 0.9,
+      "unit": "mg/dL",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T15:04:09.457113"
+    },
+    {
+      "test": "WBC",
+      "value": 7.87,
+      "unit": "10^3/uL",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T12:04:09.457116"
+    },
+    {
+      "test": "Hemoglobin",
+      "value": 14.23,
+      "unit": "g/dL",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T12:04:09.457118"
+    }
+  ],
+  "vitals_latest": {
+    "MAP": 92.02,
+    "HR": 70.23,
+    "SpO2": 99.5,
+    "RR": 13.63,
+    "Temp": 37.52,
+    "SBP": 127.81,
+    "DBP": 78.98
+  },
+  "vitals_timeseries": [
+    {
+      "timestamp": "2026-05-06T16:04:09.457123",
+      "MAP": 91.0,
+      "HR": 70.6,
+      "SpO2": 99.1,
+      "RR": 13.7,
+      "Temp": 36.0,
+      "SBP": 136.0,
+      "DBP": 78.8
+    },
+    {
+      "timestamp": "2026-05-06T17:04:09.457123",
+      "MAP": 89.9,
+      "HR": 68.2,
+      "SpO2": 100.5,
+      "RR": 38.9,
+      "Temp": 40.9,
+      "SBP": 137.2,
+      "DBP": 80.0
+    },
+    {
+      "timestamp": "2026-05-06T18:04:09.457123",
+      "MAP": 87.3,
+      "HR": 68.7,
+      "SpO2": 100.8,
+      "RR": 40.3,
+      "Temp": 41.0,
+      "SBP": 136.4,
+      "DBP": 81.8
+    },
+    {
+      "timestamp": "2026-05-06T19:04:09.457123",
+      "MAP": 85.8,
+      "HR": 67.1,
+      "SpO2": 94.0,
+      "RR": 41.6,
+      "Temp": 41.1,
+      "SBP": 125.5,
+      "DBP": 76.5
+    },
+    {
+      "timestamp": "2026-05-06T20:04:09.457123",
+      "MAP": 88.5,
+      "HR": 68.3,
+      "SpO2": 98.7,
+      "RR": 41.5,
+      "Temp": 40.0,
+      "SBP": 134.2,
+      "DBP": 75.2
+    },
+    {
+      "timestamp": "2026-05-06T21:04:09.457123",
+      "MAP": 89.0,
+      "HR": 68.9,
+      "SpO2": 93.4,
+      "RR": 39.6,
+      "Temp": 41.8,
+      "SBP": 128.2,
+      "DBP": 80.4
+    },
+    {
+      "timestamp": "2026-05-06T22:04:09.457123",
+      "MAP": 90.8,
+      "HR": 66.1,
+      "SpO2": 95.0,
+      "RR": 43.2,
+      "Temp": 42.1,
+      "SBP": 126.9,
+      "DBP": 76.8
+    },
+    {
+      "timestamp": "2026-05-06T23:04:09.457123",
+      "MAP": 87.2,
+      "HR": 65.0,
+      "SpO2": 102.3,
+      "RR": 42.5,
+      "Temp": 41.6,
+      "SBP": 136.0,
+      "DBP": 80.6
+    },
+    {
+      "timestamp": "2026-05-07T00:04:09.457123",
+      "MAP": 86.8,
+      "HR": 68.5,
+      "SpO2": 97.7,
+      "RR": 39.5,
+      "Temp": 40.2,
+      "SBP": 136.3,
+      "DBP": 77.1
+    },
+    {
+      "timestamp": "2026-05-07T01:04:09.457123",
+      "MAP": 94.9,
+      "HR": 68.6,
+      "SpO2": 100.3,
+      "RR": 39.3,
+      "Temp": 39.4,
+      "SBP": 136.9,
+      "DBP": 74.6
+    },
+    {
+      "timestamp": "2026-05-07T02:04:09.457123",
+      "MAP": 89.9,
+      "HR": 66.2,
+      "SpO2": 100.2,
+      "RR": 40.8,
+      "Temp": 40.7,
+      "SBP": 131.0,
+      "DBP": 79.8
+    },
+    {
+      "timestamp": "2026-05-07T03:04:09.457123",
+      "MAP": 87.5,
+      "HR": 71.8,
+      "SpO2": 97.8,
+      "RR": 39.8,
+      "Temp": 39.4,
+      "SBP": 135.4,
+      "DBP": 81.0
+    },
+    {
+      "timestamp": "2026-05-07T04:04:09.457123",
+      "MAP": 93.0,
+      "HR": 71.1,
+      "SpO2": 99.4,
+      "RR": 42.0,
+      "Temp": 39.0,
+      "SBP": 127.4,
+      "DBP": 81.3
+    },
+    {
+      "timestamp": "2026-05-07T05:04:09.457123",
+      "MAP": 90.0,
+      "HR": 67.8,
+      "SpO2": 96.1,
+      "RR": 38.7,
+      "Temp": 38.7,
+      "SBP": 124.3,
+      "DBP": 78.0
+    },
+    {
+      "timestamp": "2026-05-07T06:04:09.457123",
+      "MAP": 88.8,
+      "HR": 69.0,
+      "SpO2": 100.9,
+      "RR": 42.2,
+      "Temp": 39.3,
+      "SBP": 133.8,
+      "DBP": 82.0
+    },
+    {
+      "timestamp": "2026-05-07T07:04:09.457123",
+      "MAP": 92.2,
+      "HR": 70.7,
+      "SpO2": 100.2,
+      "RR": 42.3,
+      "Temp": 42.0,
+      "SBP": 124.9,
+      "DBP": 78.1
+    },
+    {
+      "timestamp": "2026-05-07T08:04:09.457123",
+      "MAP": 87.0,
+      "HR": 70.2,
+      "SpO2": 94.0,
+      "RR": 41.4,
+      "Temp": 38.8,
+      "SBP": 127.7,
+      "DBP": 80.4
+    },
+    {
+      "timestamp": "2026-05-07T09:04:09.457123",
+      "MAP": 86.4,
+      "HR": 72.1,
+      "SpO2": 98.6,
+      "RR": 40.7,
+      "Temp": 39.0,
+      "SBP": 136.5,
+      "DBP": 80.5
+    },
+    {
+      "timestamp": "2026-05-07T10:04:09.457123",
+      "MAP": 88.7,
+      "HR": 66.7,
+      "SpO2": 95.1,
+      "RR": 40.8,
+      "Temp": 40.5,
+      "SBP": 136.4,
+      "DBP": 77.3
+    },
+    {
+      "timestamp": "2026-05-07T11:04:09.457123",
+      "MAP": 92.2,
+      "HR": 67.2,
+      "SpO2": 98.7,
+      "RR": 39.9,
+      "Temp": 41.7,
+      "SBP": 125.0,
+      "DBP": 75.8
+    },
+    {
+      "timestamp": "2026-05-07T12:04:09.457123",
+      "MAP": 93.3,
+      "HR": 66.5,
+      "SpO2": 98.0,
+      "RR": 41.6,
+      "Temp": 41.1,
+      "SBP": 131.3,
+      "DBP": 76.6
+    },
+    {
+      "timestamp": "2026-05-07T13:04:09.457123",
+      "MAP": 88.6,
+      "HR": 69.1,
+      "SpO2": 93.6,
+      "RR": 41.9,
+      "Temp": 42.3,
+      "SBP": 130.5,
+      "DBP": 77.4
+    },
+    {
+      "timestamp": "2026-05-07T14:04:09.457123",
+      "MAP": 88.8,
+      "HR": 72.3,
+      "SpO2": 99.4,
+      "RR": 39.1,
+      "Temp": 40.8,
+      "SBP": 125.5,
+      "DBP": 81.4
+    },
+    {
+      "timestamp": "2026-05-07T15:04:09.457123",
+      "MAP": 94.0,
+      "HR": 67.6,
+      "SpO2": 98.2,
+      "RR": 41.7,
+      "Temp": 42.6,
+      "SBP": 124.3,
+      "DBP": 74.4
+    }
+  ],
+  "procedures": [
+    {
+      "name": "Central venous catheter",
+      "timestamp": "2026-05-02T16:04:09.457102"
+    },
+    {
+      "name": "Urinary catheter",
+      "timestamp": "2026-05-02T16:04:09.457102"
+    }
+  ],
+  "expected_severity": "GREEN",
+  "raw_notes": [
+    "ICU Progress Note \u2014 Jack Jones, 72y M, Bed 6A\n\nS: Patient admitted with Ischemic stroke, Hypertension. Hemodynamically stable. Family updated regarding prognosis.\n\nO: Vitals \u2014 MAP 90 mmHg, HR 68 bpm, SpO2 98%, RR 14, Temp 36.6\u00b0C.\nLabs \u2014 INR: 1.1, Glucose: 118, Creatinine: 0.9, WBC: 7.8.\n\nA: Ischemic stroke, Hypertension. Severity: moderate, monitored closely.\n\nP: Continue Clopidogrel, Amlodipine, Enoxaparin. Wean supplemental oxygen as tolerated. Reassess q4h. Multidisciplinary team review at 08:00."
+  ]
+}

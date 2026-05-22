@@ -1,0 +1,346 @@
+{
+  "patient_id": "P014",
+  "scenario": "post_cardiac_surgery",
+  "demographics": {
+    "name": "Melanie Garcia",
+    "age": 73,
+    "sex": "F",
+    "bed": "7B",
+    "admission_date": "2026-05-03T16:04:09.458449",
+    "weight_kg": 88.6
+  },
+  "conditions": [
+    {
+      "name": "Post-CABG recovery",
+      "icd_code": "Z95.1",
+      "status": "active"
+    },
+    {
+      "name": "Hypertension",
+      "icd_code": "I10",
+      "status": "chronic"
+    }
+  ],
+  "medications": [
+    {
+      "name": "Aspirin",
+      "dose": "81 mg daily",
+      "route": "PO",
+      "indication": "Antiplatelet"
+    },
+    {
+      "name": "Metoprolol",
+      "dose": "25 mg BID",
+      "route": "PO",
+      "indication": "Rate control"
+    },
+    {
+      "name": "Pantoprazole",
+      "dose": "40 mg daily",
+      "route": "PO",
+      "indication": "GI prophylaxis"
+    }
+  ],
+  "lab_results": [
+    {
+      "test": "Hemoglobin",
+      "value": 10.63,
+      "unit": "g/dL",
+      "flag": "LOW",
+      "timestamp": "2026-05-07T15:04:09.458452"
+    },
+    {
+      "test": "Creatinine",
+      "value": 1.07,
+      "unit": "mg/dL",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T13:04:09.458455"
+    },
+    {
+      "test": "WBC",
+      "value": 8.98,
+      "unit": "10^3/uL",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T12:04:09.458457"
+    },
+    {
+      "test": "Troponin I",
+      "value": 0.79,
+      "unit": "ng/mL",
+      "flag": "HIGH",
+      "timestamp": "2026-05-07T15:04:09.458459"
+    },
+    {
+      "test": "Potassium",
+      "value": 4.24,
+      "unit": "mEq/L",
+      "flag": "NORMAL",
+      "timestamp": "2026-05-07T14:04:09.458462"
+    }
+  ],
+  "vitals_latest": {
+    "MAP": 84.29,
+    "HR": 74.47,
+    "SpO2": 98.04,
+    "RR": 15.16,
+    "Temp": 35.58,
+    "SBP": 122.24,
+    "DBP": 70.96
+  },
+  "vitals_timeseries": [
+    {
+      "timestamp": "2026-05-06T16:04:09.458466",
+      "MAP": 82.5,
+      "HR": 73.4,
+      "SpO2": 98.7,
+      "RR": 15.7,
+      "Temp": 37.2,
+      "SBP": 121.2,
+      "DBP": 69.5
+    },
+    {
+      "timestamp": "2026-05-06T17:04:09.458466",
+      "MAP": 81.6,
+      "HR": 72.0,
+      "SpO2": 96.5,
+      "RR": 40.8,
+      "Temp": 39.9,
+      "SBP": 121.0,
+      "DBP": 72.3
+    },
+    {
+      "timestamp": "2026-05-06T18:04:09.458466",
+      "MAP": 82.3,
+      "HR": 69.8,
+      "SpO2": 99.2,
+      "RR": 38.7,
+      "Temp": 39.5,
+      "SBP": 120.5,
+      "DBP": 74.3
+    },
+    {
+      "timestamp": "2026-05-06T19:04:09.458466",
+      "MAP": 80.6,
+      "HR": 73.5,
+      "SpO2": 96.9,
+      "RR": 39.1,
+      "Temp": 38.6,
+      "SBP": 117.4,
+      "DBP": 70.2
+    },
+    {
+      "timestamp": "2026-05-06T20:04:09.458466",
+      "MAP": 79.2,
+      "HR": 70.0,
+      "SpO2": 100.9,
+      "RR": 40.2,
+      "Temp": 41.2,
+      "SBP": 123.3,
+      "DBP": 72.5
+    },
+    {
+      "timestamp": "2026-05-06T21:04:09.458466",
+      "MAP": 86.5,
+      "HR": 72.5,
+      "SpO2": 101.7,
+      "RR": 39.2,
+      "Temp": 38.8,
+      "SBP": 120.2,
+      "DBP": 75.5
+    },
+    {
+      "timestamp": "2026-05-06T22:04:09.458466",
+      "MAP": 84.0,
+      "HR": 74.1,
+      "SpO2": 93.9,
+      "RR": 41.5,
+      "Temp": 42.1,
+      "SBP": 125.5,
+      "DBP": 71.7
+    },
+    {
+      "timestamp": "2026-05-06T23:04:09.458466",
+      "MAP": 79.4,
+      "HR": 74.4,
+      "SpO2": 99.6,
+      "RR": 41.7,
+      "Temp": 40.2,
+      "SBP": 117.4,
+      "DBP": 70.9
+    },
+    {
+      "timestamp": "2026-05-07T00:04:09.458466",
+      "MAP": 86.6,
+      "HR": 69.5,
+      "SpO2": 94.7,
+      "RR": 42.0,
+      "Temp": 42.2,
+      "SBP": 120.2,
+      "DBP": 70.9
+    },
+    {
+      "timestamp": "2026-05-07T01:04:09.458466",
+      "MAP": 84.9,
+      "HR": 71.9,
+      "SpO2": 98.8,
+      "RR": 40.8,
+      "Temp": 40.1,
+      "SBP": 122.8,
+      "DBP": 72.4
+    },
+    {
+      "timestamp": "2026-05-07T02:04:09.458466",
+      "MAP": 84.5,
+      "HR": 68.5,
+      "SpO2": 100.8,
+      "RR": 40.1,
+      "Temp": 42.1,
+      "SBP": 123.8,
+      "DBP": 68.3
+    },
+    {
+      "timestamp": "2026-05-07T03:04:09.458466",
+      "MAP": 84.5,
+      "HR": 73.7,
+      "SpO2": 92.7,
+      "RR": 42.8,
+      "Temp": 40.4,
+      "SBP": 126.6,
+      "DBP": 73.2
+    },
+    {
+      "timestamp": "2026-05-07T04:04:09.458466",
+      "MAP": 79.8,
+      "HR": 67.5,
+      "SpO2": 98.3,
+      "RR": 41.8,
+      "Temp": 40.3,
+      "SBP": 117.7,
+      "DBP": 68.5
+    },
+    {
+      "timestamp": "2026-05-07T05:04:09.458466",
+      "MAP": 81.8,
+      "HR": 69.1,
+      "SpO2": 97.0,
+      "RR": 40.2,
+      "Temp": 42.9,
+      "SBP": 128.7,
+      "DBP": 72.7
+    },
+    {
+      "timestamp": "2026-05-07T06:04:09.458466",
+      "MAP": 79.8,
+      "HR": 74.5,
+      "SpO2": 98.0,
+      "RR": 42.8,
+      "Temp": 41.1,
+      "SBP": 124.2,
+      "DBP": 72.7
+    },
+    {
+      "timestamp": "2026-05-07T07:04:09.458466",
+      "MAP": 85.5,
+      "HR": 71.5,
+      "SpO2": 99.1,
+      "RR": 40.0,
+      "Temp": 43.2,
+      "SBP": 120.0,
+      "DBP": 74.5
+    },
+    {
+      "timestamp": "2026-05-07T08:04:09.458466",
+      "MAP": 81.0,
+      "HR": 74.6,
+      "SpO2": 96.0,
+      "RR": 42.8,
+      "Temp": 40.6,
+      "SBP": 128.3,
+      "DBP": 73.5
+    },
+    {
+      "timestamp": "2026-05-07T09:04:09.458466",
+      "MAP": 83.4,
+      "HR": 71.0,
+      "SpO2": 97.8,
+      "RR": 41.6,
+      "Temp": 41.1,
+      "SBP": 122.8,
+      "DBP": 73.3
+    },
+    {
+      "timestamp": "2026-05-07T10:04:09.458466",
+      "MAP": 78.4,
+      "HR": 71.8,
+      "SpO2": 94.1,
+      "RR": 39.6,
+      "Temp": 41.9,
+      "SBP": 126.3,
+      "DBP": 74.3
+    },
+    {
+      "timestamp": "2026-05-07T11:04:09.458466",
+      "MAP": 78.8,
+      "HR": 67.7,
+      "SpO2": 96.0,
+      "RR": 43.0,
+      "Temp": 39.5,
+      "SBP": 118.4,
+      "DBP": 72.7
+    },
+    {
+      "timestamp": "2026-05-07T12:04:09.458466",
+      "MAP": 80.0,
+      "HR": 73.4,
+      "SpO2": 93.1,
+      "RR": 39.2,
+      "Temp": 41.2,
+      "SBP": 125.2,
+      "DBP": 69.5
+    },
+    {
+      "timestamp": "2026-05-07T13:04:09.458466",
+      "MAP": 81.0,
+      "HR": 71.8,
+      "SpO2": 102.0,
+      "RR": 41.7,
+      "Temp": 40.3,
+      "SBP": 118.3,
+      "DBP": 69.1
+    },
+    {
+      "timestamp": "2026-05-07T14:04:09.458466",
+      "MAP": 81.9,
+      "HR": 69.4,
+      "SpO2": 94.2,
+      "RR": 40.1,
+      "Temp": 41.8,
+      "SBP": 124.5,
+      "DBP": 74.5
+    },
+    {
+      "timestamp": "2026-05-07T15:04:09.458466",
+      "MAP": 80.3,
+      "HR": 72.0,
+      "SpO2": 102.5,
+      "RR": 42.4,
+      "Temp": 39.6,
+      "SBP": 119.0,
+      "DBP": 70.2
+    }
+  ],
+  "procedures": [
+    {
+      "name": "Central venous catheter",
+      "timestamp": "2026-05-03T16:04:09.458449"
+    },
+    {
+      "name": "Urinary catheter",
+      "timestamp": "2026-05-03T16:04:09.458449"
+    }
+  ],
+  "expected_severity": "GREEN",
+  "raw_notes": [
+    "ICU Progress Note \u2014 Melanie Garcia, 73y F, Bed 7B\n\nS: Patient admitted with Post-CABG recovery, Hypertension. Hemodynamically stable. Family updated regarding prognosis.\n\nO: Vitals \u2014 MAP 82 mmHg, HR 72 bpm, SpO2 97%, RR 15, Temp 36.9\u00b0C.\nLabs \u2014 Hemoglobin: 11.4, Creatinine: 1.0, WBC: 9.2, Troponin I: 0.8.\n\nA: Post-CABG recovery, Hypertension. Severity: moderate, monitored closely.\n\nP: Continue Aspirin, Metoprolol, Pantoprazole. Wean supplemental oxygen as tolerated. Reassess q4h. Multidisciplinary team review at 08:00."
+  ]
+}
