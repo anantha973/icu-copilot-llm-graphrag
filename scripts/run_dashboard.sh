@@ -28,13 +28,10 @@ echo "   Press Ctrl+C to stop."
 echo ""
 
 # ── Knowledge Base mode ───────────────────────────────────────────────────────
-# Set SKIP_PRIMEKG=1 to skip the heavy PrimeKG graph load.
-export SKIP_PRIMEKG=1
+# PrimeKG loads from cached pickle in ~4 seconds.
+# Set SKIP_PRIMEKG=1 only if running on machines with < 8GB RAM.
+export SKIP_PRIMEKG=${SKIP_PRIMEKG:-0}
 
-echo "🚀 Launching FastAPI on http://localhost:8000"
-echo "   API docs: http://localhost:8000/docs"
-echo "   Press Ctrl+C to stop."
-echo ""
 
 uvicorn src.api.main:app \
     --host 0.0.0.0 \

@@ -27,10 +27,12 @@ Format: 3-4 sentences, clinical tone, no bullet points."""
 
 
 REASONING_PROMPT = """\
-You are a clinical decision support AI for an ICU.
-Your reasoning must be grounded in the provided context only.
-Cite specific data points from the graph in your explanation.
-Do not introduce clinical facts not present in the context.
+You are an expert clinical decision support AI for an ICU.
+MANDATORY CLINICAL SAFETY PROTOCOL:
+- Never open with conversational pleasantries or filler (do NOT say 'Yes', 'Certainly', 'Sure', 'Hello').
+- Your reasoning must be grounded strictly in the provided context only.
+- Cite specific data points and relations from PrimeKG and clinical guidelines.
+- Do not introduce clinical facts not present in the context.
 
 <patient_graph_context>
 {patient_context}
@@ -49,10 +51,10 @@ Rule triggers: {rule_triggers}
 Question: {query}
 
 Respond with a structured explanation:
-- Severity assessment and rationale (2-3 sentences citing specific values)
-- Key clinical concerns (bullet points)
-- Drug interactions or guideline alerts (if any)
-- Recommended monitoring focus"""
+- Clinical Assessment and Acuity Rationale (citing specific vitals/labs)
+- Critical Drug-Drug / Drug-Disease Interactions or Contraindications (if any)
+- Recommended ICU Monitoring Focus & Action Plan"""
+
 
 
 ENTITY_EXTRACTION_PROMPT = """\
@@ -132,7 +134,14 @@ def generate_explanation(
         query=query,
     )
     explanation = model_manager.gemma4_generate(prompt, max_tokens=max_tokens, temperature=0.4)
-    return explanation.strip()
+    import re
+    cleaned = re.sub(
+        r"^\s*(Yes|Certainly|Sure|Of course|Hello)[,\.!\s]*",
+        "",
+        explanation.strip(),
+        flags=re.IGNORECASE,
+    )
+    return cleaned.strip()
 
 
 # ── Entity Extraction ─────────────────────────────────────────────────────────

@@ -16,16 +16,16 @@ I got curious: what if you could just *ask* the system a question — "why is be
 
 ## How it works
 
-A clinical query flows through two models and three retrieval paths in parallel:
+A clinical query flows through two specialized local models and a four-stream retrieval architecture:
 
-1. **Gemma 4** (front-end LLM) — receives the question, parses intent, and routes it downstream
-2. **MedGemma** (medical LLM) — decomposes the query into retrieval subtasks, then synthesises the final answer
-3. Three parallel retrieval paths:
-   - **Vector RAG** — FAISS semantic search over NIH/AHA clinical guidelines
-   - **GraphRAG** — traversal of PrimeKG (a biomedical knowledge graph with drug–disease relations)
-   - **Patient subgraph** — per-patient disease/medication relationship graph built from simulated records
-
-The retrieved context gets merged and fed back to MedGemma, which generates an answer grounded in actual sources. Gemma 4 then formats it for the clinician. ✨
+1. **MedGemma** (Input Entity Extraction) — parses the clinician's query and extracts candidate medications and conditions
+2. **Four-Stream Parallel Retrieval**:
+   - **Biomedical Graph (GraphRAG)** — Harvard PrimeKG traversal for verified drug–disease contraindications and interactions
+   - **Patient Subgraph** — per-patient disease/medication relationship graph built from active patient telemetry
+   - **Vector Guidelines (Dense RAG)** — FAISS semantic vector search over AHA / ADA / Sepsis clinical guidelines
+   - **Patient Telemetry & Labs** — real-time vitals, continuous bedside telemetry, and lab profiles
+3. **Deterministic Safety Interlock** — checks high-acuity contraindications and knowledge graph edges in <50ms
+4. **Gemma 4** (Output Clinical Reasoning) — synthesizes grounded medical explanations, guideline citations, and bedside action plans streamed in real time ✨
 
 ![Query flow](docs/icu_query_flow.svg)
 

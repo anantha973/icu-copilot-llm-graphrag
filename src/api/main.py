@@ -102,7 +102,7 @@ async def lifespan(app: FastAPI):
     # 4. Load LLM models — lazy: only if GGUF files present
     try:
         from llm_reasoning.model_loader import ModelManager
-        mgr = ModelManager(n_ctx=2048, n_batch=512, verbose=False)
+        mgr = ModelManager(n_ctx=4096, n_batch=512, verbose=False)
         loaded = mgr.load()
         state.model_manager = mgr
         state.models_loaded = loaded

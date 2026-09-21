@@ -33,3 +33,4 @@ graphify/exports/
 # Environment
 .env
 .DS_Store
+icu-copilot-llm-graphrag/

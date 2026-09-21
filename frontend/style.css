@@ -935,34 +935,47 @@ ul, ol { list-style: none; }
   font-weight: 600;
 }
 
-/* ── Reasoning Context in Chat ────────────────────────────────────────────── */
+/* ── Reasoning Context in Chat (Collapsible Citations & Evidence) ────────── */
 .reasoning-context {
   margin-top: var(--n-space-m);
-  border: 1px solid var(--n-color-border-strong);
-  border-radius: var(--n-border-radius-s);
+  border: 1px solid var(--n-color-border);
+  border-radius: var(--n-border-radius-m, 6px);
   background: var(--n-color-surface-lowered);
   overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 .reasoning-context summary {
-  padding: var(--n-space-xs) var(--n-space-s);
-  font-size: var(--n-font-size-xs);
+  padding: 8px 12px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--n-color-text-weak);
   cursor: pointer;
   user-select: none;
   background: var(--n-color-surface);
+  transition: background 0.15s ease, color 0.15s ease;
+  outline: none;
+  display: list-item;
 }
 .reasoning-context summary:hover {
   background: var(--n-color-surface-raised);
   color: var(--n-color-text);
 }
+.reasoning-context[open] summary {
+  border-bottom: 1px solid var(--n-color-border);
+  color: var(--n-color-primary, #2563eb);
+  background: var(--n-color-surface-raised);
+}
 .reasoning-context pre {
-  padding: var(--n-space-s);
-  font-size: 10px;
-  color: var(--n-color-text-weaker);
+  margin: 0;
+  padding: 10px 14px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--n-color-text-weak);
   white-space: pre-wrap;
   word-wrap: break-word;
-  max-height: 200px;
+  max-height: 220px;
   overflow-y: auto;
+  background: var(--n-color-surface-lowered);
+  font-family: var(--n-font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
 }
 
